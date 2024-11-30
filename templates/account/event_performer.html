@@ -1,0 +1,50 @@
+{% load static %}
+
+{% for performer in performers %}
+    <div class="column is-6">
+        <div class="friend-small-card flex-block">
+
+            {% if performer.musician %}
+                {% if performer.musician.user.profile_picture %}
+                    <img src="{{performer.musician.user.profile_picture.url}}">
+                {% else %}
+                    <img src="{% static 'images/avatar.png' %}">
+                {% endif %}
+            {%  else %}
+
+                {% if performer.troupe.user.profile_picture %}
+                    <img src="{{performer.troupe.user.profile_picture.url}}">
+                {% else %}
+                    <img src="{% static 'images/avatar.png' %}">
+                {% endif %}
+
+        {% endif %}
+
+            
+            <div class="meta">
+                
+                    {% if performer.musician %}
+                        <span><a href="{% url 'profile' performer.musician.user.id %}">{{performer.musician.user}} </a></span>
+                        <span>{{performer.musician.user.followers_count}} Followers</span>
+                    {% else %}
+                        <span><a href="{% url 'profile' performer.troupe.user.id %}">{{performer.troupe.user}}</a> </span>
+                        <span>{{performer.troupe.user.followers_count}} Followers</span>
+                                                    
+                    {% endif %}
+
+                
+            </div>
+
+            <div class="go-button modal-trigger">
+                <a  class="ajax_delete" data-url="{% url 'ajax_delete' model_name='event_performer' pk=performer.id %}">
+                    <img src="{% static 'images/icons/delete.png' %}" class="profile-page-icons">
+                </a>
+            </div>
+        
+        </div>
+    </div>
+{% empty %}
+    <div class="column is-6">
+        <h3>No data availabale..!</h3>
+    </div>
+{% endfor %}

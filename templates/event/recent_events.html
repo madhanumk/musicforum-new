@@ -1,0 +1,190 @@
+{% extends 'base1.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="options-nav no-shadow">
+    <div class="container is-fluid">
+        <div class="nav-inner is-friends">
+
+            <div class="option-tabs is-friends my-event-tab" style="width:450px !important;">
+                <a class="option-tab is-active" data-tab="all-friends" style="width: 29% !important;">
+                    <span class="event-text-tab">Upcoming Event</span>
+                </a>
+                <a class="option-tab" data-tab="starred-friends" href="{% url 'all_events' %}" style="width: 29% !important;">
+                    <span class="event-text-tab">Completed Event</span>
+                </a>
+                <a class="option-tab" data-tab="new-friends" href="{% url 'create_event' %}" style="width: 29% !important;">
+                    <span class="event-text-tab">Create New Event</span>
+                </a>
+                <div class="option-naver"></div>
+            </div>
+
+        
+            <div class="end-group">
+                <div class="nav-item is-friend-count">{{user.followers_count}} followers | {{user.following_count}}
+                    following
+                </div>
+                <form id="search-form" action="{% url 'all_peoples' %}">
+                    <div class="navbar-item">
+                        <div id="global-search" class="control">
+                            <input id="people_search_input" name="name" class="input is-rounded" type="text"
+                                placeholder="Search" required>
+                            <div id="tipue_drop_content" class="tipue-drop-content"></div>
+                        </div>
+                        <a href="#" style="padding-left: 7px;" class="global_search_btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-search">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <div class="event-page-top view-wrapper eventdiv mt-3">                
+        <div class="columns">
+            <div class="column is-9">
+                <!--Wrapper-->
+                <div id="events-page" class="">
+                    <!--Event List-->
+                    <div class="">
+                        <div id="event-list" class="event-list">
+                            {% for event in events %}
+                            <div id="event-1" class="event-item">
+                                <div class="event-inner-wrap event-listing-row">
+                                    <!-- /partials/pages/events/event-options-dropdown.html -->
+                                    <div class="row">
+                                        <div class="col-md-5 sm-12">   
+                                            {% if event.poster_image %}
+                                                <img src="{{event.poster_image.url}}">
+                                            {% else %}
+                                                <img src="{% static 'event-without-poster.jpg' %}">
+                                            {% endif %}                                                  
+                                        </div>
+                                        <div class="col-md-7 sm-12">
+                                            <div class="row">
+                                                <div class="col-10">  
+                                                    <a href="{% url 'event_details' event.id %}" ><b style="font-size:110% !important;">{{event}}</b></a>
+                                                </div>                        	
+                                                <div class="col-2">                          	
+                                                    <a href="{% url 'edit_event' event.id %}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                    </a>                        	
+                                                </div>                      	
+                                            </div> 
+                                            <div class="event-subtitle" style="margin: 17px 0 10px 0 !important;">
+                                                <p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                                        {{event.location}}{% if event.venue %} {{event.venue}} {% endif %}  
+                                                </p>                                                                                         
+                                            </div>  
+                                            <div class="event-subtitle" style="margin: 17px 0 10px 0 !important;">
+                                                <p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"  fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414" clip-rule="evenodd" viewBox="0 0 32 32" id="date"><path fill="none" d="M0 0h32v32H0z"></path><path d="M16.999 6.995v.999c-.018.886-1.451 1.391-1.904.423a1.053 1.053 0 0 1-.094-.423v-.999h-2.996c-.769-.037-1.284-1.042-.755-1.653.182-.21.329-.324.755-.345.998 0 1.997-.003 2.996-.009v-.989a.87.87 0 0 1 .05-.313c.132-.401.527-.686.969-.686.533.021.967.42.979.999v.977c1.997-.012 3.995-.023 5.993-.013v-.964c.01-.534.4-.976.979-.999h.039c.534.021.968.42.979.999v.982l1.073.017c1.531.048 2.893 1.365 2.922 2.959.038 6.017.038 12.035 0 18.053-.028 1.545-1.365 2.929-2.959 2.959-6.683.041-13.367.041-20.05 0-1.539-.029-2.929-1.339-2.959-2.959-.038-6.018-.038-12.036 0-18.053.028-1.556 1.361-2.949 2.993-2.96h1.002v-.998a.848.848 0 0 1 .05-.313c.132-.401.527-.686.968-.686.534.021.968.42.979.999v3.995c-.017.885-1.409 1.381-1.886.459a1.036 1.036 0 0 1-.111-.459V6.991a43.672 43.672 0 0 0-1.024.004c-.507.016-.958.46-.974.974a485.855 485.855 0 0 0 0 18.028c.016.508.46.958.974.974a539.08 539.08 0 0 0 20.026 0c.507-.016.958-.46.974-.974.111-6.008.111-12.02 0-18.028a1.035 1.035 0 0 0-1.002-.974h-.996v.999c-.017.877-1.413 1.372-1.886.459a1.05 1.05 0 0 1-.111-.459v-.999h-5.993Zm-8.99 15.981a1 1 0 1 1 0 1.999 1 1 0 0 1 0-1.999Zm3.996 0a1 1 0 1 1-.002 1.998 1 1 0 0 1 .002-1.998Zm3.995 0a1 1 0 0 1 0 1.998 1 1 0 0 1 0-1.998Zm-7.991-3.995a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Zm3.996 0a.998.998 0 1 1 0 1.997.998.998 0 0 1 0-1.997Zm3.995 0a1 1 0 1 1 0 1.999 1 1 0 0 1 0-1.999Zm3.995 0a1 1 0 1 1 0 1.999 1 1 0 0 1 0-1.999Zm3.995 0a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Zm-11.985-3.995a.998.998 0 1 1 0 1.996.998.998 0 0 1 0-1.996Zm3.995 0a1 1 0 1 1 0 1.998 1 1 0 0 1 0-1.998Zm3.995 0a1 1 0 1 1 0 1.998 1 1 0 0 1 0-1.998Zm3.995 0a.998.998 0 1 1 .001 1.997.998.998 0 0 1-.001-1.997Z"></path></svg>                                  
+                                                        {{event.from_date|date:"M d,y"}} {{event.from_date|date:"g:i a"}}
+                                                        {{event.to_date|date:"M d,y"}} {{event.to_date|date:"g:i a"}}
+                                                </p>                                                        
+                                            </div>                             
+                                            <div class="row">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-8 sm-12">
+                                                    <a href="{% url 'view_event' pk=event.id type='invitation' %}" class="inv-links mr-1">
+                                                        <button type="button" class="btn btn-primary position-relative" style="background:#821ee9;border:#821ee9;color:white;">
+                                                            Invitation
+                                                            <span
+                                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                                {{event.unread_invitation_message_count}}
+                                                                <span class="visually-hidden">unread messages</span>
+                                                            </span>
+                                                        </button>
+                                                    </a>
+                                                    <a href="{% url 'view_event' pk=event.id type='interest' %}" class="inv-links ml-2">
+                                                        <button type="button" class="btn btn-success position-relative" style="background:#ff2f63;border:#ff2f63">
+                                                            Interest
+                                                            <span
+                                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                                {{event.unread_interest_message_count}}
+                                                                <span class="visually-hidden">unread messages</span>
+                                                            </span>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>                            
+                                        </div>                            
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% empty %}
+                                <div class="m-5 empty-event-page" >
+                                    <h1 class="mt-5 h5">No active events found..!</h1>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-3 mt-4 ryt-panel">                
+                <!--Activity Panel-->
+                <div class="" style="background-color: #f4f4f4">
+                    <!--Create event-->                    
+                    <div class="panel-header">
+                            <h3>Events Activity</h3>
+                        </div>
+
+                      
+                        
+                        <div class="panel-body has-slimscroll">
+                            <!--Activity-->
+                            {% for  invitation in invitations %}
+                                <div class="activity-block">
+                                    {%  if invitation.invitation_to.user.profile_picture %}
+                                        <img class="eaimg" src="{{invitation.invitation_to.user.profile_picture.url}}"  data-user-popover="4" alt="">
+                                    {% else %}
+                                    <img class="eaimg" src="" data-demo-src="{% static 'blank-profile-picture.webp' %}" data-user-popover="4" alt="">
+
+                                    {% endif %}
+                                    <div class="activity-meta">
+                                        <p><a>{{invitation}}</a> accepted your invitation to <a>{{invitation.event}} </a>.</p>
+                                        <span>{{invitaton.accepted_time|timesince}} ago</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            {% for  interest in interests %}
+                                <div class="activity-block">
+                                    {%  if interest.intrested_by.user.profile_picture %}
+                                        <img class="eaimg" src="{{interest.intrested_by.user.profile_picture.url}}"  data-user-popover="4" alt="">
+                                    {% else %}
+                                    <img class="eaimg" src="" data-demo-src="{% static 'blank-profile-picture.webp' %}" data-user-popover="4" alt="">
+
+                                    {% endif %}
+                                    <div class="activity-meta">
+                                        <p><a>{{interest}}</a> accepted your invitation to <a>{{interest.event}} </a>.</p>
+                                        <span>{{interest.accepted_time|timesince}} ago</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+                            {% if invitations or interests %}
+
+                            {% else %}
+                             <p class="m-3">No data available..!</p>
+
+                            {% endif %}
+
+                            
+                        </div>
+                </div>
+            </div>
+        </div>             
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load static %}
+
+{% for comment in post.comments.all %}    
+    <!-- Comment -->
+    <div class="media is-comment">
+        <!-- User image -->
+        <div class="media-left">
+            <div class="image">
+                {% if comment.user.profile_picture %}
+                        <img src="{{comment.user.profile_picture.url}}" alt="{{comment.user}}">
+                {% else %}
+                    <img src="{% static 'blank-profile-picture.webp' %}" alt="{{comment.user}}">
+                {% endif %}
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="media-content">
+            <a href="#">{{comment.user}}</a>
+            <span class="time">{{comment.commented_on|timesince}}</span>
+            <p>
+                {{comment.comment|safe}}
+            </p>
+        </div>
+
+        {% if comment.user == user %}
+            <!-- Right side dropdown -->
+            <div class="media-right">
+                <!-- /partials/pages/feed/dropdowns/comment-dropdown.html -->
+                <a href="#" class="delete_comment" post_id="{{post.id}}" comment_id="{{comment.id}}" data-url="{% url 'delete_comment' comment.id %}">  <img src="{% static 'delete.svg' %}"></a>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endfor %}

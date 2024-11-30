@@ -1,0 +1,57 @@
+{% load static %}
+
+{% for troupe in troupes %}   
+    <div class="col-6 mb-1 mt-1">
+        <div class="row adinv-search-selectioncnt-row">
+
+            <div class="col-sm-3">
+
+                {% if troupe.user.profile_picture %}
+                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                    height="70" width="70"
+                    src="{{troupe.user.picture.url}}" alt="">
+                {% else %}
+                <img class="ft-plus-square job-bg-circle bg-cyan mr-0"
+                height="70" width="70"
+                src="{% static 'blank-profile-picture.webp' %}" alt="">
+                {% endif %}
+            </div>
+
+            <div class="col-sm-9">
+
+                <div class="media-body">
+
+                    <a href="{% url 'profile' troupe.user.id %}"
+                        target="_blank"
+                        class="h4">{{troupe}}</a> &nbsp; &nbsp;
+                    <input
+                        class="float-right mt-2 troupe_select"
+                        type="checkbox" name="troupe"
+                        value="{{troupe.id}}">
+
+                    <p class="notification-text font-small-4">
+                        <a href="#" class="cmpny-dt">
+                            {% for skill in troupe.troupe_skill_set.all %}
+                            {{skill}}
+                            {% endfor %}
+                        </a>
+
+                        <span class="job-loca"><i
+                                class="fas fa-location-arrow"></i>{{troupe.user.district}}</span>
+                    </p>
+                </div>        
+            </div>
+        </div>
+    </div>
+                                                                    
+{% empty %}                                                                                                                                        
+   <div class="jobs-list">
+       <div class="media">
+           <div class="job-left">
+           
+               <h4>No Troups Found</h4>
+           </div>
+       
+       </div>
+   </div>                                                                    
+{% endfor %}

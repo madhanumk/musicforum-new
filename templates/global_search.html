@@ -1,0 +1,33 @@
+{% load static %}
+
+<div class="options-nav no-shadow is-hidden-mobile">
+    <div class="container is-fluid">
+        <div class="nav-inner is-friends">
+            {% block goback %}
+
+            {% endblock %}        
+            <div class="end-group">
+                <div class="nav-item is-friend-count">{{user.followers_count}} followers | {{user.following_count}}
+                    following
+                </div>
+                <form id="search-form" action="{% url 'all_peoples' %}">
+                    <div class="navbar-item">
+                        <div id="global-search" class="control">
+                            <input id="people_search_input" name="name" class="input is-rounded" type="text"
+                                placeholder="Search" required>
+                            <div id="tipue_drop_content" class="tipue-drop-content"></div>
+                        </div>
+                        <a href="#" style="padding-left: 7px;" class="global_search_btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-search">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

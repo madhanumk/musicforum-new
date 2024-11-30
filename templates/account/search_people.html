@@ -1,0 +1,117 @@
+{% load static %}
+{% load follow_status_tags %}
+
+
+{% if page == "people" %}
+
+    {% for top_people in users %}
+        <div class="col-sm-6">                                                                                 
+            <article class="post mb-1 border-b pb-1">
+                <div class="s-content d-flex align-items-center justify-space-between">
+                    <div class="sidebar-image w-25 me-3">
+                        {% if top_people.profile_picture %}
+                            <a href="#"><img class="rounded img-fluid" src="{{top_people.profile_picture.url}}" alt="{{top_people}}"></a>
+                        {% else  %}
+                            <a href="#"><img class="rounded img-fluid" src="{% static 'images/avatar.png' %}" alt="{{top_peopler}}"></a>
+                        {% endif %}
+                    </div>
+                    <div class="content-list w-75">
+                        <h5 class="mb-1"><a href="{% url 'profile' top_people.id  %}">{{top_people}}</a>
+
+                            <span class="pull-right">                    
+                                    {% get_follow_status top_people.id user as status %}
+                                    <a title="Follow/Un Follow" href="#">
+                                    {% if status %}
+                                    <i id="user_id_{{top_people.id}}" user_id="{{top_people.id}}" class="fa fa-user-minus Success follow_unfollow user_id_{{top_people.id}}" data-url="{% url 'follow_unfollow' top_people.id %}"></i>
+                                    {% else %}
+                                        <i id="user_id_{{top_people.id}}" user_id="{{top_people.id}}"  class="fa fa-user-check Success follow_unfollow user_id_{{top_people.id}}" data-url="{% url 'follow_unfollow' top_people.id %}"></i>
+                                    {% endif %}
+                                    </a>
+                                    |<a title="Report User" href="#"> <i data-url="{% url 'report_people' top_people.id %}" class="fa fa-flag report_people"></i> </a>
+                                </span>
+                        
+                        </h5>
+                            
+                        
+                        <div class="group">
+                            {% for group in top_people.groups.all %}
+                                {{group}} 
+                                {% if not forloop.last %}
+                                | 
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                    </div>    
+                </div> 
+            </article>            
+        </div>
+    {% empty %}
+        <div class="col-sm-6"> 
+            <h5>Not Found</h5>
+        </div>
+    {% endfor %}
+
+{% else  %}
+
+    <h4 class="">Peoples</h4>
+
+    {% for top_people in users %}
+        <article class="post mb-1 border-b pb-1">
+            <div class="s-content d-flex align-items-center justify-space-between">
+                <div class="sidebar-image w-25 me-3">
+                    {% if top_people.profile_picture %}
+                        <a href="#"><img class="rounded-circle" src="{{top_people.profile_picture.url}}" alt=""></a>
+                    {% else  %}
+                        <a href="#"><img class="rounded-circle" src="{% static 'images/avatar.png' %}" alt=""></a>
+                    {% endif %}
+                </div>
+                <div class="content-list w-75">
+                    <h5 class="mb-1"><a href="{% url 'profile' top_people.id %}">{{top_people}}</a>
+
+                        {% if top_people == user %}
+                            
+                        {% else %}
+                        <span class="pull-right">      
+                            {% get_follow_status top_people.id user as status %}
+                            <a title="Follow/Un Follow" href="#">
+                            {% if status %}
+                            
+                            <i id="user_id_{{top_people.id}}" user_id="{{top_people.id}}" class="fa fa-user-minus Success follow_unfollow" data-url="{% url 'follow_unfollow' top_people.id %}"></i> 
+                            {% else %}
+                                <i id="user_id_{{top_people.id}}" user_id="{{top_people.id}}"  class="fa fa-user-check Success follow_unfollow" data-url="{% url 'follow_unfollow' top_people.id %}"></i>
+                            {% endif %}
+                            </a>
+                        </span>
+                        {% endif %}
+                    </h5>
+                        
+                        
+                    
+                    <div class="group">
+
+                        {% if people_type == "teacher" %} 
+
+                            Teacher
+
+                        {% else %}
+                            {% for group in top_people.groups.all %}
+                                {{group}} 
+                                {% if not forloop.last %}
+                                | 
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                </div>    
+            </div> 
+        </article>      
+    {% empty %}
+
+        <h5>Not Found</h5>
+
+    {% endfor %}
+
+
+{% endif %}

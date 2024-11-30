@@ -1,0 +1,218 @@
+{% load static %}
+
+<div class="navbar-start">
+    <!-- Navbar Search -->
+
+    <div class="navbar-item">
+        <select class="form-panel locat city_dropdown"  name="city" id="city">
+            {% for city in cities %}
+            <option value="{{city}}">{{city}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    <div class="navbar-item">
+   <a href="{% url 'home' %}">Home</a>
+      
+    </div>
+
+    {% if  user.musician %}
+        <div class="navbar-item">
+            <a href="{% url 'my_opportunities' type='invitation' %}">Event Inbox <span  style="margin-left: 2px !important;" class="inb badge text-bg-primary float-end"> {{unread_message_count}}</span></a>  
+        </div>        
+    {% elif user.event_organizer %}
+        <div class="navbar-item">
+            <a href="{% url 'recent_events' %}">My Events <span  style="margin-left: 2px !important;" class="inb badge text-bg-primary float-end" > {{unread_message_count}}</span></a>  
+        </div>     
+    {% elif user.gurukulam %}                      
+        <div class="navbar-item">
+            <a href="{% url 'recent_events' %}">My Events  <span  style="margin-left: 2px !important;" class="inb badge text-bg-primary float-end">{{unread_message_count}}</span></a>  
+        </div>
+    {% elif user.troupe %}  
+    
+        <div class="navbar-item">
+            <a href="{% url 'my_opportunities' type='invitation' %}">Event Inbox <span  style="margin-left: 2px !important;" class="inb badge text-bg-primary float-end"> {{unread_message_count}}</span></a>  
+        </div>
+       
+    {% endif %}
+
+
+    <div class="navbar-item">
+        <a href="{% url 'inbox' %}"> Chatbox <span  style="margin-left: 2px !important;" class="inb badge text-bg-primary float-end"> {{unread_chat_count}}</span> </a>  
+    </div>
+    <div class="navbar-item">
+        <a href="{% url 'my_profile' %}">My Profile</a>  
+    </div>
+    <div class="navbar-item">
+        <a href="{% url 'all_peoples' %}"> My Network</a>  
+    </div>
+
+
+    
+</div>
+
+<div class="navbar-end">
+
+    <form method="get" action="{% url 'all_peoples' %}" id="search-form">
+        <div class="navbar-item">
+            <div class="control">                                             
+                <select class="select-oprtion-location">
+                    <option>-Select Location-</option>
+                    <option value="">Coimbatore</option>
+                    <option value="">Tirupur</option>
+                </select>               
+             </div>
+
+            <div id="global-search" class="control">
+                <input id="people_search_input" class="input is-rounded" type="text" name="name" placeholder="Name: Musician, Organizer" required="">
+                <span id="clear-search" class="reset-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </span>
+            
+            </div>
+            <a href="#" class="search-icon global_search_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </a>
+        </div>
+    </form>
+
+    <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
+        <div class="user-image">
+            {% if user.profile_picture %}
+                 <img src="{{user.profile_picture.url}}" data-demo-src="{{user.profile_picture.url}}" alt="">
+            {% else %}
+                 <img src="{% static 'blank-profile-picture.webp' %}" data-demo-src="{% static 'blank-profile-picture.webp' %}" alt="">
+            {% endif %}
+            <span class="indicator"></span>
+        </div>
+
+        <div class="nav-drop is-account-dropdown">
+            <div class="inner">
+                <div class="nav-drop-header">
+                    <span class="username">{{user}}</span>
+                    <label class="theme-toggle">
+                        <input type="checkbox">
+                        <span class="toggler">
+                                <span class="dark">
+                                    <i data-feather="moon"></i>
+                                </span>
+                        <span class="light">
+                                    <i data-feather="sun"></i>
+                                </span>
+                        </span>
+                    </label>
+                </div>
+                <div class="nav-drop-body account-items">
+                    <a id="profile-link" href="{% url 'my_profile' %}" class="account-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <div class="image">
+
+                                    {% if user.profile_picture %}
+                                         <img src="{{user.profile_picture.url}}" alt="">
+                                    {% else %}
+                                         <img src="{% static 'blank-profile-picture.webp' %}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="media-content">
+                                <h3>{{user}}</h3>
+                                <small>Main account</small>
+                            </div>
+                            <div class="media-right">
+                                <i data-feather="check"></i>
+                            </div>
+                        </div>
+                    </a>
+                    {% comment %}
+                    <hr class="account-divider">
+                    <a href="/pages-main.html" class="account-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <div class="image">
+                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/hanzo.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="media-content">
+                                <h3>Css Ninja</h3>
+                                <small>Company page</small>
+                            </div>
+                            <div class="media-right is-hidden">
+                                <i data-feather="check"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/pages-main.html" class="account-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <div class="image">
+                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/icons/logos/fastpizza.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="media-content">
+                                <h3>Fast Pizza</h3>
+                                <small>Company page</small>
+                            </div>
+                            <div class="media-right is-hidden">
+                                <i data-feather="check"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/pages-main.html" class="account-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <div class="image">
+                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/icons/logos/slicer.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="media-content">
+                                <h3>Slicer</h3>
+                                <small>Company page</small>
+                            </div>
+                            <div class="media-right is-hidden">
+                                <i data-feather="check"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="account-divider">
+                    <a href="/options-settings.html" class="account-item">
+                        <div class="media">
+                            <div class="icon-wrap">
+                                <i data-feather="settings"></i>
+                            </div>
+                            <div class="media-content">
+                                <h3>Settings</h3>
+                                <small>Access widget settings.</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="account-item">
+                        <div class="media">
+                            <div class="icon-wrap">
+                                <i data-feather="life-buoy"></i>
+                            </div>
+                            <div class="media-content">
+                                <h3>Help</h3>
+                                <small>Contact our support.</small>
+                            </div>
+                        </div>
+                    </a>
+
+                    {% endcomment %}
+                    <a  class="account-item" href="{% url 'logout' %}">
+                        <div class="media">
+                            <div class="icon-wrap">
+                                <i data-feather="power"></i>
+                            </div>
+                            <div class="media-content">
+                                <h3>Log out</h3>
+                                <small>Log out from your account.</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

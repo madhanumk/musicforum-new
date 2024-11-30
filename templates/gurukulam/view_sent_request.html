@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Content Begin-->
+
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-lg-4 col-md-12">
+
+            </div>
+
+            <div class="col-xl-6 col-lg-8 col-md-12 list-group-profile-photos p-3">
+              <div class="row">
+                <div class="col">
+                  <h3> {{user|title}} Sent Requests</h3>
+                </div>
+                <div class="col">
+                  <a class="float-end " id="ajax_add_popup" data-url="{% url 'ajax_add' model_name='add_musician' %}" href="#">+ Add Musician</a>
+                </div>
+              </div>             
+
+                 
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Pending Requests</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Accepted Requests</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Rejected Requests</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                  <ul class="m-3">
+                    {% for pendind_request in pendind_requests %}
+                      <li> {{pendind_request.musician}} - Pending</li> <br>
+                    {% empty %}
+                      <p>No Pending request available..!</p>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                  <ul  class="m-3">
+                    {% for accepted_request in accepted_requests %}
+                      <li> {{accepted_request.musician}} - Accepted</li>
+                    {% empty %}
+                      <p>No accepted request available..!</p>
+                    {% endfor %}
+                  </ul>
+
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                  <ul  class="m-3">
+                    {% for rejected_request in rejected_requests %}
+                      <li> {{rejected_request.musician}} - Rejected</li>
+                    {% empty %}
+                      <p>No rejected request available..!</p>
+                    {% endfor %}
+                  </ul>
+
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+</div>
+<!-- AjaxModal -->
+<div class="modal fade" id="AjaxModal" tabindex="-1" role="dialog" aria-labelledby="AjaxModalLabel" aria-hidden="true">
+
+</div>
+
+<script>
+  $( document ).ready(function() {
+    //form popup
+    $('#ajax_add_popup').click(function() { 
+       event.preventDefault();
+       url = $(this).attr('data-url');
+       $.ajax({
+            url : url,               
+            success:function(output)
+            {       
+                console.log(output.form);     
+                $('#AjaxModal').html(output.form);
+                $('#AjaxModal').modal('show');                                 
+            },            
+        });
+     });
+
+
+      //AjaxModel Save
+      $('#AjaxModal').on('click','#add_btn', function(){
+
+          event.preventDefault();
+          formdata = new FormData($('#AjaxModal #ajax_form')[0]);
+          url = $(this).attr('data-url');
+          $.ajax({
+              url : url,
+              data : formdata,
+              method: 'post',
+              processData: false,
+              contentType: false,
+              beforeSend:function()
+              {
+                  $('#AjaxModal #info_text').text('Please Wait');
+                  
+              },
+              
+              success:function(output)
+              {
+                  if(output.valid)
+                  {                 
+                    location.reload();                                         
+                  }
+                  else
+                  {
+                    $('#AjaxModal').html(output.form);
+                  }
+                  $('#AjaxModal #info_text').text('');
+              },
+          });
+
+      });
+
+    });
+</script>
+
+{% endblock %}

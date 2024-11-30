@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Content Begin-->
+
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-lg-4 col-md-12">
+
+            </div>
+
+            <div class="col-xl-6 col-lg-8 col-md-12 list-group-profile-photos p-3">
+
+              <h3> Gurukulam Requests</h3>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Gurukulam </th>
+                    <th>Status</th>  
+                    <th> Update</th>                             
+                  </tr>
+                </thead>
+                <tbody>
+    
+
+              {% for student in students %}
+                <tr>
+                    <td> {{forloop.counter}}</td>
+                    <td> <a target="_blank" href="{% url 'profile' student.gurukulam.user.id  %}">{{student.gurukulam}}</a></td>
+                    <td>
+                    <form method='post' action="">
+                        {% csrf_token %}
+                        <select class="form-control" name="status" id="status">
+                        {% if student.status == "A"  %}                        
+                            <option active value="A">Accepted</option>
+                            <option value="R">Reject</option>
+                        
+                        {% elif student.status == "R" %} 
+                            <option value="R">Rejected</option>
+                            <option active value="A">Accept</option>                             
+                        
+                        {% else %}
+                           <option>Choose</option>
+                           <option  value="A">Accept</option>
+                           <option value="R">Reject</option>                           
+                        {% endif %}                        
+                        </select>
+                        <input type="text" value="{{student.id}}" hidden name="student_id" >    
+                
+                    </td>         
+                    <td><input type="submit" value="Update" class="btn mt-1"></td>
+                </form>
+                </tr>
+                {% empty %}
+                  <tr>
+                      <th colspan="4"><p>No Request Available</p></th>
+                  </tr>                 
+              {% endfor %}              
+            </tbody>
+           </table>
+            </div>
+        </div>
+      </div>
+</div>
+        
+
+{% endblock %}

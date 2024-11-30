@@ -1,0 +1,1372 @@
+{% extends 'base1.html' %}
+{% load static %}
+
+{% block stylecss %}
+    .cropper-container {
+        margin: 0 auto 20px auto;
+    }
+{% endblock %}
+
+{% block content %}
+<div class="options-nav no-shadow">
+    <div class="container is-fluid">
+        <div class="nav-inner is-friends">
+
+            <div class="option-tabs is-friends my-event-tab" style="width:450px !important;" href="{% url 'recent_events' %}">
+                <a class="option-tab" data-tab="all-friends">
+                    <span  class="event-text-tab">Upcoming Event</span>
+                </a>
+                <a class="option-tab" data-tab="starred-friends" href="{% url 'all_events' %}">
+                    <span  class="event-text-tab">Completed Event</span>
+                </a>
+                <a class="option-tab is-active" data-tab="new-friends" href="{% url 'create_event' %}">
+                    <span  class="event-text-tab">{% if operation == "Add" %}Create New {% else %} Edit  {% endif %} Event</span>
+                </a>
+                <div class="option-naver"></div>
+            </div>
+
+        
+            <div class="end-group">
+                <div class="nav-item is-friend-count">{{user.followers_count}} followers | {{user.following_count}}
+                    following
+                </div>
+                <form id="search-form" action="{% url 'all_peoples' %}">
+                    <div class="navbar-item">
+                        <div id="global-search" class="control">
+                            <input id="people_search_input" name="name" class="input is-rounded" type="text"
+                                placeholder="Search" required>
+                            <div id="tipue_drop_content" class="tipue-drop-content"></div>
+                        </div>
+                        <a href="#" style="padding-left: 7px;" class="global_search_btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-search">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="view-wrapper">
+    <!--Wrapper-->
+    <div id="events-page" class="events-wrapper">           
+        <!--Event List-->
+        <div class="wrapper-inner" style="margin-left: 0 !important;margin-right: 0 !important;">
+            <div id="event-list" class="event-list">
+                <!-- /partials/pages/events/events-1.html -->
+                <div id="event-1" class="event-item" style="width: 128% !important;">
+                    <div class="event-inner-wrap">                      
+
+
+                        <form id="event-form" class="call-form">
+                            {% csrf_token %}                                                 
+                            <div class="settings-wrapper-bar is-full createeventdiv">                                  
+                                <!-- /partials/settings/sections/general-settings.html -->
+                                <div id="general-settings" class="settings-section is-active">                                    
+                                    <div class="settings-panel">
+                                        <h1 style="font-size: 1.4rem;font-weight: 600;color: #393a4f;width:36%;margin:auto;">Event {% if operation == "Add" %} Create {% else %} Edit {% endif %}</h1> 
+                                        <div class="settings-form-wrapper">
+                                            <div class="settings-form">
+                                                <input class="d-none" type="text" id="append_crop" name="cropped_image"  value="">
+                                                <div class="columns is-multiline">                                                    
+                                                    <div class="column is-12">                                                       
+                                                        <!--Field-->
+                                                        <div class="field field-groupp">
+                                                            <label>Event name*</label>
+                                                            <div class="control has-icon">
+                                                                {{form.name}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field" id="event-cat">
+                                                            <label>Event Category*</label>
+                                                            <div class="dropdown-content dropdown-inner" style="padding-bottom:0rem !important;padding-top:0rem !important;">
+                                                                {{form.event_category}} 
+                                                            </div>                                                        
+                                                        </div>                                                  
+                                                        <!--Field-->
+                                                             <!--Field-->
+                                                        <div class="field">
+                                                            <label class="mt-2" style="margin-top: 14px !important;">Event details*</label>                                                            
+                                                            {{form.event_details}}                                                           
+                                                        </div>
+                                                    
+                                                    </div>
+                            
+                                                    <div class="column is-6">
+
+                                                        <div class="field" id="event-type">
+                                                            <label>Event type*</label>  
+                                                            <div class="reve" style="">
+                                                                {{form.event_type}}
+                                                            </div>                                                                                                                             
+                                                        </div>
+
+                                                   
+                                                        <!--Field-->
+                                                        <div class="field">
+                                                            <label>Highlights*</label>                                                         
+                                                            {{form.highlight}}                                                               
+                                                        </div>
+                                                     
+                                                    </div>
+                            
+                                                
+                            
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field" id="event-loc">
+                                                            <label>Location</label>                                                            
+                                                                {{form.location}}                                                        
+                                                        </div>
+                                                    </div>
+                            
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field is-autocomplete">
+                                                            <label>Registration Close date</label>
+                                                            <div class="control has-icon">
+                                                                {{form.registration_close_date}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field p-1">
+                                                            <label>From Time</label>
+                                                            <div class="control has-icon">
+                                                                {{form.from_date}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                            
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field is-autocomplete p-1">
+                                                            <label>To time</label>
+                                                            <div class="control has-icon">
+                                                                {{form.to_date}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                            
+                                                    
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field">
+                                                            <label>Venue</label>
+                                                            <div class="control">
+                                                                {{form.venue}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field">
+                                                            <label>Poster Image</label>
+                                                        
+                                                                {{form.poster_image}}
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                                    {% for hidden_field in form.hidden_fields %}
+                                                        {{ hidden_field.errors }}
+                                                        {{ hidden_field }}
+                                                    {% endfor %}                                                   
+                                                    
+
+                                                    
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field">
+                                                            <label>Ticket booking link</label>
+                                                            <div class="control">
+                                                                {{form.ticket_booking_link_1}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field">
+                                                            <label>Ticket booking place</label>
+                                                            <div class="control">
+                                                                {{form.ticket_booking_place}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field is-autocomplete">
+                                                            <div class="columns">
+                                                                <div class="column is-2">
+                                                                    <label class="f-switch">  
+                                                                        <input type="checkbox" class="is-switch" name="self_reference" id="id_self_reference" class="checkboxinput form-check-input">          <i></i>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="column is-10">
+                                                                    <label>Limited to personal invitation, No other registration allowed.</label>
+                                                                </div>
+                                                            </div>                                                                                                              
+                                                        </div>
+                                                    </div>
+                                                    <div class="column is-6">
+                                                        <!--Field-->
+                                                        <div class="field is-autocomplete">
+                                                            <label class="f-switch">
+                                                                <input type="checkbox" name="auto_accept" id="id_auto_accept" class="is-switch "> <i></i>
+                                                            </label>
+                                                            <label>Auto accept</label>                                                         
+                                                        </div>
+                                                    </div>
+
+                                                 
+
+                                                    <div class="column">
+                                                        <div class="buttons" style="justify-content: space-evenly;">
+                                                            <a href="{% url 'recent_events' %}"><button class="button is-solid red-button accent-button">Cancel</button></a>
+                                                            <button class="button is-solid accent-button  selection-box modal-trigger add_skill_btn">+ Call for</button>
+                                                            <div class="addpeoplebtndiv">
+                                                                <button class="button is-solid green-button accent-button selection-box modal-trigger add_people">Add people</button>
+                                                                <p id="people_count"></p>
+                                                            </div>
+                                                            
+                                                            <button class="button is-solid accent-button event-create-btn" data-url="{% url 'ajax_add' model_name='event_home' %}">Post event</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="column is-12">                                                        
+                                                        <div class="col-sm-12 skill_move_here" id="skill-div">  
+                            
+                                                        </div>                             
+                                                    </div>
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <div id="upload-call-profile-modal" class="modal upload-call-profile-modal is-xsmall has-light-bg">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h3>add skills</h3>
+                                        <!-- Close X button -->
+                                        <div class="close-wrap">
+                                            <span class="close-modal">
+                                                    <i data-feather="x"></i>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="column is-6">
+                                            <!--Field-->
+                                            <div class="field" id="event-cat">
+                                                <label>Event Category*</label>
+                                                <div class="dropdown-content dropdown-inner">
+                                                    <select class="dropdown-item" id="event-cat">
+                                                     <option>Contest</option>
+                                                     <option>Orchestra</option>
+                                                     <option>Bhajan</option>
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer" style="justify-content: space-evenly;">
+                                        <button id="submit-profile-picture" class="button is-solid accent-button raised">Add skills</button>
+                                        <button id="submit-profile-picture" class="button is-solid accent-button raised">Cancel</button>
+                                    </div>
+                                </div>
+                
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- AjaxModal -->
+                        <div id="AjaxModal" class="modal AjaxModal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+                        </div>
+
+                        <div id="modalCrop" class="modal change-cover-modal is-xsmall has-light-bg">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h3 id="model-title">Crop the poster</h3>
+                                        <!-- Close X button -->
+
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Placeholder -->
+                                        <div class="selection-placeholder">
+                                            <div class="columns">
+                                                <div class="column is-12">
+                                                    <img src="" id="image" style="height:400px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+
+
+                                        <button type="button" class="btn btn-primary js-crop-and-upload"
+                                            style="float:right !important;">Crop</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- MODAL TO CROP THE IMAGE -->
+                        <div id="" class="modal change-cover-modal is-xsmall has-light-bg">
+
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Crop the photo</h4>
+
+                                    </div>
+                                    <div class="modal-body">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary js-crop-and-upload">Crop</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="myModal2" class="modal change-cover-modal is-xsmall has-light-bg">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h3 id="model-title">Required Skill</h3>
+                                        <!-- Close X button -->
+                                        <div class="close-wrap">
+                                            <span class="close-modal">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-x">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Placeholder -->
+                                        <div class="selection-placeholder">
+                                            <div class="columns">
+                                                <div class="column is-12">
+                                                    <div class="field popup-content">
+
+                                                        <div id="skill_choose_div">
+                                                            <label for="cars">Choose a category:</label>
+                                                            <select class="skill_category_select form-control w-50" name="category"
+                                                                id="category">
+                                                                <option value="">Choose Skill</option>
+
+                                                                {% for skill_category in skill_categories %}
+                                                                <option value="{{skill_category.id}}">{{skill_category}}</option>
+                                                                {% endfor %}
+
+
+                                                            </select>
+
+                                                            <table id="table_id" class="table table-bordered mt-1 ">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" style="max-width: 35px;">Choose Skills</th>
+                                                                        <th scope="col">Skill</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="append_skill">
+
+                                                                </tbody>
+
+                                                            </table>
+
+
+                                                        </div>
+
+                                                        <div>
+
+                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                            <a href="#" id="move_skills" class="btn btn-primary">Add Skills</a>
+
+
+
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+<div  id="addPeopleModal" class="modal change-cover-modal is-medium  has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+    
+        <div class="card">
+            <div class="card-heading">
+                <h3 id="model-title">Choose People</h3>
+                <!-- Close X button -->
+                <div class="close-wrap">
+                    <span class="close-modal choose-people-modal-close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Placeholder -->
+                <div class="selection-placeholder">
+                    <div class="columns">
+                        <div class="column is-12">
+                            <div class="row" class="senior-list">
+                                <div class="col-sm-12">
+                                  <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <a class="nav-link active show-tab" tab="mu" id="invitation-tab" data-bs-toggle="tab" href="#m-search" role="tab" aria-controls="home" aria-selected="true">Artist Search</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <a class="nav-link show-tab" tab="tr"  id="t-search-tab" data-bs-toggle="tab" href="#t-search" role="tab" aria-controls="profile" aria-selected="false">Troupe Search</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <a class="nav-link show-tab" tab="gu" id="g-search-tab" data-bs-toggle="tab" href="#g-search" role="tab" aria-controls="profile" aria-selected="false">Gurukulam Search</a>
+                                    </li>
+                                  </ul>
+                                  <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active show-tab mu"  id="m-search" role="tabpanel" aria-labelledby="invitation-tab">
+                                      <p>&nbsp;</p>
+                                      <div class="row">
+                                        <div class="col-sm-4 ">
+                                          <form id='musician_search_form' method="POST"> {% csrf_token %} <h4>Search by Name</h4>
+                                            <div class="input-group">
+                                              <input type="text" id="people_search_input" class="form-control find-search-box" placeholder="Search by name" name="name" />
+                                              <span class="find-search-icon">
+                                                <span class="fa fa-search musician_search_btn"><img src="{% static 'search.png' %}"></span>
+                                              </span>
+                                            </div>
+
+                                            <div class="is-combo">
+                                                
+                                                <h4  class="mt-2  combo-label">Skill</h4> {% for skill in skills %} <input type="checkbox" class="ajax_filter" name="skill" value="{{skill.id}}">
+                                                <label> {{skill}}</label>
+                                                <br> {% endfor %}
+                                            </div>
+                                            
+                                          
+
+                                            <div class="is-combo">
+                                                <h4 class="mt-2  combo-label">Skill Level</h4> {% for skill_level in skill_levels %} <input type="checkbox" class="ajax_filter" name="skill_level" value="{{skill_level.id}}">
+                                                <label> {{skill_level}}</label>
+                                                <br> {% endfor %}
+                                                
+
+                                            </div>
+
+                                            <div class="is-combo">
+                                                <h4 class="combo-label mt-2">Gender</h4>
+                                                <input type="checkbox" class="ajax_filter" name="gender" value="M">
+                                                <label> Male</label>
+                                                <br>
+                                                <input type="checkbox" class="ajax_filter" name="gender" value="F">
+                                                <label> Female</label>
+                                            </div>
+
+                                            
+                                            <div class="is-combo">
+                                                
+                                                <h4  class="combo-label mt-2">Location</h4> {% for location in locations %} <input type="checkbox" class="ajax_filter" name="district" value="{{location.id}}">
+                                                <label> {{location}}</label>
+                                                <br> {% endfor %}
+                                            </div>
+                                            
+                                     
+                                        
+                                        
+                                        </div>
+                                        
+                                        <div class="col-sm-7">
+                                          <div id="musician_search_div">
+                                            <input type="hidden" name="search_type" value="musician_search">
+                                            </form>
+                                            <h3>Choose Artist </h3>
+                                            <div id="musician_list_div">
+                                              <form id='musician_request_form' method="POST"> {% csrf_token %} <div class="recent-items" id="event_list_div">
+                                                  <div id="musician_list"  class="has-slimscroll">                                                         
+                                                        {% for musician in musicians %} 
+                                                            <div class="row mt-1 musician_id_{{musician.id}} musician_append">
+                                                            <div class="col-sm-3"> {% if musician.user.picture %} <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{{musician.user.picture.url}}" alt=""> {% else %} <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{% static 'blank-profile-picture.webp' %}" alt="">{% endif %} </div>
+                                                            <div class="col-sm-9">
+                                                                <div class="media-body">
+                                                                <a target="_blank" href="{% url 'profile' musician.user.id %}" class="h4">{{musician}}</a> &nbsp; &nbsp; <input class="float-right mt-2 musician_select" type="checkbox" name="musician" value="{{musician.id}}" style="float:right">
+                                                                <p class="">
+                                                                    <a href="#">{{musician.profession}}</a>
+                                                                    <a href="#" class="cmpny-dt"> {% for skill in musician.musician_skill.all %} {% if forloop.first %} - {% endif %} {{skill}}  {% if not forloop.last %}
+                                                                        - 
+                                                                    {% endif %} {% endfor %} </a>
+                                                                    <span class="job-loca">
+                                                                    <i class="fas fa-location-arrow"></i>{{musician.user.district}}
+                                                                    </span>
+                                                                </p>
+                                                                </div>
+                                                            </div>
+                                                            </div> 
+                                                        {% empty %} <div class="jobs-list  empty_musician  musician_append">
+                                                            <div class="media">
+                                                                <div class="job-left">
+                                                                <h5>No Musician Found</h5>
+                                                                </div>
+                                                            </div>
+                                                            </div> 
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="tab-pane fade show-tab tr" id="t-search" role="tabpanel" aria-labelledby="interest-tab">
+                                      <p>&nbsp;</p>
+                                      <div class="row">
+                                        <div class="col-sm-3 ml-2">
+                                          <form id='troupe_search_form' method="POST"> {% csrf_token %} <h4>Search by Name</h4>
+                                            <div class="input-group">
+                                              <input type="text" id="people_search_input" class="form-control find-search-box" placeholder="Search by name" name="name" />
+                                              <span class="find-search-icon">
+                                                <span class="fa fa-search troupe_search_btn"><img src="{% static 'search.png' %}"></span>
+                                              </span>
+                                            </div>
+                                            <hr>
+                                            <h4 class="mt-2">Skill</h4> {% for skill in skills %} <input type="checkbox" class="ajax_troupe_filter" name="skill" value="{{skill.id}}">
+                                            <label> {{skill}}</label>
+                                            <br> {% endfor %}
+                                            <hr>
+                                            <h4>Location</h4> {% for location in locations %} <input type="checkbox" class="ajax_troupe_filter" name="district" value="{{district.id}}">
+                                            <label> {{location}}</label>
+                                            <br> {% endfor %}
+                                          </form>
+                                        </div>
+                                        <div class="col-sm-8">
+                                          <div id="troupe_search_div">
+                                            <h3>Choose Troupe </h3>
+                                            <div>
+                                              <form id='troupe_request_form' method="POST"> {% csrf_token %} <div class="recent-items" id="troupe_list_div">
+                                                  <div id="troupe_list"> 
+                                                    {% for troupe in troupes %} 
+                                                    <div class="row mt-1 troupe_append troupe_id_{{troupe.id}}">
+                                                      <div class="col-sm-2">
+                                                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{{troupe.user.picture.url}}" alt="">
+                                                      </div>
+                                                      <div class="col-sm-10">
+                                                        <div class="media-body">
+                                                          <a href="{% url 'profile' troupe.user.id %}" target="_blank" class="h4">{{troupe}}</a> &nbsp; &nbsp; <input class="float-right mt-2 troupe_select" type="checkbox" name="troupe" value="{{troupe.id}}">
+                                                          <p class="notification-text font-small-4">
+                                                            <a href="#" class="cmpny-dt"> {% for skill in troupe.troupe_skill_set.all %} {{skill}} {% endfor %} </a>
+                                                            <span class="job-loca">
+                                                              <i class="fas fa-location-arrow"></i>{{troupe.user.district}}
+                                                            </span>
+                                                          </p>
+                                                        </div>
+                                                      </div>
+                                                    </div> 
+                                                    {% empty %} 
+                                                    <div class="jobs-list empty_troupe troupe_append">
+                                                      <div class="media">
+                                                        <div class="job-left">
+                                                          <h4>No Troups Found</h4>
+                                                        </div>
+                                                      </div>
+                                                    </div> 
+                                                    {% endfor %} 
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade gu show tab" id="g-search" role="tabpanel" aria-labelledby="interest-tab">
+                                    <p>&nbsp;</p>
+                                    <div class="row">
+                                      <div class="col-sm-3">
+                                        <form id='gurukulam_search_form' method="POST"> {% csrf_token %} <h4>Search by Name</h4>
+                                          <div class="input-group">
+                                            <input type="text" id="people_search_input" class="form-control find-search-box" placeholder="Search by name" name="name" />
+                                            <span class="find-search-icon">
+                                              <span class="fa fa-search gurukulam_search_btn"><img src="{% static 'search.png' %}"></span>
+                                            </span>
+                                          </div>
+                                          <hr>
+                                          <h4>Skill</h4> {% for skill in skills %} <input type="checkbox" class="ajax_gurukulam_filter" name="skill" value="{{skill.id}}">
+                                          <label> {{skill}}</label>
+                                          <br> {% endfor %}
+                                          <hr>
+                                          <h4>Location</h4> {% for location in locations %} <input type="checkbox" class="ajax_gurukulam_filter" name="district" value="{{district.id}}">
+                                          <label> {{location}}</label>
+                                          <br> {% endfor %}
+                                        </form>
+                                      </div>
+                                      <div class="col-sm-8">
+                                        <div id="gurukulam_search_div">
+                                          <h3>Choose Gurukulam </h3>
+                                          <div id="gurukulam_list_div">
+                                            <form id='gurukulam_request_form' method="POST"> {% csrf_token %} <div class="recent-items">
+                                                <div id="gurukulam_list"> {% for gurukulam in gurukulas %} <div class="row mt-1">
+                                                    <div class="col-sm-2">
+                                                      <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{{gurukulam.user.picture.url}}" alt="">
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                      <div class="media-body">
+                                                        <a href="{% url 'profile' gurukulam.user.id %}" target="_blank" class="h4">{{gurukulam}}</a> &nbsp; &nbsp; <input class="float-right mt-2 gurukulam_select" type="checkbox" name="gurukulam" value="{{gurukulam.id}}">
+                                                        <p class="notification-text font-small-4">
+                                                          <a href="#" class="cmpny-dt"> {% for skill in gurukulam.gurukulam_skill_set.all %} {{skill}} - {% endfor %} </a>
+                                                          <span class="job-loca">
+                                                            <i class="fas fa-location-arrow"></i> {{gurukulam.user.district}}
+                                                          </span>
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div> {% empty %} <div class="jobs-list">
+                                                    <div class="media">
+                                                      <div class="job-left">
+                                                        <h4>No Gurukulam Found</h4>
+                                                      </div>
+                                                    </div>
+                                                  </div> {% endfor %} </div>
+                                              </div>
+                                            </form>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-12">
+                                  <textarea class="mt-2 w-100" id="request_message" name="message" rows="4"></textarea>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn choose-people-modal-close">Close</a>
+                                        <a href="#" class="btn btn-primary choose-people-modal-close">Add</a>
+                                      </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    </div>
+
+    <div class="modal change-cover-modal is-medium has-light-bg"  >
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">Required Skill</h4>
+            
+            </div><div class="container"></div>
+            <div class="modal-body">
+            <div id="skill_choose_div">
+                <label for="cars">Choose a category:</label>
+                    <select class="skill_category_select form-control w-50" name="category" id="category">
+                        <option value="">Choose Skill</option>
+                        
+                        <option value="1">Vocal</option>
+                        
+                        <option value="2">Instrument</option>
+                        
+                    
+                    </select>
+
+                    <table id="table_id" class="table table-bordered mt-1 ">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="max-width: 35px;">Choose Skills</th>
+                            <th scope="col">Skill</th>
+                        </tr>
+                        </thead>
+                        <tbody id="append_skill">
+
+                        </tbody>
+                
+                    </table>
+        
+
+            </div>
+            </div>
+            <div class="modal-footer">
+            
+            </div>
+        </div>
+        </div>
+    </div>
+
+<div class="footer" style="width: 130% !important;">
+    <div class="container" style="width: 100%;">
+        <span style="text-align: center !important;">2023 Music Forum. All rights reserved.</span>
+    </div>
+</div>
+
+<!-- contents of this file will be placed inside the <body> -->
+  
+      
+    <div  id="cropperModal" class="modal change-cover-modal is-medium  has-light-bg">
+        <div class="modal-background"></div>     
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content ">
+            
+                <div class="modal-positioner">
+                    <h1 class="text-center m-2" style='font-family:"Montserrat", sans-serif;";font-weight: 500;font-size: .9rem;'>Crop the poster</h1>
+                    
+                    <img style="width: 271px; height: 271px;" class="js-avatar-preview" src="">
+                    <button class="btn btn-primary js-save-cropped-avatar float-end m-2 js-crop-and-upload" style='margin-top:-10px;font-family:"Montserrat", sans-serif;";font-weight: 500;font-size: .9rem;'>Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+<script src="{% static 'assets/js/events.js' %}"></script>
+
+     
+<link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0-rc.1/cropper.min.js"></script>
+
+  <script>
+      $(document).ready(function () {
+
+
+
+        let cropper;
+        let cropperModalId = "#cropperModal";
+        let $jsPhotoUploadInput = $("#id_poster_image");
+
+        $jsPhotoUploadInput.on("change", function () {
+
+        var files = this.files;
+        if (files.length > 0) {
+
+            var photo = files[0];
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+            var image = $(".js-avatar-preview")[0];
+            image.src = event.target.result;
+
+            if(cropper){
+                cropper.destroy();
+            }
+
+            cropper = new Cropper(image, {
+                viewMode: 1,
+                aspectRatio: 1.775/1,
+                minContainerWidth: 400,
+                minContainerHeight: 400,
+                minCropBoxWidth: 300,
+                minCropBoxHeight: 169,
+                movable: true,
+                ready: function () {
+                console.log("ready");
+                console.log(cropper.ready);
+                }
+            });
+
+            $(cropperModalId).modal();
+            $(cropperModalId).addClass('is-active');
+            };
+            reader.readAsDataURL(photo);
+        }
+        });
+
+        $(".js-crop-and-upload").on("click", function (event) {
+        event.preventDefault();
+
+        var cropData = cropper.getData;
+
+        console.log(cropper.ready);
+
+        var $button = $(this);
+   
+
+        const canvas = cropper.getCroppedCanvas();
+        const base64encodedImage = canvas.toDataURL();
+       
+        var image = new Image();
+        image.onload = function(){
+            console.log(image.width); // image is loaded and we have image width 
+        }
+        image.src = base64encodedImage;
+        
+        $('#append_crop').attr('value',base64encodedImage);
+
+
+        $("#avatar-crop").attr("src", base64encodedImage);
+        $('#cropperModal').removeClass('is-active');
+        });
+
+
+
+
+          //photo crop
+          $(function () {
+
+              /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+              $("#id_poster_imagee").change(function () {
+                  if (this.files && this.files[0]) {
+                      var reader = new FileReader();
+                      reader.onload = function (e) {
+                          $("#image").attr("src", e.target.result);
+                          $("#modalCrop").modal("show");
+                      }
+                      reader.readAsDataURL(this.files[0]);
+                  }
+              });
+
+
+              /* SCRIPTS TO HANDLE THE CROPPER BOX */
+              var $image = $("#image");
+              var cropBoxData;
+              var canvasData;
+              $("#modalCrop").on("shown.bs.modal", function () {
+                  $image.cropper({
+                      viewMode: 1,
+                      aspectRatio: 16 / 9,
+                      minCropBoxWidth: 1024,
+                      minCropBoxHeight: 576,
+                      ready: function () {
+                          $image.cropper("setCanvasData", canvasData);
+                          $image.cropper("setCropBoxData", cropBoxData);
+                      }
+                  });
+              }).on("hidden.bs.modal", function () {
+                  cropBoxData = $image.cropper("getCropBoxData");
+                  canvasData = $image.cropper("getCanvasData");
+                  $image.cropper("destroy");
+              });
+
+              $(".js-zoom-in").click(function () {
+                  $image.cropper("zoom", 0.1);
+              });
+
+              $(".js-zoom-out").click(function () {
+                  $image.cropper("zoom", -0.1);
+              });
+
+              /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+              $(".js-crop-and-uploadd").click(function () {
+                  var cropData = $image.cropper("getData");
+                  console.log(cropData["x"]);
+                  $("#id_x").val(cropData["x"]);
+                  $("#id_y").val(cropData["y"]);
+                  $("#id_height").val(cropData["height"]);
+                  $("#id_width").val(cropData["width"]);
+                  $('#modalCrop').modal("hide");
+              });
+
+
+
+          });
+
+
+
+
+
+          $('#id_from_date_0').attr('type', 'date');
+          $('#id_to_date_0').attr('type', 'date');
+          $('#id_from_date_1').attr('type', 'time');
+          $('#id_to_date_1').attr('type', 'time');
+
+
+
+          $('.add_skill_btn').click(function () {
+              event.preventDefault();
+              $('#AjaxModal #table_id').remove();
+
+              //$('#myModal2').modal('show');    
+              $('#myModal2').addClass('is-active');
+              id = $(this).attr('id');
+              //make  selectbox none
+              $('.skill_category_select option').prop('selected', function () {
+                  return this.defaultSelected;
+              });
+          });
+
+
+          $('.skill_category_select').change(function () {
+              event.preventDefault();
+              event_id = $("#add_skill").attr('event_id');
+              $.ajax({
+                  url: '/ajax_get_skill/',
+                  data: { 'skill_category': $(this).children("option:selected").val(), 'event_id': event_id, },
+                  success: function (data) {
+                      $('#skill_choose_div input:checkbox').not(':checked').each(function () {
+                          var id = $(this).val();
+                          str1 = "#";
+                          final = str1.concat(id);
+                          $(final).remove();
+                      });
+                      $("#0").remove();
+
+                      $("#myModal2 #append_skill").append(data.skill);
+
+                      /*
+                      $('[id]').each(function (i) {
+                         $('[id="' + this.id + '"]').slice(1).remove();
+                      }); 
+  
+                      */
+
+                  },
+              });
+
+          });
+
+          $('#myModal2').on('click', '#move_skills', function () {
+
+
+              is_checked = "false";
+              if ($("#skill_choose_div input:checkbox").is(':checked')) {
+                  is_checked = "true";
+              }
+
+
+
+              if (is_checked == "true") {
+
+                  var html_content = $("#myModal2 #table_id").clone();
+                  $('.skill_move_here').html(html_content);
+                  $('.skill_move_here').html(html_content);
+                  $('#myModal2').removeClass('is-active');
+
+                  $('.modal').css('overflow-y', 'auto');
+                  $('.skill_move_here #append_skill').attr('id', 'appended_skill');
+
+                  $('.skill_move_here input:checkbox').not(':checked').each(function () {
+                      var id = $(this).val();
+                      str1 = "#";
+                      final = str1.concat(id);
+                      $(final).remove();
+                  });
+
+              }
+              else {
+                  alert('No skills selected..!')
+              }
+
+
+
+
+          });
+
+
+          $('.add_people').click(function () {
+              event.preventDefault();
+
+              $('#addPeopleModal').addClass('is-active');
+
+          });
+
+
+          //Create Event People Filter starts
+
+          function musicianFilter() {
+
+              formdata = new FormData($('#musician_search_form')[0]);
+
+              musicians = [];
+              $('#addPeopleModal input:checkbox[name=musician]').each(function () {
+                  if ($(this).is(':checked'))
+                      musicians.push($(this).val());
+              });
+              formdata.append('musicians[]', '[' + musicians.toString() + ']');
+              url = '/home_musician_search/?page=eventcreation',
+                  $.ajax({
+                      url: url,
+                      data: formdata,
+                      method: 'post',
+                      dataType: 'json',
+                      processData: false,
+                      contentType: false,
+                      beforeSend: function () {
+                          $('#AjaxModal #info_text').text('Please Wait');
+
+                      },
+                      success: function (output) {
+                          if (output.valid) {
+
+                              $('input:checkbox[name=musician]').each(function () {
+                                  if (!$(this).is(':checked')) {
+                                      musicianId = $(this).val();
+                                      console.log(musicianId);
+                                      $('#addPeopleModal .musician_id_' + musicianId).remove();
+                                  }
+                                  $('#addPeopleModal .empty_musician').remove();
+                              });
+
+                              if ($("#addPeopleModal .musician_append")[0]) {
+                                  $('#addPeopleModal #musician_list:last').append(output.html);
+
+
+                              } else {
+
+                                  $('#addPeopleModal #musician_list').html(output.html);
+                              }
+
+
+
+                          }
+                          else {
+                              alert('Something went wrong')
+                          }
+
+
+                      },
+                  });
+
+
+          }
+
+
+
+          $(".musician_search_btn").click(function () {
+              musicianFilter();
+          });
+
+
+          $("#musician_search").click(function () {
+              event.preventDefault();
+              musicianFilter();
+
+          });
+
+
+          $('.ajax_filter').change(function () {
+
+              event.preventDefault();
+              musicianFilter();
+          });
+
+
+          //troupe
+          function troupeFilter() {
+
+              formdata = new FormData($('#troupe_search_form')[0]);
+              url = '/home_troupe_search/?page=ec',
+
+                  $.ajax({
+                      url: url,
+                      data: formdata,
+                      method: 'post',
+                      dataType: 'json',
+                      processData: false,
+                      contentType: false,
+                      beforeSend: function () {
+                          $('#AjaxModal #info_text').text('Please Wait');
+
+                      },
+                      success: function (output) {
+                          if (output.valid) {
+                              //$('#troupe_list').html(output.html);  
+
+                              $('input:checkbox[name=troupe]').each(function () {
+                                  if (!$(this).is(':checked')) {
+                                      troupeId = $(this).val();
+                                      console.log(musicianId);
+                                      $('#addPeopleModal .troupe_id_' + troupeId).remove();
+                                  }
+                                  $('#addPeopleModal .empty_troupe').remove();
+                              });
+
+
+
+                              if ($("#addPeopleModal .troupe_append")[0]) {
+                                  $('#addPeopleModal #troupe_list:last').append(output.html);
+
+
+                              } else {
+
+                                  $('#addPeopleModal #troupe_list').html(output.html);
+                              }
+
+
+
+
+                          }
+                          else {
+                              alert('Something went wrong');
+                          }
+
+
+                      },
+                  });
+          }
+
+
+
+          $('.ajax_troupe_filter').change(function () {
+              event.preventDefault();
+              troupeFilter();
+
+          });
+
+          $(".troupe_search_btn").click(function () {
+              event.preventDefault();
+              troupeFilter();
+          });
+
+
+
+          $("#troupe_search").click(function () {
+              event.preventDefault();
+              formdata = new FormData($('#troupe_search_form')[0]);
+              url = '/home_troupe_search/',
+                  $.ajax({
+                      url: url,
+                      data: formdata,
+                      method: 'post',
+                      dataType: 'json',
+                      processData: false,
+                      contentType: false,
+
+                      success: function (output) {
+                          if (output.valid) {
+
+                              $('#troupe_list').html(output.html);
+
+
+                          }
+                          else {
+                              alert('Something went wrong');
+                          }
+
+
+                      },
+                  });
+
+
+
+          });
+
+          // Gurukulam
+          function gurukulamFilter() {
+
+              formdata = new FormData($('#gurukulam_search_form')[0]);
+              url = '/home_gurukulam_search/',
+
+                  $.ajax({
+                      url: url,
+                      data: formdata,
+                      method: 'post',
+                      dataType: 'json',
+                      processData: false,
+                      contentType: false,
+
+                      success: function (output) {
+                          if (output.valid) {
+                              $('#gurukulam_list').html(output.html);
+
+                          }
+                          else {
+                              alert('Something went wrong');
+                          }
+
+
+                      },
+                  });
+
+
+          }
+
+          $('.ajax_gurukulam_filter').change(function () {
+              event.preventDefault();
+              gurukulamFilter()
+          });
+
+          $(".gurukulam_search_btn").click(function () {
+              event.preventDefault();
+              gurukulamFilter();
+          });
+
+          $(".choose-people-modal-close").click(function () {
+              event.preventDefault();
+              people = 0;
+
+              $('input:checkbox[name=musician]').each(function () {
+                  if ($(this).is(':checked'))
+                      people = people + 1;
+              });
+
+
+              $('input:checkbox[name=troupe]').each(function () {
+                  if ($(this).is(':checked'))
+                      people = people + 1;
+              });
+
+
+              $('input:checkbox[name=gurukulam]').each(function () {
+                  if ($(this).is(':checked'))
+                      people = people + 1;
+              });
+
+              $('#people_count').text('(' + people + ' People Added)');
+
+              $('.addpeoplebtndiv').addClass('mt-2');
+
+              $('#addPeopleModal').removeClass('is-active');
+
+
+
+
+          });
+
+          // Call
+          $('.event-create-btn').click(function () {
+              event.preventDefault();
+              $('.created-message').html('');
+
+              formdata = new FormData($('#event-form')[0]);
+              musicians = [];
+              troupes = [];
+              gurukulas = [];
+
+              $('input:checkbox[name=musician]').each(function () {
+                  if ($(this).is(':checked'))
+                      musicians.push($(this).val());
+              });
+              formdata.append('musicians[]', '[' + musicians.toString() + ']');
+
+              $('input:checkbox[name=troupe]').each(function () {
+                  if ($(this).is(':checked'))
+                      troupes.push($(this).val());
+              });
+              formdata.append('troupes[]', '[' + troupes.toString() + ']');
+
+              $('input:checkbox[name=gurukulam]').each(function () {
+                  if ($(this).is(':checked'))
+                      gurukulas.push($(this).val());
+              });
+              formdata.append('gurukulas[]', '[' + gurukulas.toString() + ']');
+
+              message = $('#request_message').val();
+              formdata.append('message ', message);
+
+
+              url = $(this).attr('data-url');
+              $.ajax({
+                  url: url,
+                  data: formdata,
+                  method: 'post',
+                  processData: false,
+                  contentType: false,
+                  beforeSend: function () {
+                      $('.event-create-btn').text('Please wait');
+
+                  },
+
+                  success: function (output) {
+                      if (output.valid) {
+                          window.location.href = '{% url 'recent_events' %}';
+
+                          clearEventFormData();
+
+
+                          $('.call_collapse').collapse('hide');
+                          $('.choose_event_details_btn').removeClass('d-none');
+                          $('#recent-radio-btn').prop('checked', true);
+
+                          $('<div class="text-center mt-1"><h6>Event Posted succesfully <a href="/recent_events/"><u>View</u></a></h6></div>').insertBefore(".posted_show");
+
+                      }
+                      else {
+                          alert('Something went wrong');
+
+                      }
+
+                      $('.event-create-btn').text('Post Event');
+
+                  },
+              });
+
+
+          });
+
+
+
+
+          $(".show-tab").click(function () {
+              grp = $(this).attr('tab');
+
+              $('.show-tab').removeClass('active');
+              $('.show-tab').removeClass('show');
+              $(this).addClass('active');
+              $(this).addClass('show');
+
+              if (grp == "mu") {
+                  $('.mu').addClass('active');
+                  $('.mu').addClass('show');
+
+              }
+
+              if (grp == "tr") {
+                  $('.tr').addClass('active');
+                  $('.tr').addClass('show');
+
+              }
+
+              if (grp == "gu") {
+                  $('.gu').addClass('active');
+                  $('.gu').addClass('show');
+
+              }
+          });
+
+
+      });    
+  </script>
+
+{% endblock %}

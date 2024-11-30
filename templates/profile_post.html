@@ -1,0 +1,82 @@
+{% load check_post_like_tags %}
+
+<div class="row d-flex shadow-sm p-2 mb-2 border post-box" id="post_id_{{post.id}}">
+                           
+    <div class="col-lg-12 col-sm-12 mb-4">
+        <h4>{{post.post_title}}</h4>
+       <h5 class="theme mb-1"> <a href="">{{post.user}} </a></h5>  
+       
+       <span class="small">{{post.posted_on}} </span> 
+
+            <p>  {{post.content|safe}}   </p>       
+          
+            <div class="entry-meta mt-1 d-flex align-items-center justify-content-between">
+            
+                <div class="entry-metalist d-flex align-items-center">
+                    <ul>     
+                        
+                     
+                            {% get_post_like_status post.id user as status %}
+
+                            {% if status %}
+                                <li class="me-2"><a class="like_unlike theme postid_{{post.id}}" data-url="{% url 'like_unlike' post.id %}"  href="#" post_id="{{post.id}}" id="postid_{{post.id}}"><i class="fa fa-heart"></i> {{post.user_likes.all.count}}</a></li>
+                            {% else %}
+                                <li class="me-2"><a class="like_unlike postid_{{post.id}}" data-url="{% url 'like_unlike' post.id %}" href="#" post_id="{{post.id}}" id="postid_{{post.id}}"><i class="fa fa-heart"></i> {{post.user_likes.all.count}}</a></li>
+                            {% endif %} 
+
+                            <li class="me-2"><a class="view_comment comment_postid_{{post.id}}"  href="#view_comment" post_id="{{post.id}}" id="postid_{{post.id}}"><i class="fa fa-comments"></i> {{post.comment_count}}</a></li>
+
+  
+                        <!--
+                           <li><a href="#" id="post_comment_count_{{post.id}}" class="post_comment_count_{{post.id}}"><i class="fa fa-comments"></i> {{post.get_comment_count}}</a></li>
+                            <li ><a data-url="" class="report-btn" href="#"> <i title="Report Post" class="fa fa-flag" ></i></a></li> 
+
+                         -->
+                    </ul>
+
+
+                </div>
+            </div>
+    </div>
+
+    {% comment %}
+        <div class="comment_wrapper main-comment-section post_comment_section_{{post.id}}" id="post_comment_section_{{post.id}}">
+            <div class="row container">
+            
+
+                {% for comment in post.post_comment_set.all %}                                     
+                    <div class="col-sm-12">
+                        <div class="we-comment">
+                            <a href="{% url 'profile' comment.user.id  %}" target="_blank" title="" class="user-name">{{comment.user}}</a>
+                            <span> | {{comment.commented_on}}</span>
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <p>{{comment.comment}} </p>                                  
+                                </div>
+                                <div class="col-sm-1">
+                                    {% if comment.user == user %}
+                                        &nbsp;<span post_id="{{post.id}}" style="cursor: pointer;" comment_id="{{comment.id}}" data-url="{% url 'delete_comment' comment.id %}" class="delete_comment"><i class="fa fa-trash" aria-hidden="true"></i>
+                                        </span> 
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="inline-itms">
+                                                                
+                            </div>    
+                            
+                        
+                        </div>
+                    </div>                                                                            
+                {% endfor %}
+                    <div class="col-sm-10 mt-1">
+                        <textarea   id="post_comment_id_{{post.id}}" class="auto-resize comment-textarea textarea" placeholder="Write a comment" autocomplete="off"></textarea>
+                    </div>
+
+                    <div class="col-sm-2 mt-1">
+                        <button class="comment btn btn-primary btn float-end"  data-url="{% url 'comment' post.id %}" post_id="{{post.id}}">Comment</button>
+                    </div>
+            </div>                                   
+        </div>
+    {% endcomment %}
+</div>

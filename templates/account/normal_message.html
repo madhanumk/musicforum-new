@@ -1,0 +1,182 @@
+{% load crispy_forms_tags %}
+
+<div class="modal-background"></div>
+
+<div class="modal-content">
+  <div class="card">
+    <div class="card-heading">
+      <h3 id="model-title"> {{receiver}} - Message</h3>
+      <!-- Close X button -->
+      <div class="close-wrap">
+        <span class="close-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-x">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="card-body">
+      <!-- Placeholder -->
+      <div class="selection-placeholder">
+        <div class="columns">
+          <div class="column is-12">
+            <div class="field">
+              <div class="row message_div chat-container"
+                style="overflow-y: scroll;height:420px;background-color: #eee;">
+                <div class="">
+                  
+                <div class="card">
+                  {% for chat in chats %}
+                  {% if chat.sender == user %}
+                  {% comment %}
+                  <div class="col-sm-12">
+                    <p class="float-end">
+  
+                      {% if chat.m_file %}
+                      <a class="btn-link" download href="{{chat.m_file.url}}">{{chat.message}} - Download</a>
+                      {% else %}
+                      {{chat.message}}
+                      {{chat.date}}
+                      {% endif %}
+  
+  
+                    </p>
+                  </div>
+                  {% endcomment %}
+  
+                  <div class="outgoing_msg mb-2">
+                    <div class="sent_msg">
+                      <p>
+                        {% if chat.m_file %}
+                        <a class="btn-link" download href="{{chat.m_file.url}}">{{chat.message}} - Download</a>
+                        {% else %}
+                        {{chat.message}}
+  
+                        {% endif %}
+  
+  
+                      </p>
+                      <span class="time_date"> {{chat.date}} </span>
+                    </div>
+                  </div>
+                  {% else %}
+  
+                  <div class="incoming_msg mb-2">
+  
+                    <div class="received_msg">
+                      <div class="received_withd_msg">
+                        <p>
+                          {% if chat.m_file %}
+                          <a class="btn-link" download href="{{chat.m_file.url}}">{{chat.message}} - Download</a>
+                          {% else %}
+                          {{chat.message}}
+                          {% endif %}
+  
+  
+                        </p>
+                        <span class="time_date"> {{chat.date}} </span>
+                      </div>
+                    </div>
+                  </div>
+                  {% comment %}
+                  <div class=" col-sm-12">
+                    <p class="float-start">
+                      {% if chat.m_file %}
+                      <a class="btn-link" download href="{{chat.m_file.url}}">{{chat.message}} - Download</a>
+                      {% else %}
+                      {{chat.message}}
+                      {% endif %}
+                    </p>
+                  </div>
+                  {% endcomment %}
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+
+                </div>
+                
+
+              </div>
+
+              <div>
+
+                {% if blocked_by_receiver %}
+
+                <h4 class="text-center">Can't message to {{receiver}} </h4>
+
+                {% elif blocked_by_sender %}
+
+                <h4 id="blocked_info" class="text-center">You blocked {{receiver}}</h4>
+
+                <form id="message-form" class="d-none" enctype="multipart/form-data">
+
+                  {% csrf_token %}
+                  <textarea name="message" id="message_txt" class="form-control" rows="2" cols="30"></textarea>
+
+                  <div class="row mt-2">
+                    <div class="col-lg-4 col-md-4 ">
+
+                      <input id="file-upload" name="message-file" class="form-control message-file" type="file"
+                        accept="application/pdf,application">
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+
+                      <button type="button" class="remove-message-file btn">Clear Attachment</button>
+
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                      <input data-url="{% url 'chat_to' receiver.id %}" type="submit"
+                        class="nir-btn-small width-50 chat_to" value="Send">
+                    </div>
+                  </div>
+
+                </form>
+
+
+                {% else %}
+                <form id="message-form" enctype="multipart/form-data">
+
+                  {% csrf_token %}
+                  <textarea name="message" id="message_txt" class="form-control" rows="2" cols="100"></textarea>
+
+                  {% comment %}
+                  <div class="row mt-2">
+                    <div class="col-lg-4 col-md-4 ">
+
+                      <input id="file-upload" name="message-file" class="form-control message-file" type="file"
+                        accept="application/pdf,application">
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+
+                      <button type="button" class="remove-message-file btn">Clear Attachment</button>
+
+                    </div>
+
+                    {% endcomment %}
+                    <div class="col-lg-4 col-md-4">
+                      <a class="button is-solid primary-button raised p-4 mt-4 close-modal" id="close_btn">Close</a>
+                      <a class="button is-solid red-button raised p-4 mt-4  chat_to" id="add_btn"
+                        data-url="{% url 'chat_to' receiver.id %}">Send</a>
+                    </div>
+                  </div>
+
+                </form>
+
+
+                {% endif %}
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

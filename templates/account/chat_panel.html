@@ -1,0 +1,85 @@
+{% load static %}
+
+
+<div style="margin: auto;">
+    <div class="chat_img1"> 
+        {% if user_object.profile_picture %}
+            <img src="{{user_object.profile_picture.url}}"> 
+        {% else %}
+            <img src="{% static 'blank-profile-picture.webp' %}"> 
+        {% endif %}
+    </div>
+    <div class="chat_ib1">
+        {{user_object}}<br><span class="time_date">11 Nov 2024: 11:01 AM <br> Location: {{user_object.location}} | <a Href="#">View Profile</a></span>
+    </div>
+</div>
+
+
+
+
+
+<div class="panel-inner">
+    <div class="panel-header">
+        <h3>Details</h3>
+        <div class="panel-close is-hidden-desktop">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+    </div>
+
+    <!-- Dan details -->
+    <div id="dan-details" class="panel-body is-user-details">
+        <div class="panel-body-inner">          
+            <div class="details-avatar">
+                {% if user_object.profile_picture %}
+                    <img src=""  alt="">
+                {% else %}
+                     <img src=""  alt="">
+                {% endif %}
+                
+            </div>
+
+            <div class="user-meta has-text-centered">
+                <h3></h3>
+                <h4> {% for group in user_object.groups.all %}
+                    {{group}} 
+                {% if not forloop.last %}
+                    | 
+                    {% endif %}
+                {% endfor %}</h4>
+            </div>
+
+            <div class="user-about">
+                <label>Information</label>
+                <div class="about-block">
+                    <i class="mdi mdi-domain"></i>
+                    <div class="about-text">
+                        <span>Location</span>
+                        <span><a class="is-inverted" href="#">{{user_object.location}}</a></span>
+                    </div>
+                </div>
+                <div class="about-block">
+                    <i class="mdi mdi-information"></i>
+                    <div class="about-text">
+                        <span>About Me</span>
+                        <span class="is-inverted">
+                            {% if user_object.musician %}
+                                {{user_object.musician.about_me}}
+                            {% elif user_object.troupe %}
+                                {{user_object.troupe.about_us}}
+
+                            {% elif user_object.gurukulam %}
+                             {{user_object.gurukulam.about_us}}
+                            {% elif user_object.event_organizer %}
+                            {{user_object.event_organizer.about_us}}
+
+                            {% endif %}
+                           
+                    </span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div>

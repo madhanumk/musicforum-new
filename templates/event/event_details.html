@@ -1,0 +1,1099 @@
+{% extends 'base1.html' %}
+{% load event_request_status_tags %}
+{% load static %}
+
+{% block style %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block stylecss %}
+  .sched{
+      display: inline-block;
+      color: #a2a5b9;
+      font-size: .9rem;
+      margin-left: 6px;
+      font-family: Roboto, -apple-system, system-ui, BlinkMacSystemFont,"Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: .9rem;
+      color: #393a4f;
+  }
+  .shed{
+      height: 16px !important;
+      width: 16px !important;
+      stroke-width: 1.6px;
+      stroke: #5596e6;
+  }
+{% endblock %}
+
+
+{% block content %}
+{% include 'global_search.html' %}
+<div class="view-wrapper is-full">
+
+  <!--Wrapper-->
+  <div class="event-page-wrapper">
+
+    <!--Cover-->
+    <div class="event-cover">
+      {% if event.poster_image %}
+        <img class="cover-image" src="{{event.poster_image.url}}" alt="{{event}}">
+      {% else %}
+        <img class="cover-image" src="{% static 'images/empty/common_event_poster.jpg' %}" alt="{{event}}">
+      {% endif %}
+    </div>
+
+    <!--Main infos-->
+    <div class="event-content">
+      <div class="event-head">
+        <div class="left">
+          <h2>{{event}}</h2>
+          <!--<h3>{{event.from_date|date:"M,j, Y "}} - {{event.to_date|date:"M,j, Y "}}</h3>-->
+          <div class="button-separator">
+            <i data-feather="chevron-right"></i>
+          </div>
+          <div class="info-block">
+            <div class="info-head">
+              <div class="event-icon">
+                <img class="shed profile-page-icons" src="{% static 'images/icons/Sheduled.png' %}">
+              </div>
+              <span>Scheduled on</span>
+            </div>
+            <div class="info-body">
+              <p>{{event.from_date|date:"M,j, Y "}} - {{event.to_date|date:"M,j, Y "}}</p>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-head">
+              <div class="event-icon">
+                <img class="shed profile-page-icons" src="{% static 'images/icons/Location_1.png' %}">
+              </div>
+              <span>Location</span>
+            </div>
+            <div class="info-body">
+              <a>{{event.location}} ({{event.venue}})</a>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-head">
+              <div class="event-icon">
+                <img class="shed profile-page-icons" src="{% static 'images/icons/Share_1.png' %}">
+              </div>
+              <span class="share-span"> <a href="#" class="native-share-btn">Share</a></span>
+            </div>
+
+            <div class="info-body share-normal">
+              <div class="socials">
+                <a class="fbsharelink" href="#" target="_blank"><img class="shed profile-page-icons" src="{% static 'images/icons/Facebook_1.png' %}"></a>
+
+                <a class="twittersharelink"><img class="shed profile-page-icons" src="{% static 'images/icons/Twitter.png' %}"></a>
+
+                <a href="whatsapp://send?text=Join this event, {{event}}: {{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'event_details' event.id %}" data-action="share/whatsapp/share"></a><img
+                  src="{% static 'images/icons/Whatsapp_1.png' %}" class="profile-page-icons shed"></a>
+                {% comment %}
+                <a><i data-feather="instagram"></i></a>
+                {% endcomment %}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="info-block">
+            <a class="button primary-button raised is-phantom"  fdprocessedid="a1igz3" target="_blank" style="font-size:0.9rem;" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{event}}&details={{event.event_details|slice:":160"}}&dates={{event.from_date|date:"Ymd"}}T{{event.from_date|date:"Gi"}}00/{{event.to_date|date:"Ymd"}}T{{event.to_date|date:"Gi"}}00&location={{event.location}}">Add to Google Calendar</a>
+
+          </div>
+        </div>
+        <div class="right">
+
+          
+          <div class="info-block">
+            <div class="info-head" style="display: flex;">
+                <div class="event-icon">
+                    <img class="shed profile-page-icons" src="{% static 'images/icons/Skills wanted.png' %}"></i>
+                </div>
+                <span class="sched" style="color: #a2a5b9;font-size:0.9rem;">&nbsp;Skills Wanted</span>
+            </div>
+            <div class="info-body" style="font-size: 0.9rem;">
+                <p>
+                  {% for skill in event.event_skill_set.all %}
+                     {{skill}}
+                     {% if forloop.last %}  {% else %},{% endif %}
+                  {% empty %}
+                    -
+                  {% endfor %}
+                </p>
+            </div>
+        </div>
+        <div class="info-block">
+            <div class="info-head" style="display: flex;">
+                <div class="event-icon">
+                    <img class="shed profile-page-icons" src="{% static 'images/icons/Event type.png' %}"></i>
+                </div>
+                <span class="sched" style="color: #a2a5b9;font-size:0.9rem;"> &nbsp;Event Type</span>
+            </div>
+            <div class="info-body" style="font-size: 0.9rem;">
+                <p>{{event.event_type}}</p>
+            </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-head" style="display: flex;">
+              <div class="event-icon">
+                  <img class="shed profile-page-icons" src="{% static 'images/icons/Event Category.png' %}"></i>
+              </div>
+              <span class="sched" style="color: #a2a5b9;font-size:0.9rem;"> &nbsp; Event Category</span>
+          </div>
+          <div class="info-body" style="font-size: 0.9rem;">
+              <p>{{event.event_category}}</p>
+          </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-head" style="display: flex;">
+            <div class="event-icon">
+                <img class="shed profile-page-icons" src="/static/images/icons/Event%20Category.png">
+            </div>
+            <span class="sched" style="color: #a2a5b9;font-size:0.9rem;"> &nbsp; Event Ticket</span>
+        </div>
+        <div class="info-body" style="font-size: 0.9rem;">
+          {% if event.ticket_booking_link_1 %}
+            <a href="{{event.ticket_booking_link_1}}" target="_blank">Book Online</a>
+          {% endif %}
+
+          {% if event.ticket_booking_place %}
+            {% if event.ticket_booking_link_1 %}
+                ,
+            {% endif %}
+            Visit: {{event.ticket_booking_place|title}}
+          {% endif %}
+        
+
+        </div>
+    </div>
+        
+        </div>
+      </div>
+
+      <!--Participants-->
+      <div class="event-participants">
+        <div class="container-inner">
+
+          {% for user in event.accepted_persons %}
+          <a class="participant">
+            <div class="participant-avatar">
+              <img class="avatar"
+                src="{% if user.profile_picture %}{{user.profile_picture.url}}{% else %}{% static 'blank-profile-picture.webp' %}{% endif %}"
+                data-user-popover="1" alt="">
+            </div>
+          </a>
+          {% endfor %}
+
+        </div>
+      </div>
+
+      <!--Details-->
+      <div class="event-details">
+        <!--Left Side-->
+        <div class="left">
+          <div class="details-block">
+            <h3>Event Highlight</h3>
+            <p>{{event.highlight|safe}}</p>
+          </div>
+
+          <div class="details-block">
+            <h3>Event Details</h3>
+            <p>{{event.event_details|safe}}</p>
+
+            {% if event.event_video %}
+            <div class="video-block-wrapper">
+              <div id="video-embed" class="video-block-inner" data-url="{{event.event_video}}">
+                <div class="video-overlay"></div>
+                <div class="playbutton">
+                  <div class="icon-play">
+                    <i data-feather="play"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="photo-group">
+              {% for event_photo in event.event_photos.all %}
+
+              <a href="{{event_photo.photo.url}}" data-fancybox data-caption="">
+                <img src="{{event_photo.photo.url}}" alt="{{event}}">
+              </a>
+
+              {% endfor %}
+            </div>
+
+            <div class="input-group mb-3" style="margin-top: 20px;">
+
+
+              {% if user.is_authenticated %}              
+                
+                {% if not event.registration_close_date_status and not event.self_reference and event_created_by_me %}     
+                    <a class="btn btn-outline-secondary" style="background-color: #821ee9;color: white !important;"  href="{% url 'event_invite' event.id %}">
+                    Send Invitation</a>
+                {% elif not event.registration_close_date_status and not event.self_reference and not user.event_organizer and not user.gurukulam %}
+                
+                  {% get_request_status event.id user as status %}
+                
+                    
+                    {% if status.invitation %}
+                    
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="mt-4">Received invitation already</h4>
+                      </div>
+                      <div class="col-6"> </div>
+                      <div class="col-6">
+                        <u><a
+                            href="{% url 'get_message' messagetype='Invitation' pk=status.invitation_sent_id %}">{{status.last_message}}</a></u>
+                      </div>
+                      <div class="col-6">
+                    
+                      </div>
+                    </div>
+                    
+                    {% elif status.interest %}
+                    
+                    
+                    <div class="row">
+                      <div class="col-12">
+                        <hr>
+                        <h4 class="mt-4">Requested already..!</h4>
+                        View Message : <u><a
+                            href="{% url 'get_message' messagetype='Interest' pk=status.interest_sent_id %}">{{status.last_message}}</a></u>
+                      </div>
+                    
+                    
+                      <div class="col-6">
+                    
+                      </div>
+                    </div>
+                    
+                    {% else %}
+                      <form id="event_request_form">
+                        {% csrf_token %}                  
+                        <input class="form-control" placeholder="Type Here" id="get_msg" name="message">
+                        <input class="event_select d-none" type="checkbox" name="event" value="{{event.id}}" checked="checked" />
+                      </form>
+                      <button class="send_interest btn btn-outline-secondary" style="background-color: #821ee9;color: white;float:right;">Send Interest</button>
+                      
+                    {% endif %}
+                
+                {% endif %}
+              
+              
+              {% else %}
+                <hr>
+                <h4>Kindly login for sending interest <a class="btn btn-outline-secondary" style="background-color: #3d70e2;color: white;" href="{% url 'signin' %}">Login</a></h4>              
+              {% endif %}
+
+
+                <!--
+
+              <input type="text" class="form-control" placeholder="Type here" aria-label="Recipient's username" aria-describedby="button-addon2">
+
+              <a href="#" class="btn btn-outline-secondary" style="background-color: #3d70e2;color: white;" type="button" id="button-addon2">Send Request</a> 
+              
+                -->
+          </div>
+
+
+          </div>
+        </div>
+
+        <!--Right side-->
+        <div class="right">
+          <div class="event-owner">
+
+            {% if event.event_organizer.user.profile_picture %}
+            <img class="avatar" src="{{event.event_organizer.user.profile_picture.url}}">
+            {% elif event.gurukulam.user.profile_picture %}
+            <img class="avatar" src="{{event.gurukulam.user.profile_picture.url}}">
+            {% else %}
+            <img class="avatar" src="{% static 'blank-profile-picture.webp' %}">
+            {% endif %}
+
+
+            <div class="meta">
+              <span>Event organized by</span>
+              <span> {% if event.event_organizer %}
+                <a target="_blank" href="{% url 'profile' event.event_organizer.user.id %}"> {{event.event_organizer}}
+                </a>
+                {% elif event.gurukulam %}
+                <a target="_blank" href="{% url 'profile' event.gurukulam.user.id %}"> {{event.gurukulam}} </a>
+                {% endif %}</span></span>
+            </div>
+          </div>
+
+          <div class="side-block">
+            <div class="side-head">
+              <span>Phone Number</span>
+            </div>
+            <div class="side-body">
+              <a>{% if event.event_organizer %}
+                {{event.event_organizer.user.mobile_no|safe}}
+                {% elif event.gurukulam %}
+                {{event.gurukulam.user.mobile_no}}
+                {% endif %}</a>
+            </div>
+          </div>
+
+          <div class="side-block">
+            <div class="side-head">
+              <span>Email Address</span>
+            </div>
+            <div class="side-body">
+              <a>
+                {% if event.event_organizer.user.email %}
+                {{event.event_organizer.user.email|safe}}
+                {% elif event.gurukulam.user.email %}
+                {{event.gurukulam.user.email}}
+                {% else %}
+                -
+                {% endif %}
+              </a>
+            </div>
+          </div>
+
+          <div class="side-block">
+            <div class="side-head">
+              <span>Website</span>
+            </div>
+            <div class="side-body">
+              <a>
+                {% if event.event_organizer.website %}
+                {{event.event_organizer.website|safe}}
+                {% elif event.gurukulam.website %}
+                {{event.gurukulam.website}}
+                {% else %}
+                -
+                {% endif %}
+              </a>
+            </div>
+          </div>
+
+          <div class="event-owner">
+            <span style="font-size: 1.1rem;font-weight: 500;color: #393a4f;display: block;
+            font-family: Roboto, sans-serif;">Related Events</span>  
+          </div>
+
+          {% for event in related_category_events %}
+            <div class="side-block">
+                <div class="side-head">
+                    <span><a href="{% url 'event_details' event.id  %}">{{event}}</a></span>
+                </div>
+                <div class="side-body">
+                    <span>{{event.from_date|date:"M,j, Y "}} - {{event.to_date|date:"M,j, Y "}}</span>
+                    <span>{{event.event_type}} {{event.event_category}}</span>
+                </div>
+            </div>
+
+          {% empty %}
+            <div class="side-block">
+              <p>No data available..!</p>
+            </div>
+
+          {% endfor %}
+
+          <div class="event-owner" style="margin-left: -19px;">
+            <div class="meta">
+                <span>More events by</span>
+                <span> {% if event.event_organizer %} {{event.event_organizer}} {% else %} {{event.gurukulam}}{% endif %}</span>
+            </div>
+          </div>
+
+          {% for event in related_events %}
+          <div class="side-block">
+              <div class="side-head">
+                  <span><a href="{% url 'event_details' event.id  %}">{{event}}</a></span>
+              </div>
+              <div class="side-body">
+                  <span>{{event.from_date|date:"M,j, Y "}} - {{event.to_date|date:"M,j, Y "}}</span>
+                  <span>{{event.event_type}} {{event.event_category}}</span>
+              </div>
+          </div>
+
+        {% empty %}
+          <div class="side-block">
+            <p>No data available..!</p>
+          </div>
+
+        {% endfor %}
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% comment %}
+<!-- Content Begin-->
+
+<div class="wrapper pt-0">
+  <div class="breadcrumb-pt breadcrumb-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="breadcrumb-title">
+            <nav aria-label="breadcrumb">
+              <!---
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="discover_events.html">Discover Events</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Event detail View</li>
+                  </ol>
+                                -->
+            </nav>
+
+
+            <h3 class="title_text event-title">{{event}} <u><a class="fbsharelink fs-6 fw-bold" href="#" target="_blank"
+                  rel="noopener">Share this event on Facebook</a></u>
+            </h3>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="event-content-main">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-12 col-md-8">
+          <div class="event-card evnt55t">
+            <div class="container">
+              <div class="row event-top-div">
+                <div class="col-8 ">
+                  <div class="event-img-view">
+                    <div class="event-img">
+                      <div class="item-slide d-flex">
+                        {% if event.poster_image %}
+                        <img class="justify-content-center align-self-center img-lazy-load b-loaded"
+                          src="{{event.poster_image.url}}" alt="{{event}}">
+                        <div class="slider-blured-background"
+                          style="background-image: url('{{event.poster_image.url}}');"></div>
+                        {% else %}
+                        <img class="justify-content-center align-self-center img-lazy-load b-loaded"
+                          src="{% static 'images/empty_event.jpg' %}" alt="{{event}}">
+                        <div class="slider-blured-background"
+                          style="background-image: url('{% static 'images/empty_event.jpg' %}');"></div>
+
+
+
+                        {% endif %}
+                      </div>
+                    </div>
+                    <!-- Event Skill-->
+                    <div class="mt-4">
+                      <h5>
+                        {% for skill in event.event_skill_set.all %}
+                        {% if forloop.first %}
+                        <i class="fas fa-award me-2"></i> Skills Wanted :
+                        {% endif %}
+                        {{skill}}{% if forloop.last %} {% else %},{% endif %}{{ item }}</li>
+
+                        {% endfor %}
+                      </h5>
+                    </div>
+                    <div>
+
+                      <div class="mb-0">
+
+
+
+                        {% if user.is_authenticated %}
+
+
+                        {% if not event.registration_close_date_status and not event.self_reference and
+                        event_created_by_me %}
+
+                        <button class="accpt-btn  btn-hover accpt-btn-clr mt-2">
+                          <a class="btn" href="{% url 'event_invite' event.id %}">Send Invitation</a>
+                        </button>
+
+
+
+                        {% elif not event.registration_close_date_status and not event.self_reference and not
+                        user.event_organizer and not user.gurukulam %}
+
+                        {% get_request_status event.id user as status %}
+
+
+                        {% if status.invitation %}
+
+                        <div class="row">
+                          <div class="col-6">
+                            <h4 class="mt-4">Received invitation already</h4>
+                          </div>
+                          <div class="col-6"> </div>
+                          <div class="col-6">
+                            <u><a
+                                href="{% url 'get_message' messagetype='Invitation' pk=status.invitation_sent_id %}">{{status.last_message}}</a></u>
+                          </div>
+                          <div class="col-6">
+
+                          </div>
+                        </div>
+
+                        {% elif status.interest %}
+
+
+                        <div class="row">
+                          <div class="col-6">
+                            <h4 class="mt-4">Requested already..</h4>
+                            View Message : <u><a
+                                href="{% url 'get_message' messagetype='Interest' pk=status.interest_sent_id %}">{{status.last_message}}</a></u>
+                          </div>
+
+
+                          <div class="col-6">
+
+                          </div>
+                        </div>
+
+                        {% else %}
+                        <form id="event_request_form">
+                          {% csrf_token %}
+                          <h5>Message:</h5>
+                          <textarea class="form-control" id="get_msg" name="message"></textarea>
+                          <input class="event_select d-none" type="checkbox" name="event" value="{{event.id}}"
+                            checked="checked" />
+                        </form>
+                        <button style="float:right;" class="send_interest p-2  btn-hover btn mt-2">Send
+                          Interest</button>
+
+                        {% endif %}
+
+                        {% endif %}
+
+
+                        {% else %}
+                        <h4>Kindly login for sending interest <a href="{% url 'signin' %}">Login</a></h4>
+
+                        {% endif %}
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="col-4">
+
+                  <div class="event-card">
+
+                    <div class="evntdt99">
+
+                      <div class="mndtlist">
+                        <div class="evntflldt4 flxcntr">
+
+                          <div class="ttlpple">
+                            <span> <i class="fas fa-flag"></i> Event by
+                              {% if event.event_organizer %}
+                              <a target="_blank" href="{% url 'profile' event.event_organizer.user.id %}">
+                                {{event.event_organizer}} </a>
+                              {% elif event.gurukulam %}
+                              <a target="_blank" href="{% url 'profile' event.gurukulam.user.id %}"> {{event.gurukulam}}
+                              </a>
+                              {% endif %}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mndtlist mt-1">
+                        <div class="evntflldt4 flxcntr">
+                          <div class="ttlpple">
+                            <span>
+                              <i class="fas fa-map-marker-alt"></i> Location : {{event.location}} {% if venue %} - Venue
+                              : {{event.venue}} {% endif %}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mndtlist mt-1">
+                        <div class="evntflldt4">
+                          <div class="ttlpple">
+                            <span> <i class="fas fa-clock"></i> {{event.from_date}} to {{event.to_date}}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-1">
+                        <div class="col-6">
+                          <div class="mndtlist">
+                            <div class="evntflldt4">
+                              <div class="ttlpple">
+                                <span> <i class="fas fa-ticket-alt"></i> Type </span>
+                                <span class="wthrsml4"> {{event.event_type}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="mndtlist">
+                            <div class="evntflldt4">
+
+                              <div class="ttlpple">
+                                <span> <i class="fas fa-globe-asia"></i> Event Category </span>
+                                <span class="wthrsml4">{{event.event_category}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mndtlist">
+                        <div class="evntflldt4 flxcntr">
+
+                          <div class="ttlpple">
+                            <span>
+                              <h6>Highlight:</h6>
+                              <p> {{event.highlight|safe}}</p>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-12 event-details">
+
+          <div class="event-card mt-30">
+
+            <div class="evntdt99">
+              <div class="mndtlist">
+                <div class="mndesp145">
+                  <div class="evarticledes">
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="event-card mt-30">
+            <div class="headtte14m">
+              <h4>Description</h4>
+            </div>
+            <div class="evntdt99">
+              <div class="mndtlist">
+                <div class="mndesp145">
+                  <div class="evarticledes">
+                    <p class="mb-0">
+                      {{event.event_details|safe}}
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div>
+
+
+          </div>
+
+        </div>
+
+
+        <div class="col-lg-4 col-md-4">
+          <div class="event-card mt-30">
+            <div class="headtte14m">
+              <h4>Related Events </h4>
+            </div>
+            <div class="evntdt99 job-list" style='overflow-y:scroll;overflow-x:hidden;height:300px'>
+
+              {% for event in related_category_events %}
+
+              <div class="mndtlist">
+                <div class="media">
+
+                  <div class="media-body">
+                    <div class="row">
+                      <div class="col-2 ">
+                        <div class="job-left">
+                          {% if poster_image %}
+                          <img class="ft-plus-square job-bg-circle bg-cyan mr-1" src="{{event.poster_image.url}}"
+                            alt="">
+                          {% else %}
+
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="col-1 ">
+
+                      </div>
+
+                      <div class="col-9">
+                        <a href="{% url 'event_details' event.id %}" class="h6">{{event}}</a>
+                        <p class="notification-text font-small-4">
+                          <a href="#" class="cmpny-dt">{{event.from_date}}</a> <br>
+                          {{event.district}} -
+                          <a href="#" class="cmpny-dt">{{event.event_type}}</a>
+                          <a href="#" class="cmpny-dt">{{event.event_category}}</a>
+
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              {% endfor %}
+
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-8 col-md-12 mt-2">
+          <div class="event-card mt-30">
+            <div class="headtte14m">
+              <h4>Participant list </h4>
+            </div>
+            <div class="evntdthdt9">
+              <div class="hostprfle">
+
+
+                <div class="row mb-2 mt-2">
+
+                  {% if is_any_participant %}
+
+                  {% for invitation in invitations %}
+
+                  {% if invitation.musician %}
+
+                  <div class="card col-sm-5 ml-1" style="width: 18rem;">
+                    {% if invitation.musician.user.profile_picture %}
+                    <img src="{{invitation.musician.user.profile_picture.url}}" class="card-img-top" alt="...">
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title"> <a target="_blank"
+                          href="{% url 'profile' invitation.musician.user.id %}">{{invitation.musician.user}}</a></h5>
+                      <p class="card-text">{{invitation.musician.about_me|slice:":70"}}.</p>
+                    </div>
+                  </div>
+
+
+                  {% elif invitation.troupe %}
+
+                  <div class="card col-sm-5 ml-1" style="width: 18rem;">
+                    {% if invitation.troupe.user.profile_picture %}
+                    <img src="{{invitation.troupe.user.profile_picture.url}}" class="card-img-top" alt="...">
+
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title"><a target="_blank"
+                          href="{% url 'profile' invitation.troupe.user.id %}">{{invitation.troupe.user}}</a></h5>
+                      <p class="card-text">{{invitation.troupe.about_us|slice:":70"}}.</p>
+
+                    </div>
+                  </div>
+
+                  {% else %}
+
+
+                  <div class="card col-sm-5 ml-1" style="width: 18rem;">
+                    {% if invitation.gurukulam.user.profile_picture %}
+                    <img src="{{invitation.gurukulam.user.cover_picture.url}}" class="card-img-top" alt="...">
+
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title"><a target="_blank"
+                          href="{% url 'gurukulam' invitation.gurukulam.user.id %}">{{invitation.gurukulam.user}}</a>
+                      </h5>
+                      <p class="card-text">{{invitation.gurukulam.about_us|slice:":70"}}.</p>
+
+                    </div>
+                  </div>
+
+
+                  {% endif %}
+
+
+                  {% endfor %}
+
+
+
+                  {% for interest in interests %}
+
+                  {% if interest.musician %}
+
+                  <div class="card col-sm-5 ml-1" style="width: 18rem;">
+                    {% if interest.musician.user.profile_picture %}
+                    <img src="{{interest.musician.user.profile_picture.url}}" class="card-img-top" alt="...">
+
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title"> <a target="_blank"
+                          href="{% url 'profile' interest.musician.user.id %}">{{interest.musician.user}}</a></h5>
+                      <p class="card-text">{{interest.musician.about_me|slice:":70"}}.</p>
+
+                    </div>
+                  </div>
+
+                  {% elif interest.troupe %}
+
+                  <div class="card col-sm-5 ml-1" style="width: 18rem;">
+                    {% if interest.troupe.user.profile_picture %}
+                    <img src="{{interest.troupe.user.profile_picture.url}}" class="card-img-top" alt="...">
+
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title"><a target="_blank"
+                          href="{% url 'profile' interest.troupe.user.id %}">{{interest.troupe.user}}</a></h5>
+                      <p class="card-text">{{interest.troupe.about_us|slice:":70"}}.</p>
+
+                    </div>
+                  </div>
+
+                  {% endif %}
+
+                  {% endfor %}
+                  {% else %}
+                  <p>No participant..</p>
+
+                  {% endif %}
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-4 mt-4">
+          <div class="event-card mt-30">
+            <div class="headtte14m">
+              <h4>Events by this Event Organizer </h4>
+            </div>
+            <div class="evntdt99 job-list" style='overflow-y:scroll;overflow-x:hidden;height:300px'>
+
+              {% for event in related_events %}
+              <div class="mndtlist">
+                <div class="media">
+
+                  <div class="media-body">
+                    <div class="row">
+                      <div class="col-2 ">
+                        <div class="job-left">
+                          {% if poster_image %}
+                          <img class="ft-plus-square job-bg-circle bg-cyan mr-1" src="{{event.poster_image.url}}"
+                            alt="">
+                          {% else %}
+
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="col-1 ">
+
+                      </div>
+
+                      <div class="col-9">
+                        <a href="{% url 'event_details' event.id %}" class="h6">{{event}}</a>
+                        <p class="notification-text font-small-4">
+                          <a href="#" class="cmpny-dt">{{event.from_date}}</a> <br>
+                          {{event.district}} -
+                          <a href="#" class="cmpny-dt">{{event.event_type}}</a>
+                          <a href="#" class="cmpny-dt">{{event.event_category}}</a>
+
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="AjaxModal" tabindex="-1" role="dialog" aria-labelledby="AjaxModalLabel" aria-hidden="true">
+
+</div>
+
+
+<div class="modal" id="myModal2" data-backdrop="static">
+  <div class="modal-dialog  modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Skil</h4>
+        <button type="button" class="close m-out" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="container"></div>
+      <div class="modal-body">
+        <div id="skill_choose_div">
+
+          <label for="cars">Choose a category:</label>
+          <select class="skill_category_select" name="category" id="category">
+            <option value="">Choose</option>
+            {% for skill_category in skill_categories %}
+            <option value="{{skill_category.id}}">{{skill_category}}</option>
+            {% endfor %}
+
+          </select>
+
+          <table id="table_id" class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" style="max-width: 35px;">Choose Skills</th>
+                <th scope="col">Skill</th>
+              </tr>
+            </thead>
+
+          </table>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" data-dismiss="modal" class="btn m-out">Close</a>
+        <a href="#" id="move_skills" class="accpt-btn btn-hover accpt-btn-clr">Add Skills</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endcomment %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+
+
+    function nativeShare() {
+      navigator.share({
+        title: document.title,
+        text: 'Check out this link',
+        url: location.href,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    }
+
+    /**
+     * Hide share button if native share not supported
+    **/
+    if (!(navigator.share)) {
+      //Hide share button
+      $('.native-share-btn').hide();
+      // Add unsupported message
+      unsupportedMessage();
+      $('.share-span').html("Share");
+
+    }
+    else{
+     $('.share-normal').hide();
+
+    }
+
+    /**
+     * If the device is not supported, display a friendly message
+    **/
+    function unsupportedMessage() {
+      const message = document.createElement('p');
+      message.appendChild(document.createTextNode('Native sharing is not supported by your browser/device.'));
+      // Add button to DOM
+      document.body.appendChild(message);
+    }
+
+    //Share event Call
+    $(".native-share-btn").on('click', function (event) {
+      event.preventDefault();
+      nativeShare();
+    });
+
+
+
+  $('.fbsharelink').click(function () {
+    var shareurl = window.location.href;
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + escape(shareurl) + '&t=' + document.title, '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+    return false;
+  });
+
+  $('.twittersharelink').click(function () {
+    var url = "{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'event_details' event.id %}";
+    var text = "Join this event, {{event}}";
+    window.open('http://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+
+  });
+
+  $(".send_interest").click(function () {
+    event.preventDefault();
+    var eventCount = $('.event_select').filter(':checked').length;
+
+
+    if (!$("#get_msg").val()) {
+      alert('Enter Message');
+    }
+    else {
+
+      formdata = new FormData($('#event_request_form')[0]);
+      url = '{%url "event_request_send"   %}',
+
+      $(".send_interest").attr("disabled", true);
+      $(".send_interest").text("Please wait");
+
+      $.ajax({
+        url: url,
+        data: formdata,
+        method: 'post',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+
+        success: function (output) {
+          if (output.valid) {
+            window.location = "{% url 'my_opportunities' type="interest" %}";
+
+          }
+          else {
+            alert('Something went wrong')
+          }
+
+        },
+      });
+
+    }
+
+  });
+    });
+</script>
+
+{% endblock %}

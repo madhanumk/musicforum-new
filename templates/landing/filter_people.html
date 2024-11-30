@@ -1,0 +1,48 @@
+{% load static %}
+
+
+{% for user_object in users %}
+<div class="card-flex friend-card">
+    <div class="img-container">
+        {% if user_object.profile_picture %}
+        <img class="avatar" src="{{user_object.profile_picture.url}}" style="width: 80px;" alt="">
+        {% else %}
+        <img class="avatar" src="https://via.placeholder.com/200x200" style="width: 80px;"
+            data-demo-src="assets/img/david.jpg" alt="">
+        {% endif %}
+    </div>
+    <div class="friend-info">
+        <h3><a href="{% url 'profile' user_object.id %}">{{user_object}}</a></h3>
+        <p>
+            {% for group in user_object.groups.all %}
+            {{group}}
+            {% if not forloop.last %}
+            |
+            {% endif %}
+            {% endfor %}
+        </p>
+    </div>
+    <div class="friend-stats">
+        <div class="stat-block">
+            <label>Followers</label>
+            <div class="stat-number" count=" {{user_object.followers_count}}" id="user_id{{user_object.id}}">
+                {{user_object.followers_count}}
+            </div>
+        </div>
+        <div class="stat-block">
+            <label>Following</label>
+            <div class="stat-number">
+                {{user_object.following_count}}
+            </div>
+        </div>
+
+    </div>
+ 
+</div>
+<!--Friend-->
+{% empty %}
+<div class="card-flex friend-card">
+    Not Found..!
+</div>
+
+{% endfor %}

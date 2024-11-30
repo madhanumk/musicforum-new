@@ -1,0 +1,20 @@
+{% load static %}
+{% for highlight in user.highlight.all %}
+<div class="flex-block">
+    <!-- <img src="https://via.placeholder.com/400x400" data-demo-src="assets/img/icons/logos/slicer.svg" alt="" data-page-popover="4">-->
+    <div class="flex-block-meta">
+        <span>{{highlight}}</span>
+        <!--<a class="action-link">Edit your professional info</a>-->
+    </div>
+    <div class="go-button modal-trigger" data-modal="add-skill-item-modal">
+        <a class="ajax_edit" data-url="{% url 'ajax_edit' model_name='highlight' pk=highlight.id %}"><img src="{% static 'images/icons/Edit.png' %}" class="profile-page-icons"></a>
+    </div>
+    <!--<div class="go-button">
+        <i data-feather="arrow-right"></i>
+    </div>-->
+</div>
+{% empty %}
+<div class="flex-block">
+    <p>No data availabale..!</p>
+</div>
+{% endfor %}

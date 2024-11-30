@@ -1,0 +1,47 @@
+  
+                                                             {% for gurukulam in gurukulas %} 
+
+                                                             <div class="row mt-1">
+
+                                                                <div class="col-sm-2">
+                                                                    <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{{gurukulam.user.picture.url}}" alt="">
+                                                                </div>
+
+                                                                <div class="col-sm-10">
+
+                                                                    <div class="media-body">
+                                                    
+                                                                        <a href="{% url 'profile' gurukulam.user.id %}" target="_blank" class="h4">{{gurukulam}}</a> &nbsp; &nbsp; <input class="float-right mt-2 gurukulam_select"  type="checkbox" name="gurukulam" value="{{gurukulam.id}}">
+                    
+                                                                        <p class="notification-text font-small-4">
+                                                                              <a href="#" class="cmpny-dt">
+                                                                                {% for skill in gurukulam.gurukulam_skill_set.all %}
+                    
+                                                                                   {{skill}} -
+                    
+                                                                                {% endfor %}
+                    
+                                                                                </a>
+                                                                            
+                                                                            <span class="job-loca"><i class="fas fa-location-arrow"></i>  {{gurukulam.user.district}}</span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                             </div>
+                                                             
+                                                             {% empty %}
+                     
+                                                             <div class="jobs-list">
+                                                                 <div class="media">
+                                                                     <div class="job-left">
+                                                                     
+                                                                        <h4>No Gurukulam Found</h4>
+                                                                     </div>
+                                                                    
+                                                                 </div>
+                                                             </div>
+                                                         {% endfor %}

@@ -1,0 +1,32 @@
+{% load static %}
+
+{% for gurukulam_teacher in gurukulam_teachers %}
+<div class="column is-6">
+    <div class="friend-small-card flex-block">
+        {% if gurukulam_teacher.gurukulam.user.profile_picture %}
+            <img src="{{gurukulam_teacher.gurukulam.user.profile_picture.url}}">
+        {%  else %}
+            <img src="{% static 'blank-profile-picture.webp' %}">    
+        {% endif %}
+        <div class="meta">
+            <span>{{gurukulam_teacher.gurukulam.user}}</span>
+            <span>{{gurukulam_teacher.gurukulam.user.followers_count}} Followers</span>
+        </div>
+        
+        <div class="go-button modal-trigger">
+            <a  class="ajax-delete-btn" data-url="{% url 'ajax_delete' model_name='musician_teacher_gurukulam' pk=gurukulam_teacher.id %}">
+                <img src="{% static 'images/icons/Edit.png' %}" class="profile-page-icons">
+            </a>
+        </div>
+        
+    </div>
+</div>
+<!-- Friend -->
+
+{% empty %}
+    <div class="column is-6">
+        <div class="friend-small-card">
+            <h3>No content available..!</h3>
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,372 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from localhost:3000/signup-v2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Mar 2023 03:23:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> CMF | Signup</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png'%}" />
+
+    <style>
+
+        ul li{
+            display:inline;
+        }
+
+        .errorlist li{
+            color: red;
+        }
+        .field ul li{padding-right:10px;}
+    </style>
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                '../www.googletagmanager.com/gtm5445.html?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KQHJPZP');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/core.css'%}">
+</head>
+
+<body><script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='browser-sync/browser-sync-clientac69.js?v=2.27.10'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQHJPZP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="signup-wrapper">
+
+        <!--Fake navigation-->
+        <div class="fake-nav">
+            <a href="index.html" class="logo">
+                <img class="light-image" src="{% static 'assets/img/logo/logo.png'%}" width="150" height="33" alt="">
+                <img class="dark-image" src="{% static 'assets/img/logo/logo.png'%}" width="150" height="33" alt="">
+            </a>
+        </div>
+
+        <div class="container">
+            <!--Container-->
+            <div class="login-container is-centered">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h2 class="form-title has-text-centered mt-3">Hey there!</h2>
+                        <h3 class="form-subtitle has-text-centered">Lets create your account.</h3>
+
+                        <!--Form-->
+                        <form method="POST" action="" id="signupform">
+                            <div class="login-form p-5">
+                                <div class="form-panel">
+                                    <div class="columns is-multiline">
+                                        
+                                    
+                                        {% csrf_token %}
+
+                                        <div class="column is-6">
+                                            <div class="field">                                          
+                                                                
+                                                    {{ form.first_name.errors }}
+                                                    {{form.first_name.label}} *
+                                                    {{form.first_name}}  
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="column is-6">
+                                            <div class="field">
+                                                {{ form.last_name.errors }}
+                                                {{form.last_name.label}} 
+                                                {{form.last_name}}
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                {{ form.email.errors }}
+                                                {{form.email.label}} *
+                                                {{form.email}}
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                        
+                                            <div class="field">
+                                                {{ form.password1.errors }}
+                                                
+                                                {{form.password1.label}} *
+                                                
+                                                {{form.password1}}   
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                {{ form.password2.errors }}
+                                                {{form.password2.label}} *
+                                                {{form.password2}}         
+                                                
+                                
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                {{ form.groups.errors }}
+                                                {{form.groups.label}}  *
+                                                {{form.groups}}
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                {{ form.email_subscription.errors }}
+                                                {{form.email_subscription}}
+                                                
+                                                    {{form.email_subscription.label}} 
+                                                                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <input type="submit" style="margin-bottom: 5px;height:4em !important;" class="button is-solid primary-button is-fullwidth raised" value="Create Account"  /> 
+                                    
+                                </div>
+
+                        
+
+                                <div class="account-link has-text-centered">
+                                    <a href="{% url 'login' %}">Have an account? Sign In</a>
+                                </div>
+                                
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script>
+        $('input.group').on('change', function() {
+            $('input.group').not(this).prop('checked', false);  
+        });
+
+    </script>
+    <script>
+        var signupForm = document.getElementById("id_first_name");
+        signupForm.classList.add("input");
+        var signupForm = document.getElementById("id_last_name");
+        signupForm.classList.add("input");
+        var signupForm = document.getElementById("id_email");
+        signupForm.classList.add("input");
+        var signupForm = document.getElementById("id_password1");
+        signupForm.classList.add("input");
+        var signupForm = document.getElementById("id_password2");
+        signupForm.classList.add("input");
+        
+    </script>
+
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="{% static 'assets/js/app.js'%}"></script>
+    <script src="{% static 'https://js.stripe.com/v3/'%}"></script>
+    <script src="{% static 'assets/data/tipuedrop_content.js'%}"></script>
+
+    <!-- Core js -->
+    <script src="{% static 'assets/js/global.js'%}"></script>
+
+    <!-- Navigation options js -->
+    <script src="{% static 'assets/js/navbar-v1.js'%}"></script>
+    <script src="{% static 'assets/js/navbar-v2.js'%}"></script>
+    <script src="{% static 'assets/js/navbar-mobile.js'%}"></script>
+    <script src="{% static 'assets/js/navbar-options.js'%}"></script>
+    <script src="{% static 'assets/js/sidebar-v1.js'%}"></script>
+
+    <!-- Core instance js -->
+    <script src="{% static 'assets/js/main.js'%}"></script>
+    <script src="{% static 'assets/js/chat.js'%}"></script>
+    <script src="{% static 'assets/js/touch.js'%}"></script>
+    <script src="{% static 'assets/js/tour.js'%}"></script>
+
+    <!-- Components js -->
+    <script src="{% static 'assets/js/explorer.js'%}"></script>
+    <script src="{% static 'assets/js/widgets.js'%}"></script>
+    <script src="{% static 'assets/js/modal-uploader.js'%}"></script>
+    <script src="{% static 'assets/js/popovers-users.js'%}"></script>
+    <script src="{% static 'assets/js/popovers-pages.js'%}"></script>
+    <script src="{% static 'assets/js/lightbox.js'%}"></script>
+
+    <!-- Landing page js -->
+
+    <!-- Signup page js -->
+
+    <!-- Feed pages js -->
+
+    <!-- profile js -->
+
+    <!-- stories js -->
+
+    <!-- friends js -->
+
+    <!-- questions js -->
+
+    <!-- video js -->
+
+    <!-- events js -->
+
+    <!-- news js -->
+
+    <!-- shop js -->
+
+    <!-- inbox js -->
+
+    <!-- settings js -->
+
+    <!-- map page js -->
+
+    <!-- elements page js -->
+</body>
+
+
+<!-- Mirrored from localhost:3000/signup-v2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Mar 2023 03:23:45 GMT -->
+</html>
+
+
+
+{% comment %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+      
+        <div class="container ">
+            <h2 style="text-align: center;">Sign Up</h2>
+            <h4 style="text-align: center;">Please fill in this form to create an account.</h4>
+            <hr>
+            <form method="POST" action="" id="signupform"> 
+                {% csrf_token %} 
+                            
+                {{ form.first_name.errors }}
+                {{form.first_name.label}}  *
+                {{form.first_name}}
+
+                {{ form.last_name.errors }}
+                {{form.last_name.label}} 
+                {{form.last_name}}
+
+                {{ form.mobile_no.errors }}
+                {{form.mobile_no.label}} *
+                {{form.mobile_no}}
+
+                {{ form.email.errors }}
+                {{form.email.label}} *
+                {{form.email}}
+
+                {{ form.password1.errors }}
+                {{form.password1.label}} *                
+                
+                <div class="input-group flex-nowrap">
+                    {{form.password1}}                   
+                    <span class="input-group-text password-visibility-1" id="basic-addon2"><i class="fa change-icon-1 fa-eye-slash" aria-hidden="true"></i></span>
+                </div>
+
+                {{ form.password2.errors }}
+                {{form.password2.label}} *
+                
+                <div class="input-group flex-nowrap">
+                    {{form.password2}}                   
+                    <span class="input-group-text password-visibility-2" id="basic-addon2"><i class="fa change-icon-2 fa-eye-slash" aria-hidden="true"></i></span>
+                </div>
+
+                {{ form.groups.errors }}
+                {{form.groups.label}}  *
+                {{form.groups}}
+               
+                <hr>
+                <input type="submit" class="p-lr btn btn-primary" value="Sign Up"  />                 
+                 
+            </form>
+          
+            <div class="container signin mt-1">
+                <h6>Already have an account? <u><a href="{% url 'signin' %}">Sign in</a></u>.</h6>
+            </div>
+                      
+        </div>    
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+        <script>
+    
+            $( document ).ready(function() {    
+                //password visibility change    
+                $(".password-visibility-1").on('click', function() {
+        
+                    var inputType  = $('#id_password1').attr('type');
+                    if(inputType == "password"){
+                        $('#id_password1').attr('type','text');
+                        $('.change-icon-1').removeClass( "fa-eye-slash" );
+                        $('.change-icon-1').addClass( "fa-eye" );              
+                    }
+                    else{
+                        $('#id_password1').attr('type','password');
+                        $('.change-icon-1').removeClass( "fa-eye" );
+                        $('.change-icon-1').addClass( "fa-eye-slash" );                
+        
+                    }
+        
+                });
+
+                //password visibility change    
+                $(".password-visibility-2").on('click', function() {
+        
+                    var inputType  = $('#id_password2').attr('type');
+                    if(inputType == "password"){
+                        $('#id_password2').attr('type','text');
+                        $('.change-icon-2').removeClass( "fa-eye-slash" );
+                        $('.change-icon-2').addClass( "fa-eye" );              
+                    }
+                    else{
+                        $('#id_password2').attr('type','password');
+                        $('.change-icon-2').removeClass( "fa-eye" );
+                        $('.change-icon-2').addClass( "fa-eye-slash" );                
+        
+                    }        
+                });
+
+
+                $('input.group').on('change', function() {
+                    $('input.group').not(this).prop('checked', false);  
+                });
+            });
+        </script>
+ 
+
+{% endblock %}
+{% endcomment %}

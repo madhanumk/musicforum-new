@@ -1,0 +1,20 @@
+{% load static %}
+{% for skill in user.musician.musician_skill.all %}
+    <div class="flex-block">
+        <!-- <img src="https://via.placeholder.com/400x400" data-demo-src="assets/img/icons/logos/slicer.svg" alt="" data-page-popover="4">-->
+        <div class="flex-block-meta">
+            <span>{{skill}} -  {{skill.skill_level}}</span>
+            <!--<a class="action-link">Edit your professional info</a>-->
+        </div>
+        <div class="go-button modal-trigger">
+            <a class="ajax_edit" modelname="Skill" data-url="{% url 'ajax_edit' model_name='musician_skill' pk=skill.id %}"><img src="{% static 'images/icons/Edit.png' %}" class="profile-page-icons"></a>
+        </div>
+        <!--<div class="go-button">
+            <i data-feather="arrow-right"></i>
+        </div>-->
+    </div>
+{% empty %}
+    <div class="flex-block">
+        <p>No data availabale..!</p>
+    </div>
+{% endfor %} 

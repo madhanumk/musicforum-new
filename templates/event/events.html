@@ -1,0 +1,122 @@
+{% load static  %}
+
+{% for event in events %}  
+
+{% if user.musician or user.troupe %}
+
+    {% if forloop.first %}
+    <p class="float-right mr-3" style="text-align:right;margin-right:15px;">Select events to send request&nbsp; </p>                                                      
+    {% endif %}
+
+    <div class="jobs-list">
+        <div class="media">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="job-left">            
+                        {% if event.poster_image %}          
+                            <img class="ft-plus-square job-bg-circle bg-cyan mr-0" src="{{event.poster_image.url}}" alt="">  
+                        {% else %}
+                            <img class="ft-plus-square job-bg-circle bg-cyan mr-0" src="{% static 'images/empty_event.jpg' %}" alt="">  
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-sm-9">
+
+                    <div class="media-body">
+                        <div class="row">
+                        
+                            <div class="col-11">
+                                <a target="_blank" href="{% url 'event_details' event.id %}" class="h4">{{event}}</a>
+                                <div class="notification-text font-small-4">
+                                    <a href="#" class="cmpny-dt">{{event.from_date}}</a>
+                                    <span class="job-loca"><i class="fas fa-location-arrow"></i>{{event.district}}</span>    <br> 
+                                    <a href="#" class="cmpny-dt">{{event.event_type}}</a> 
+                                    <a href="#" class="cmpny-dt">{{event.event_category}}</a> 
+                                    {% if event.event_organizer %}                                                                                    
+                                      <a href="{% url 'profile' event.event_organizer.user.id %}" class="cmpny-dt">{{event.event_organizer}}</a> 
+                                    {% elif event.gurukulam %}
+                                     <a href="{% url 'profile' event.gurukulam.user.id %}" class="cmpny-dt">{{event.gurukulam}}</a> 
+                                    {% endif %}
+                                        <p>{{event.highlight|slice:":105" }} <a href="{% url 'event_details' event.id  %}">Read More</a></p>
+                                
+                                </div>
+                            </div>
+                            <div class="col-1 agree_checkbox">
+                                    <input class="mt-2 event_select" type="checkbox" name="event" value="{{event.id}}">
+                            </div>
+                        </div>                                           
+                    </div>
+
+                </div>
+
+
+            </div>
+        
+            
+        </div>
+    </div>  
+    
+{% else %}
+
+<div class="jobs-list">
+    <div class="media">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="job-left">            
+                    {% if event.poster_image %}          
+                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0" src="{{event.poster_image.url}}" alt="">  
+                    {% else %}
+                        <img class="ft-plus-square job-bg-circle bg-cyan mr-0" src="{% static 'images/empty_event.jpg' %}" alt="">  
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-sm-9">
+
+                <div class="media-body">
+                    <div class="row">
+                    
+                        <div class="col-12">
+                            <a target="_blank" href="{% url 'event_details' event.id %}" class="h4">{{event}}</a>
+                            <div class="notification-text font-small-4">
+                                <a href="#" class="cmpny-dt">{{event.from_date}}</a>
+                                <span class="job-loca"><i class="fas fa-location-arrow"></i>{{event.district}}</span>    <br> 
+                                <a href="#" class="cmpny-dt">{{event.event_type}}</a> 
+                                <a href="#" class="cmpny-dt">{{event.event_category}}</a> 
+                                {% if event.event_organizer %}                                                                                    
+                                <a href="{% url 'profile' event.event_organizer.user.id %}" class="cmpny-dt">{{event.event_organizer}}</a> 
+                                {% elif event.gurukulam %}
+                                <a href="{% url 'profile' event.gurukulam.user.id %}" class="cmpny-dt">{{event.gurukulam}}</a> 
+                                {% endif %}
+                                <p>{{event.highlight|slice:":105" }} <a href="{% url 'event_details' event.id  %}">Read More</a></p>
+                            
+                            </div>
+                        </div>
+                       
+                    </div>                                           
+                </div>
+
+            </div>
+
+
+        </div>
+    
+        
+    </div>
+</div> 
+
+{% endif %}
+
+{% empty %}                                                
+<div class="jobs-list">
+    <div class="media">
+        <div class="job-left">                                                                
+            No event found
+        </div>
+    
+    </div>
+</div>                                                
+{% endfor %}

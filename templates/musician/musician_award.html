@@ -1,0 +1,29 @@
+{% load static %}
+
+{% for award in user.musician.musician_award.all %}
+    <div class="column is-6">
+        <div class="friend-small-card flex-block">
+            
+            <img src="{{award.image.url}}">
+            
+            <div class="meta">
+                <span>{{award.title}}</span>
+                
+            </div>
+            
+            <div class="go-button modal-trigger">
+                <a  class="ajax_edit" data-url="{% url 'ajax_edit' model_name='musician_award' pk=award.id %}" modelname="Award">
+                    <img src="{% static 'images/icons/Edit.png' %}" class="profile-page-icons">
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+{% empty %}
+    <div class="column is-6">
+        <div class="friend-small-card">
+            <h3>No content available..!</h3>
+        </div>
+    </div>
+{% endfor %}

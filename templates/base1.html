@@ -1,0 +1,369 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>CMF</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" />
+    <script src="{% static 'jquery-3.6.4.min.js' %}"></script>
+
+    {% block style %}
+
+    {% endblock %}
+
+
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/fontisto/3.0.4/css/fontisto/fontisto-brands.min.css"
+        integrity="sha512-MZfzXa+31toFud7RaSpa74inOVyrjgFxc586kllRQUOLi2z1gCcdIDA2qaMTTvEz4qIfAKDoJyBi+Zu/5uR7pA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/custom-style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/core.css' %}">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/LikaloLLC/tourguide.js@0.2.0/tourguide.css'>
+    
+
+    <script src="{% static 'jquery-3.6.4.min.js' %}"></script>
+
+    <script src="{% static 'js/common.js' %}"></script>
+
+    <style>
+        .mgt-60 {
+            margin-top: 40px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 30%;
+            position: relative;
+            transition: all 5s ease-in-out;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .popup .close:hover {
+            color: #06D85F;
+        }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+        @media screen and (max-width: 700px) {
+            .box {
+                width: 100%;
+            }
+
+            .popup {
+                width: 70%;
+            }
+        }
+
+        {% block stylecss %}
+
+        {% endblock %}
+    </style>
+</head>
+
+<body>
+    <script id="__bs_script__">//<![CDATA[
+        document.write("<script async src='browser-sync/browser-sync-clientac69.js?v=2.27.10'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+  
+
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div>
+    <div id="main-navbar" class="navbar navbar-v1 is-inline-flex is-transparent no-shadow is-hidden-mobile">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <img class="logo light-image" src="{% static 'assets/img/logo/logo.png' %}" width="112" height="28"
+                        alt="">
+                    <img class="logo dark-image" src="{% static 'assets/img/logo/logo.png' %}" width="112" height="28"
+                        alt="">
+                </a>
+            </div>
+            <div class="navbar-menu">
+                {% include "menu.html" %}
+            </div>
+        </div>
+    </div>
+    <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img class="" src="{% static 'assets/img/logo/logo.png' %}" alt="Padani Music Forum">
+            </a>
+
+            <div class="navbar-item is-icon drop-trigger">
+
+
+                <div class="nav-drop">
+
+                </div>
+            </div>
+
+
+            <div id="open-mobile-search" class="navbar-item is-icon mob-search-position">
+                <a class="icon-link is-primary" href="javascript:void(0);">
+                    <i data-feather="search"></i>
+                </a>
+            </div>
+
+            <!-- Mobile menu toggler icon -->
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown is-active">
+                <a href="{% url 'my_profile' %}" class="navbar-link">
+                    {% if user.profile_picture %}
+						<img src="{{user.profile_picture.url}}" alt="{{user}}">
+                    {% else %}
+						<img src="{% static 'blank-profile-picture.webp' %}" alt="{{user}}">
+                    {% endif %}
+                    <span class="is-heading">{{user}}</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+				
+					<div class="control has-icons-left">
+						<div class="select disp-blk-nne">                                             
+							<select class=" city_dropdown"  name="city" id="city">
+								{% for city in cities %}              
+									<option value="{{city}}">{{city}}</option>
+								{% endfor %}								
+							</select>               
+						</div>
+						<div class="icon is-small is-left">
+							<i class="mdi mdi-earth"></i>
+						</div>
+					</div>
+
+                    <a href="{% url 'home' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="home"></i>Home</span>
+
+                    </a>
+
+                    {% if user.musician or user.troupe %}
+						<a href="{% url 'my_opportunities' type='invitation' %}" class="navbar-item is-flex is-mobile-icon">
+							<span><i data-feather="mail"></i> Event Inbox</span>
+						</a>
+                    {% elif user.event_organizer or user.gurukulam %}
+						<a href="{% url 'recent_events' %}" class="navbar-item is-flex is-mobile-icon">
+							<span><i data-feather="message-square"></i> My Events</span>
+						</a>
+                    {% endif %}
+
+                    <a href="{% url 'inbox' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="message-square"></i> Chatbox</span>
+                    </a>
+
+                    <a href="{% url 'my_profile' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="user"></i> My Profile</span>
+                    </a>
+                    <a href="{% url 'following' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="activity"></i>My Network</span>
+                    </a>
+
+
+                </div>
+            </div>
+
+            <!-- More -->
+            <div class="navbar-item has-dropdown">
+                <a href="#" class="navbar-link">
+                    <i data-feather="user"></i>
+                    <span class="is-heading">Account</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+
+                    <a href="{% url 'logout' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="log-out"></i>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--Search-->
+        <div class="mobile-search is-hidden">
+            <div class="control">
+				<form id="search-form" action="{% url 'all_peoples' %}">
+					<input  class="input" placeholder="Search..." name="name">
+					<div class="form-icon">
+						<i data-feather="search" class="mob-search-position"></i>
+					</div>
+					<div class="close-icon">
+						<i data-feather="x"></i>
+					</div>
+					<div id="tipue_drop_content_mobile" class="tipue-drop-content"></div>
+				</form>
+            </div>
+        </div>
+    </nav>
+
+
+
+    {% block content %}
+
+
+
+    {% endblock %}
+
+
+
+
+    <div class="footer">
+        <div class="container">
+            <span style="text-align: center !important;">2023 Music Forum. All rights reserved.</span>
+        </div>
+    </div>
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'assets/data/tipuedrop_content.js' %}"></script>
+
+    <!-- Core js -->
+    <script src="{% static 'assets/js/global.js' %}"></script>
+
+    <!-- Navigation options js -->
+    <script src="{% static 'assets/js/navbar-v1.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-v2.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-mobile.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-options.js' %}"></script>
+    <script src="{% static 'assets/js/sidebar-v1.js' %}"></script>
+
+    <!-- Core instance js -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/chat.js' %}"></script>
+    <script src="{% static 'assets/js/touch.js' %}"></script>
+    <script src="{% static 'assets/js/tour.js' %}"></script>
+
+    <!-- Components js -->
+    <script src="{% static 'assets/js/explorer.js' %}"></script>
+    <script src="{% static 'assets/js/widgets.js' %}"></script>
+    <script src="{% static 'assets/js/modal-uploader.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-users.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-pages.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+
+    <!-- Feed pages js -->
+    <script src="{% static 'assets/js/feed.js' %}"></script>
+    <script src="{% static 'assets/js/webcam.js' %}"></script>
+    <script src="{% static 'assets/js/compose.js' %}"></script>
+    <script src="{% static 'assets/js/autocompletes.js' %}"></script>
+    <script src="{% static 'assets/js/friends.js' %}"></script>
+    <script src="{% static 'assets/js/profile.js' %}"></script>
+    <script src="{% static 'assets/js/inbox.js' %}"></script>
+
+    <script src='https://cdn.jsdelivr.net/gh/LikaloLLC/tourguide.js@0.2.0/tourguide.min.js'></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.modal').on('click', '.close-modal', function () {
+                $(".modal.is-active").removeClass("is-active");
+            });
+
+
+            $('.update-city').click(function(event){
+                event.preventDefault();
+                const  location = $(this).attr('city');
+                const name = $(this).attr('name');
+                const url  = '{% url 'update_location' %}';                
+                $.ajax({
+                    url: url,
+                    data: { 'location': location },
+                    dataType: 'json',                    
+                    success: function (data) {
+
+                        if (data.updated) {
+                            $('.location-name').text(name + " ▾");
+                            $('.location-dropdown').removeClass('is-active');
+                            alert('Location Updated Successfully..!');
+
+                        }
+
+                        else {
+
+                            alert('Something went wrong. Contact Adminstrator!')
+
+                        }
+
+                    },
+
+                    });
+     
+            });
+
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

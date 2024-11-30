@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load check_post_like_tags %}
+{% load follow_status_tags %}
+
+{% block content %}
+ 
+<!-- BreadCrumb Starts -->  
+<section class="breadcrumb-main pb-0 pt-3" style="background-image: url(images/bg/bg2.jpg);">
+    <div class="breadcrumb-outer">
+        <div class="container">
+            <div class="breadcrumb-content d-md-flex align-items-center pt-1">
+              
+                <nav aria-label="breadcrumb">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Troupe Invitation</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="dot-overlay"></div>
+</section>
+<!-- BreadCrumb Ends --> 
+
+<!-- blog starts -->
+<section class="blog blog-left">
+    <div class="container">
+        <div class="row">
+               <!-- sidebar starts -->
+               <div class="col-lg-3 col-md-12">
+                    <div class="sidebar-sticky">
+                        <div class="list-sidebar">
+                        <div class="author-news mb-1 shadow-sm p-4 text-center">
+                            <div class="author-news-content">
+                                <div class="author-thumb">
+                                    {% if user.profile_picture %}
+                                        <img src="{{user.profile_picture.url}}" alt="author">
+                                    {% else %}
+                                        <img src="{% static 'images/avatar.png' %}">
+                                    {% endif %}
+                                </div>
+                                <div class="author-content">
+                                    <h3 class="title mb-1 text-align-left"><a href="{%url 'my_profile' %}">{{user}} :  
+                                         {% for group in user.groups.all %}
+                                               {{group}} 
+                                                 {% if not forloop.last %}
+                                                     /
+                                                 {% endif %}
+                                    {% endfor %}</a></h3>
+                                    
+
+                                       
+                                </div>
+                            </div>
+                        </div>
+                            <div class="popular-post sidebar-item mb-4 box-shadow p-4">                                
+                             
+
+                           
+                           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+         
+
+                <div class="col-lg-6">
+                        <div class="listing-inner">
+
+                            <div class="blog-full mb-4 border-b pb-4">
+
+                                <div class="row">
+         
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 list-group-profile-photos">
+                        
+                                        
+                                <h3 class="text-center mt-2">Troupe Invitation</h3>
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                     Troupe Name : <a target="_blank" href="{% url 'profile' troupe_invitation.troupe.user.id %}">{{troupe_invitation.troupe.user}} </a><br>
+                                
+                                   
+                                    <hr>
+                                     <h4>Invitation</h4>
+                                        <form method='post' action="">
+                                            {% csrf_token %}
+                                            
+                                                {% if troupe_invitation.status == "S" %}
+                        
+                                                    <select class="form-control w-50" name="status" id="status">
+                                                    <option value="A">Choose</option>
+                                                    <option value="A">Accept</option>
+                                                    <option value="R">Reject</option>
+                        
+                                                    </select>
+                                                    <br>
+                        
+                                                    <input type="submit" value="Update" class="btn btn-primary">
+                        
+                                                {% else %}
+                                                  <h3>You {{troupe_invitation.get_status_display}} the Invitation</h3>                      
+                                                {% endif %}
+                         
+                                        </form>
+                        
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                        
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+                        </div>
+                </div>
+             
+                <div class="col-lg-3 col-md-12">                    
+                    {% include "find_people.html" %}
+                    
+                </div>
+
+        
+         
+        </div>
+    </div>
+</section>
+<!-- blog Ends -->  
+
+<script src="{% static 'js-v2/follow_unfollow.js' %}"></script>
+<script src="{% static 'js-v2/find_people.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% load crispy_forms_tags %}
+
+{% if operation == "Add" %}
+  <div class="modal-dialog modal-lg  modal-dialog-scrollable" role="document" id="{{model_name}}_Modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+            {{operation}}  {% if model_name == "profile_project" %} Project {% else %}{{model_name}} {% endif %} 
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="event_form" enctype="multipart/form-data">     
+            {% csrf_token %}
+            <div class="row">
+              {% for field in form %}
+                <div class="col-6">
+                  {{ field|as_crispy_field }}
+                </div>                
+              {% endfor %}
+            </div>    
+            
+            <p id="add_skill" event_id="{{event_id}}" class="ml-2 mt-2 btn">+ Required Skill</p>
+            <div class="skill_move_here">
+
+            </div>
+               
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span style="color:red" id="info_text"></span>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+        <button type="button" id="create_event_btn" data-url= "{% url 'ajax_add' model_name=model_name  %}" class="btn btn-primary ajax-add-{{model_name}}-btn">Save</button>
+      
+        </div>
+    </div>
+  </div>
+
+{% else %}
+
+  <div class="modal-dialog modal-lg  bd-example-modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+            {{operation}} {{model_name}}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="event_form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              {% for field in form %}
+                <div class="col-6">
+                  {{ field|as_crispy_field }}
+                </div>                
+              {% endfor %}
+            </div>      
+            <p id="add_skill" event_id="{{event_id}}" class="ml-2 btn mt-2">+ Required Skill</p>
+            <div class="skill_move_here">
+     
+            </div>
+           </form>
+     
+           <div id="skill_list" class="row">        
+          
+             {% for event_skill in event_skills %}
+               <div class="col-4" id="skill_id_{{event_skill.id}}">
+                 <button id="skill_id_{{event_skill.id}}" class="btn btn-primary remove_skill" data-url="{% url 'ajax_remove_skill' event_skill.id  %}"><a class="text-white" href="">{{event_skill.skill}} &#x2716;</a></button></li>
+               </div>
+             {% endfor %}
+           </div>
+            
+            
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span style="color:red" id="info_text"></span>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button"  data-url="{% url 'ajax_event_delete' model_name=model_name pk=event_id %}?page={{page}}" class="btn btn-secondary ajax-delete-btn">Delete</button>
+        <button type="button" id="update_event_btn"  data-url="{% url 'ajax_event_edit' model_name=model_name pk=event_id %}?page={{page}}" class="btn btn-primary ajax-edit-{{model_name}}-btn">Update</button>     
+      </div>
+    </div>
+  </div>
+
+
+{% endif %}

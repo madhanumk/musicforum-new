@@ -1,0 +1,486 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>CMF | Artist List</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" />
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                '../www.googletagmanager.com/gtm5445.html?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KQHJPZP');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/core.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/custom-style.css' %}">
+    <style>
+        .card.is-post .content-wrap .post-link,
+        .shop-wrapper .cart-container .cart-content .cart-summary .is-post.summary-card .content-wrap .post-link {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            background: none;
+            margin: 16px 0 10px 0
+        }
+    </style>
+</head>
+
+<body>
+    <script id="__bs_script__">//<![CDATA[
+        document.write("<script async src='browser-sync/browser-sync-clientac69.js?v=2.27.10'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQHJPZP" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div>
+    <div id="main-navbar" class="navbar navbar-v1 is-inline-flex is-transparent no-shadow is-hidden-mobile">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <img class="logo light-image" src="{% static 'assets/img/logo/logo.png' %}" width="112" height="28"
+                        alt="">
+                    <img class="logo dark-image" src="{% static 'assets/img/logo/logo.png' %}" width="112" height="28"
+                        alt="">
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <!-- Navbar Search -->
+                </div>
+                 
+                <form  method="get" id="location-form">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="control location-select-div">
+                            <select class="form-panel change-location" id="location" name="location">
+                                <option>-Select Location-</option>
+                                {% for location in locations %}
+                                <option value="{{location.id}}" {% if location_id == location.id|stringformat:"s" %}
+                                    selected {% endif %}>{{location}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="navbar-item">
+                        <a href="{% url 'login' %}" class="button is-solid primary-button"
+                            style="color:#fff !important;">Sign
+                            In</a>
+                    </div>
+                </div>
+
+               </form>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img class="" src="{% static 'assets/img/logo/logo.png' %}" alt="">
+            </a>
+
+            <div class="navbar-item is-icon drop-trigger">
+                <div class="nav-drop">
+                    <div class="inner">
+                        <div class="nav-drop-header">
+                            <span>Friend requests</span>
+                            <a href="#">
+                                <i data-feather="search"></i>
+                            </a>
+                        </div>
+                        <div class="nav-drop-body is-friend-requests">
+                            <!-- Friend request -->
+                            <div class="media">
+                                <figure class="media-left">
+                                    <p class="image">
+                                        <img src="https://via.placeholder.com/300x300"
+                                            data-demo-src="assets/img/avatars/bobby.jpg" alt="">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <a href="#">Bobby Brown</a>
+                                    <span>Najeel verwick is a common friend</span>
+                                </div>
+                                <div class="media-right">
+                                    <button class="button icon-button is-solid grey-button raised">
+                                        <i data-feather="user-plus"></i>
+                                    </button>
+                                    <button class="button icon-button is-solid grey-button raised">
+                                        <i data-feather="user-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Friend request -->
+                            <div class="media">
+                                <figure class="media-left">
+                                    <p class="image">
+                                        <img src="https://via.placeholder.com/300x300"
+                                            data-demo-src="assets/img/avatars/dan.jpg" alt="">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <a href="#">Dan Walker</a>
+                                    <span>You have 4 common friends</span>
+                                </div>
+                                <div class="media-right">
+                                    <button class="button icon-button is-solid grey-button raised">
+                                        <i data-feather="user-plus"></i>
+                                    </button>
+                                    <button class="button icon-button is-solid grey-button raised">
+                                        <i data-feather="user-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Friend request -->
+                            <div class="media">
+                                <figure class="media-left">
+                                    <p class="image">
+                                        <img src="https://via.placeholder.com/300x300"
+                                            data-demo-src="assets/img/avatars/nelly.png" alt="">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <span>You are now friends with <a href="#">Nelly Schwartz</a>. Check her <a
+                                            href="#">profile</a>.</span>
+                                </div>
+                                <div class="media-right">
+                                    <div class="added-icon">
+                                        <i data-feather="tag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Friend request -->
+                            <div class="media">
+                                <figure class="media-left">
+                                    <p class="image">
+                                        <img src="https://via.placeholder.com/300x300"
+                                            data-demo-src="assets/img/avatars/milly.jpg" alt="">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <a href="#">Milly Augustine</a>
+                                    <span>You have 8 common friends</span>
+                                </div>
+                                <div class="media-right">
+                                    <button class="button icon-button is-solid grey-button raised">
+                                        <i data-feather="user-plus"></i>
+                                    </button>
+                                    <button class="button icon-button is-solid grey-button raised">
+                                        <i data-feather="user-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Friend request -->
+                            <div class="media">
+                                <figure class="media-left">
+                                    <p class="image">
+                                        <img src="https://via.placeholder.com/300x300"
+                                            data-demo-src="assets/img/avatars/elise.jpg" alt="">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <span>You are now friends with <a href="#">Elise Walker</a>. Check her <a
+                                            href="#">profile</a>.</span>
+                                </div>
+                                <div class="media-right">
+                                    <div class="added-icon">
+                                        <i data-feather="tag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Friend request -->
+                            <div class="media">
+                                <figure class="media-left">
+                                    <p class="image">
+                                        <img src="https://via.placeholder.com/300x300"
+                                            data-demo-src="assets/img/avatars/edward.jpeg" alt="">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <span>You are now friends with <a href="#">Edward Mayers</a>. Check his <a
+                                            href="#">profile</a>.</span>
+                                </div>
+                                <div class="media-right">
+                                    <div class="added-icon">
+                                        <i data-feather="tag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-drop-footer">
+                            <a href="#">View All</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="open-mobile-search" class="navbar-item is-icon">
+                <a class="icon-link is-primary" href="javascript:void(0);">
+                    <i data-feather="search"></i>
+                </a>
+            </div>
+
+            <!-- Mobile menu toggler icon -->
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown is-active">
+                <a href="/navbar-v1-profile-main.html" class="navbar-link">
+                    <img src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/jenna.png" alt="">
+                    <span class="is-heading">Jenna Davis</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="home"></i>Home</span>
+
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="mail"></i> Event Inbox</span>
+
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="message-square"></i> Chatbox</span>
+
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="user"></i> My Profile</span>
+
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="activity"></i>My Network</span>
+
+                    </a>
+
+
+                </div>
+            </div>
+
+            <!-- More -->
+            <div class="navbar-item has-dropdown">
+                <a href="/navbar-v1-settings.html" class="navbar-link">
+                    <i data-feather="user"></i>
+                    <span class="is-heading">Account</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="log-out"></i>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--Search-->
+        <div class="mobile-search is-hidden">
+            <div class="control">
+                <input id="tipue_drop_input_mobile" class="input" placeholder="Search...">
+                <div class="form-icon">
+                    <i data-feather="search"></i>
+                </div>
+                <div class="close-icon">
+                    <i data-feather="x"></i>
+                </div>
+                <div id="tipue_drop_content_mobile" class="tipue-drop-content"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="view-wrapper">
+
+        
+
+        <div id="friends-page" class="friends-wrapper main-container">
+
+            <!--First tab-->
+            <div id="all-friends" class="card-row-wrap is-active">
+                <div class="card-row-placeholder is-hidden">
+                    No matching results
+                </div>
+                <div class="card-row people_div">
+                    <!-- /partials/pages/friends/friend-lists/all-friends.html -->
+                      {% for user_object in users %}
+                    <!--Friend-->
+                    <div class="card-flex friend-card">
+
+                        <div class="img-container">
+                            {% if user_object.profile_picture %}
+                                <img class="avatar" src="{{user_object.profile_picture.url}}" style="width: 80px;" alt="">
+                            {% else %}
+                                <img class="avatar" src="{% static 'blank-profile-picture.webp' %}" style="width: 80px;" alt="">
+                            {% endif %}
+
+                        </div>
+                        <div class="friend-info">
+                            <h3><a href="{% url 'profile' user_object.id %}">{{user_object}}</a></h3>
+                            <p>             
+                            {% for group in user_object.groups.all %}
+                                {{group}} 
+                            {% if not forloop.last %}
+                                | 
+                                {% endif %}
+                            {% endfor %}</p>
+                        </div>
+                        <div class="friend-stats">
+                            <div class="stat-block">
+                                <label>Followers</label>
+                                <div class="stat-number" count=" 7" id="user_id6">
+                                    {{user_object.followers_count}}
+                                </div>
+                            </div>
+                            <div class="stat-block">
+                                <label>Following</label>
+                                <div class="stat-number">
+                                    {{user_object.following_count}}
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                    <!--Friend-->
+
+                    {% empty %}
+
+                    <div class="card-flex friend-card">
+                        <h1>No users found..!</h1>
+                    </div>
+
+                    {% endfor %}
+
+
+
+                </div>
+            </div>
+
+
+            {% if users.has_other_pages %}
+            <ul class="pagination">
+                {% if users.has_previous %}
+                <li class="page-item"><a href="?page={{ users.previous_page_number }}&location={{location_id}}" class="page-link">Previous</a></li>
+                {% else %}
+                <li class="disabled page-item"><span class="page-link">Previous</span></li>
+                {% endif %}
+                {% for i in users.paginator.page_range %}
+                {% if users.number == i %}
+                    <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li class="page-item"><a href="?page={{ i }}&location={{location_id}}" class="page-link">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if users.has_next %}
+                <li class="page-item"><a href="?page={{ users.next_page_number }}&location={{location_id}}" class="page-link">Next</a></li>
+                {% else %}
+                <li class="disabled page-item"><span class="page-link">Next</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+  
+
+    </div>
+
+        <!-- Concatenated js plugins and jQuery -->
+        <script src="{% static 'assets/js/app.js' %}"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="{% static 'assets/data/tipuedrop_content.js' %}"></script>
+
+        <!-- Core js -->
+        <script src="{% static 'assets/js/global.js' %}"></script>
+
+        <!-- Navigation options js -->
+        <script src="{% static 'assets/js/navbar-v1.js' %}"></script>
+        <script src="{% static 'assets/js/navbar-v2.js' %}"></script>
+        <script src="{% static 'assets/js/navbar-mobile.js' %}"></script>
+        <script src="{% static 'assets/js/navbar-options.js' %}"></script>
+        <script src="{% static 'assets/js/sidebar-v1.js' %}"></script>
+
+        <!-- Core instance js -->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+        <script src="{% static 'assets/js/chat.js' %}"></script>
+        <script src="{% static 'assets/js/touch.js' %}"></script>
+        <script src="{% static 'assets/js/tour.js' %}"></script>
+
+        <!-- Components js -->
+        <script src="{% static 'assets/js/explorer.js' %}"></script>
+        <script src="{% static 'assets/js/widgets.js' %}"></script>
+        <script src="{% static 'assets/js/modal-uploader.js' %}"></script>
+        <script src="{% static 'assets/js/popovers-users.js' %}"></script>
+        <script src="{% static 'assets/js/popovers-pages.js' %}"></script>
+        <script src="{% static 'assets/js/lightbox.js' %}"></script>
+
+        <!-- Feed pages js -->
+        <script src="{% static 'assets/js/feed.js' %}"></script>
+        <script src="{% static 'assets/js/webcam.js' %}"></script>
+        <script src="{% static 'assets/js/compose.js' %}"></script>
+        <script src="{% static 'assets/js/autocompletes.js' %}"></script>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyBUCoNkfRd5XxzXQdlOWiauHvqqTizw2pk"></script>
+
+        <script>
+            $(document).ready(function () {
+                //change location
+                $('.location-select-div').on('change', '.change-location', function () {
+                    event.preventDefault();
+                    $('#location-form').submit();                   
+
+                });
+
+
+            });
+        </script>
+</body>
+
+</html>

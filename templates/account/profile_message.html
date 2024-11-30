@@ -1,0 +1,136 @@
+{% load static %}
+
+
+<div class="modal-background"></div>
+<div class="modal-content" style="overflow-y: hidden;">
+
+    <div class="card">
+        <div class="card-heading">
+            <h3>{{receiver}}</h3>
+
+            <!-- Close X button -->
+            <div class="close-wrap">
+                <span class="close-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </span>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Placeholder -->
+            <div class="selection-placeholder">
+                <div class="columns">
+                    <div class="column is-12">
+                        <div class="field">
+                            <label class="addskill">Send Message</label>
+                            <div class="control">
+                                <section style="background-color: #eee;">
+                                    <div class="messager  has-slimscroll scrolltobottom" style="height: 280px;overflow-y: scroll;">
+                                        <div class="container py-5">
+
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col-md-10 col-lg-8 col-xl-6"
+                                                    style="width: 103% !important;">
+
+                                                    <div class="card" id="chat2">
+                                                        <div class="card-body message_div"  data-mdb-perfect-scrollbar="true"
+                                                            style="position: relative;">
+
+                                                            {% for chat in chats %}
+                                                                {% if chat.sender == user %}                                                                
+                                                                    <div class="d-flex flex-row justify-content-end mb-4 pt-1">
+                                                                        <div>
+                                                                            <p
+                                                                                class="small p-2 me-3 mb-1 text-white rounded-3 chat-own-window">
+                                                                                {{chat.message}}    
+                                                                            </p>
+                                                                            <p
+                                                                                class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">
+                                                                                {{chat.date|timesince}}</p>
+                                                                        </div>
+                                                                        {% if chat.sender.profile_picture %}
+                                                                        <img src="{{chat.sender.profile_picture.url}}"
+                                                                            alt="avatar 1" style="width: 45px; height: 100%;">
+                                                                        {% else %}
+                                                                            <img src="{% static 'blank-profile-picture.webp' %}"
+                                                                            alt="avatar 1" style="width: 45px; height: 100%;">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                {% else %}
+                                                                    <div class="d-flex flex-row justify-content-start">
+                                                                        {% if chat.sender.profile_picture %}
+                                                                        <img src="{{chat.sender.profile_picture.url}}"
+                                                                            alt="avatar 1" style="width: 45px; height: 100%;">
+                                                                        {% else %}
+                                                                            <img src="{% static 'blank-profile-picture.webp' %}"
+                                                                            alt="avatar 1" style="width: 45px; height: 100%;">
+                                                                        {% endif %}
+                                                                        <div>
+                                                                            <p class="small p-2 ms-3 mb-1 rounded-3"
+                                                                                style="background-color: #f5f6f7;">
+                                                                                {{chat.message}}    
+                                                                            </p>
+                                                                            
+                                                                            <p class="small ms-3 mb-3 rounded-3 text-muted">
+                                                                                {{chat.date|timesince}}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                        </div>
+                                                      
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </section>
+
+                            {% if blocked_by_receiver %}
+                                <h4 class="text-center">Can't message to {{receiver}} </h4>
+                            {% elif blocked_by_sender %}
+                            <br>
+                                <h4 id="blocked_info mt-3" class="text-center blocked_info">You blocked {{receiver}}</h4>
+                                <form id="message-form" class="d-none" enctype="multipart/form-data">
+                                    {% csrf_token %} 
+                                    <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">                                                          
+                              
+                
+                                        <input name="message" id="message_txt" class="form-control form-control-lg"
+                                            placeholder="Type message">
+                                        
+                                        <a class="ms-3 text-muted" href="#!"><i class="mdi mdi-send   chat_to" id="add_btn" data-url="{% url 'chat_to' receiver.id %}"></i></a>
+                                    </div>
+                                </form>
+                            {% else %}
+                                    <form id="message-form" enctype="multipart/form-data">
+                                        {% csrf_token %} 
+                                        <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">                                                          
+                                  
+                    
+                                            <input name="message" id="message_txt" class="form-control form-control-lg"
+                                                placeholder="Type message">
+                                            
+                                            <a class="ms-3 text-muted" href="#!"><i class="mdi mdi-send   chat_to" id="add_btn" data-url="{% url 'chat_to' receiver.id %}"></i></a>
+                                        </div>
+                                    </form>
+                            {% endif %}
+                                <div class="float-end">
+                                    
+                                    <a class="button is-solid red-button raised p-4 mt-4 close-modal">Close</a>
+                                    {% if blocked_by_sender %}
+                                        <a class="button is-solid red-button raised p-4 mt-4 block-unblock-btn" data-url="{% url 'block_unblock' receiver.id %}">Unblock</a>
+                                    {% else %}
+                                        <a class="button is-solid red-button raised p-4 mt-4 block-unblock-btn" data-url="{% url 'block_unblock' receiver.id %}">Block</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

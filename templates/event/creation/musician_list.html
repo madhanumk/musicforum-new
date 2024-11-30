@@ -1,0 +1,61 @@
+{% load static %}
+
+{% for musician in musicians %}    
+<div class="col-12">
+  <div class="row adinv-search-selectioncnt-row m-1">
+      <div class="col-sm-4">
+          {% if musician.user.profile_picture %}
+          <img                                                                   
+              src="{{musician.user.profile_picture.url}}" alt="">
+          {% else %}
+          <img src="{% static 'blank-profile-picture.webp' %}" alt="">
+          {% endif %}
+      </div>
+
+      <div class="col-sm-8">
+
+          <div class="media-body">
+
+              <a target="_blank"
+                  href="{% url 'profile' musician.user.id %}"
+                  class="h4">{{musician}}</a> &nbsp;
+              &nbsp; <input
+                  class="float-right mt-2 musician_select"
+                  type="checkbox" name="musician"
+                  value="{{musician.id}}" style="float: right !important;">
+
+              <p class="">
+                  <a href="#">{{musician.profession}}</a>
+                  <a href="#" class="cmpny-dt">
+                      {% for skill in musician.musician_skill.all %}
+                        {% if forloop.first %}
+                        -
+                        {% endif %}
+
+                        {{skill}} 
+
+                        {% if not forloop.last %}
+                            - 
+                        {% endif %}
+
+                      {% endfor %}
+
+                  </a>
+
+                  <span class="job-loca"><i
+                          class="fas fa-location-arrow"></i>{{musician.user.district}}</span>
+              </p>
+          </div>
+
+      </div>
+  </div>
+</div>                                                                                                                                    
+{% empty %}
+    <div class="jobs-list empty_musician ">
+        <div class="media">
+            <div class="job-left">
+                <h5>No Musician Found</h5>                                                                                    
+            </div>                    
+        </div>
+    </div>                                                                    
+{% endfor %}

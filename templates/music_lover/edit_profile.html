@@ -1,0 +1,161 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block my-profile %}nav-active{% endblock %}
+
+{% block content %}
+<div class="view-wrapper mgt-20 people_div">
+    <!-- Container -->
+    <div id="settings" class="container sidebar-boxed" data-open-sidebar data-page-title="Settings">
+      <div class="toolbar-v1 is-narrow">
+          <!-- Sidebar Trigger -->
+          <div class="friendkit-hamburger sidebar-v1-trigger">
+              <span class="menu-toggle has-chevron">
+                  <span class="icon-box-toggle">
+                      <span class="rotate">
+                          <i class="icon-line-top"></i>
+                          <i class="icon-line-center"></i>
+                          <i class="icon-line-bottom"></i>
+                      </span>
+                  </span>
+              </span>
+          </div>
+          <h1>Profile Edit</h1>
+          <div class="controls">
+          </div>
+      </div>
+      <div class="settings-wrapper-bar is-full">
+          <!-- /partials/settings/sections/general-settings.html -->
+          <div id="general-settings" class="settings-section is-active">
+              <div class="settings-panel">
+
+                  <form method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+
+                      <div class="title-wrap">
+
+                          <h2> Profile Edit</h2>
+                      </div>
+
+                      <div class="settings-form-wrapper">
+                          <div class="settings-form">
+                              <div class="columns is-multiline">
+                                  <div class="column is-6">
+                                      <!--Field-->
+
+                                      <div class="field field-group">
+                                          <label>{{form.first_name.label}}</label>
+                                          <div class="control has-icon">
+                                              {{form.first_name}}
+                                              <div class="form-icon">
+                                                  <i data-feather="user"></i>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="column is-6">
+                                      <!--Field-->
+                                      <div class="field field-group">
+                                          <label>{{form.address.label}}</label>
+                                          {{form.address}}
+                                          <div class="control">
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="column is-6">
+
+                                    <!--Field-->
+                                    <div class="field field-group">
+                                        <label>{{form.mobile_no.label}}</label>
+                                        <div class="control has-icon">
+
+                                            {{form.mobile_no}}
+                                            <div class="form-icon">
+                                                <i data-feather="phone"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <div class="column is-6">
+                                      <!--Field-->
+                                      <div class="field field-group">
+                                          <label>{{form.location.label}}</label>
+                                          <div class="control has-icon">
+                                              {{form.location}}
+                                              <div class="form-icon">
+                                                  <i data-feather="map-pin"></i>
+                                              </div>
+
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="column is-6">
+
+                                      <!--Field-->
+                                      <div class="field field-group">
+                                          <label>{{music_lover_form.dob.label}}</label>
+                                          <div class="control has-icon">
+
+                                              {{music_lover_form.dob}}
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="column is-6">
+                                      <!--Field-->
+                                      <div class="field field-group is-autocomplete">
+                                          <label>{{music_lover_form.gender.label}}</label>
+                                          <div class="control has-icon">
+
+                                              {{music_lover_form.gender}}
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="column is-6">
+                                      <!--Field-->
+                                      <div class="field field-group">
+                                          <label>Profile Picture</label>
+                                          <div class="control has-icon">
+                                              {{form.profile_picture}}
+                                              <div class="form-icon">
+                                                  <i data-feather="mdi-camera"></i>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="column is-6">
+                                      <!--Field-->
+                                      <div class="field field-group">
+                                          <label>Cover Picture</label>
+                                          <div class="control has-icon">
+                                              {{form.cover_picture}}
+                                              <div class="form-icon">
+                                                  <i data-feather="mdi-camera"></i>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                                  <div class="column is-12">
+                                      <div class="buttons">
+                                          <button type="submit"
+                                              class="button is-solid accent-button form-button">Update</button>
+
+                                          <a class="button is-red form-button btn btn-primary mt-2" href="{% url 'my_profile' %}">Cancel</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+{% endblock %}

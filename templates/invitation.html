@@ -1,0 +1,166 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<div id="message-preview-0" class="message-body-inner is-active">
+    <div class="box message-preview">
+        <div class="box-inner">
+            <div class="row go-btn-wrapper-mob">
+                <div class="col-8">                             
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="avatar">
+                                    {% if invitation.event.event_organizer.user.profile_picture %}
+                                    <img src="{{invitation.event.event_organizer.user.profile_picture.url}}" alt=""
+                                        data-user-popover="1">
+                                    {% elif  invitation.event.gurukulam.user.profile_picture %}
+                                    <img src="{{invitation.event.gurukulam.user.profile_picture.url}}" alt="" data-user-popover="1">
+                                    {% else %}
+                                    <img src="{% static 'blank-profile-picture.webp' %}" alt="" data-user-popover="1">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-9 p-lft-1">                                        
+                                <div class="meta p-lft-1">
+                                    <div class="name"> {{invitation.event_posted_by}} </div>
+                                    <div class="date">{{invitation.timestamp}}</div>
+                                </div>                                
+                            </div>
+                        </div>                        
+                        
+                        <div class="meta-right">
+
+                            {% comment %}
+                            <div>
+                                <span class="tag is-important">Important</span>
+                            </div>
+                            <div>
+                                <i data-feather="paperclip"></i>
+                                <small>2 attachments</small>
+                            </div>
+
+                            {% endcomment %}
+                        </div>
+                    </div>
+
+                </div>                
+                <div class="col-4">                    
+                    <div style="text-align:right;" class="is-hidden-desktop"><a href="#" class="go-back-btn"><img
+                        src="/static/images/icons/testimonals.png" width="16"> Go Back</a>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <hr class="is-hidden-mobile">
+
+            <div class="content">
+                <div id="dan-conversation" class="chat-body-inner has-slimscroll message_div">
+                    {% for message in invitation.message_set.all %}
+                    {% if not message.user == user %}
+
+
+                    <div class="d-flex flex-row justify-content-start">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                            alt="avatar 1" class="event-box-chat-profilepic">
+                        <div>
+                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+                                {{message.text|safe}}</p>
+
+                            <p class="small ms-3 mb-3 rounded-3 text-muted">{{message.sent_on|timesince}}</p>
+                        </div>
+                    </div>
+
+
+                    {% else %}
+
+                    <div class="d-flex flex-row justify-content-end mb-4">
+                        <div>
+                            <p class="small p-2 me-3 mb-1 text-white rounded-3 chat-own-window">{{message.text|safe}}
+                            </p>
+
+                            <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">
+                                {{message.sent_on|timesince}}</p>
+                        </div>
+
+                        <img src="{% static 'blank-profile-picture.webp' %}" alt="avatar 1"
+                            class="event-box-chat-profilepic">
+                    </div>
+
+
+
+
+                    <div class="chat-message is-sent d-flex flex-row justify-content-end">
+
+
+
+                        <div class="message-block">
+                            <span></span>
+                            <div class="message-text"></div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+
+                    {% endfor %}
+
+
+
+                </div>
+
+
+
+            </div>
+            <div class="has-text-right">
+                <div>
+                    <p id="messages" class="m-3" data="{{invitation.id}}"></p>
+
+                    <form id="messageform">
+
+
+                        <div class="send_input_group">
+                            <textarea id="message_txt" placeholder="Write Something.."
+                                class="form-control custom-controls" name="message_txt"></textarea>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                {% if invitation.status == 'S' %}
+
+                                {% if invitation.musician == user.musician or invitation.gurukulam == user.gurukulam or invitation.troupe == user.troupe %}
+                                <select class="form-control w-50 mt-2" name="status" id="status">
+                                    <option value="">Choose </option>
+                                    <option value="A">Accept</option>
+                                    <option value="R">Reject</option>
+                                    <option value="">Just Message</option>
+                                </select>
+                                {% else %}
+                                <select class="d-none form-control w-50 mt-2" name="status" id="status">
+                                    <option value="">Just Message</option>
+                                </select>
+                                {% endif %}
+
+                                {% else %}
+                                <select class="d-none mt-2" name="status" id="status">
+                                    <option value="">Just Message</option>
+                                </select>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <input type="button" id="post_message" class="float-end mt-2 btn btn-primary"
+                                    value="Post Message" style="background:#821ee9;border-color: #821ee9;">
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

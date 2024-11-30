@@ -1,0 +1,61 @@
+{% load static %}
+{% load follow_status_tags %}
+
+{% for user_object in users %}
+    <div class="card-flex friend-card">                       
+        <div class="img-container">
+            {% if user_object.profile_picture %}
+                <img class="avatar" src="{{user_object.profile_picture.url}}" style="width: 80px;" alt="">
+            {% else %}
+                <img class="avatar" src="https://via.placeholder.com/200x200" style="width: 80px;" data-demo-src="assets/img/david.jpg" alt="">
+            {% endif %}
+        </div>
+        <div class="friend-info">
+            <h3><a href="{% url 'profile' user_object.id %}">{{user_object}}</a></h3>
+            <p> 
+                {% for group in user_object.groups.all %}
+                    {{group}} 
+                {% if not forloop.last %}
+                    | 
+                    {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+        <div class="friend-stats">
+            <div class="stat-block">
+                <label>Followers</label>
+                <div class="stat-number" count=" {{user_object.followers_count}}" id="user_id{{user_object.id}}">
+                    {{user_object.followers_count}}
+                </div>
+            </div>
+            <div class="stat-block">
+                <label>Following</label>
+                <div class="stat-number">
+                    {{user_object.following_count}}
+                </div>
+            </div>
+            
+        </div>
+        <div style="padding-top:20px; padding-left:10px">
+
+            {% get_follow_status user_object.id user as status %}
+                <a title="Follow/Un Follow"  class="button is-solid green-button raised follow_unfollow user_id_{{user_object.id}}" id="user_id_{{user_object.id}}" user_id="{{user_object.id}}" data-url="{% url 'follow_unfollow' user_object.id %}">
+            {% if status %}
+                Following
+           
+            {% else %}
+                 Follow
+                
+            {% endif %}
+            </a>
+
+            <a class="button is-solid primary-button raised report_people" data-modal="AjaxModal" data-url="{% url 'report_people' user_object.id %}">Report User</a>
+        </div>
+    </div>
+    <!--Friend-->
+{% empty %}
+    <div class="card-flex friend-card">
+        Not Found..!
+    </div>
+
+{% endfor %}

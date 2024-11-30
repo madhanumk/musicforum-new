@@ -1,0 +1,1777 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from localhost:3000/chat.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Mar 2023 03:23:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>CMF | Chat Box</title>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+   
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/core.css' %}">
+    <link rel="Stylesheet" href="{% static 'assets/css/custom-style.css' %}">
+
+    <script src="{% static 'jquery-3.6.4.min.js' %}"></script>
+    <script src="{% static 'js/common.js' %}"></script>
+
+<style>
+    img{
+        max-width:89%;
+    }
+
+    {% block stylecss %}
+    .chat-wrapper {
+        background: #f0f0f0 !important;
+    }
+    {% endblock %}
+    </style>
+</head>
+<body><script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='browser-sync/browser-sync-clientac69.js?v=2.27.10'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div>
+    <div class="chat-wrapper is-standalone">
+        <div class="chat-inner ">
+
+            <div id="main-navbar" class="navbar navbar-v1 is-inline-flex is-transparent no-shadow is-hidden-mobile">
+                <div class="container is-fluid">
+                    <div class="navbar-brand">
+                        <a href="/" class="navbar-item">
+                            <img class="logo light-image" src="{% static 'assets/img/logo/logo.png' %}" width="112" height="28" alt="">
+                            <img class="logo dark-image" src="{% static 'assets/img/logo/logo.png' %}" width="112" height="28" alt="">
+                        </a>
+                    </div>
+                    <div class="navbar-menu">
+                        {% include "menu.html" %}
+        
+                    </div>
+                </div>
+            </div>
+            
+            
+             <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img class="" src="{% static 'assets/img/logo/logo.png' %}" alt="Padani Music Forum">
+            </a>
+
+            <div class="navbar-item is-icon drop-trigger">
+
+
+                <div class="nav-drop">
+
+                </div>
+            </div>
+
+
+            <div id="open-mobile-search" class="navbar-item is-icon">
+                <a class="icon-link is-primary" href="javascript:void(0);">
+                    <i data-feather="search"></i>
+                </a>
+            </div>
+
+            <!-- Mobile menu toggler icon -->
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown is-active">
+                <a href="{% url 'my_profile' %}" class="navbar-link">
+                    {% if user.profile_picture %}
+						<img src="{{user.profile_picture.url}}" alt="{{user}}">
+                    {% else %}
+						<img src="{% static 'blank-profile-picture.webp' %}" alt="{{user}}">
+                    {% endif %}
+                    <span class="is-heading">{{user}}</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+				
+					<div class="control has-icons-left">
+						<div class="select">                                             
+							<select class=" city_dropdown"  name="city" id="city">
+								{% for city in cities %}              
+									<option value="{{city}}">{{city}}</option>
+								{% endfor %}								
+							</select>               
+						</div>
+						<div class="icon is-small is-left">
+							<i class="mdi mdi-earth"></i>
+						</div>
+					</div>
+
+                    <a href="{% url 'home' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="home"></i>Home</span>
+
+                    </a>
+
+                    {% if user.musician or user.troupe %}
+						<a href="{% url 'my_opportunities' type='invitation' %}" class="navbar-item is-flex is-mobile-icon">
+							<span><i data-feather="mail"></i> Event Inbox</span>
+						</a>
+                    {% elif user.event_organizer or user.gurukulam %}
+						<a href="{% url 'recent_events' %}" class="navbar-item is-flex is-mobile-icon">
+							<span><i data-feather="message-square"></i> My Events</span>
+						</a>
+                    {% endif %}
+
+                    <a href="{% url 'inbox' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="message-square"></i> Chatbox</span>
+                    </a>
+
+                    <a href="{% url 'my_profile' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="user"></i> My Profile</span>
+                    </a>
+                    <a href="{% url 'all_peoples' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="activity"></i>My Network</span>
+                    </a>
+
+
+                </div>
+            </div>
+
+            <!-- More -->
+            <div class="navbar-item has-dropdown">
+                <a href="#" class="navbar-link">
+                    <i data-feather="user"></i>
+                    <span class="is-heading">Account</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+
+                    <a href="{% url 'logout' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="log-out"></i>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--Search-->
+        <div class="mobile-search is-hidden">
+            <div class="control">
+				<form id="search-form" action="{% url 'all_peoples' %}">
+					<input  class="input" placeholder="Search..." name="name">
+					<div class="form-icon">
+						<i data-feather="search"></i>
+					</div>
+					<div class="close-icon">
+						<i data-feather="x"></i>
+					</div>
+					<div id="tipue_drop_content_mobile" class="tipue-drop-content"></div>
+				</form>
+            </div>
+        </div>
+    </nav>
+
+
+            {% block content %}
+            <!-- Chat sidebar -->
+            <div id="chat-sidebar" class="users-sidebar">
+                <!-- Header -->
+                <a href="feed.html" class="header-item">
+                    <img src="assets/img/logo/friendkit-bold.svg" alt="">
+                </a>
+                <!-- User list -->
+                <div class="conversations-list has-slimscroll-xs">
+                    <!-- User -->
+                    <div class="user-item is-active" data-chat-user="dan" data-full-name="Dan Walker" data-status="Online">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-online"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="stella" data-full-name="Stella Bergmann" data-status="Busy">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-busy"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="daniel" data-full-name="Daniel Wellington" data-status="Away">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-away"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="david" data-full-name="David Kim" data-status="Busy">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-busy"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="edward" data-full-name="Edward Mayers" data-status="Online">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-online"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="elise" data-full-name="Elise Walker" data-status="Away">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-away"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="nelly" data-full-name="Nelly Schwartz" data-status="Busy">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-busy"></div>
+                        </div>
+                    </div>
+                    <!-- User -->
+                    <div class="user-item" data-chat-user="milly" data-full-name="Milly Augustine" data-status="Busy">
+                        <div class="avatar-container">
+                            <img class="user-avatar" src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                            <div class="user-status is-busy"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Conversation -->
+                <div class="footer-item">
+                    <div class="add-button modal-trigger" data-modal="add-conversation-modal"><i data-feather="user"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat body -->
+            <div id="chat-body" class="chat-body is-opened">
+                <!-- Conversation with Dan -->
+                <div id="dan-conversation" class="chat-body-inner has-slimscroll">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">Today</span>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:03am</span>
+                            <div class="message-text">Hi Jenna! I made a new design, and i wanted to show it to you.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:03am</span>
+                            <div class="message-text">It's quite clean and it's inspired from Bulkit.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:12am</span>
+                            <div class="message-text">Oh really??! I want to see that.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:13am</span>
+                            <div class="message-text">FYI it was done in less than a day.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:17am</span>
+                            <div class="message-text">Great to hear it. Just send me the PSD files so i can have a look at it.</div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+                <!-- Conversation with Stella -->
+                <div id="stella-conversation" class="chat-body-inner has-slimscroll is-hidden">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">Today</span>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>10:34am</span>
+                            <div class="message-text">Hey Stella! Aren't we supposed to go the theatre after work?.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>10:37am</span>
+                            <div class="message-text">Just remembered it.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>11:22am</span>
+                            <div class="message-text">Yeah you always do that, forget about everything.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversation with Daniel -->
+                <div id="daniel-conversation" class="chat-body-inner has-slimscroll is-hidden">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">Yesterday</span>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>3:24pm</span>
+                            <div class="message-text">Daniel, Amanda told me about your issue, how can I help?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>3:42pm</span>
+                            <div class="message-text">Hey Jenna, thanks for answering so quickly. Iam stuck, i need a car.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>3:43pm</span>
+                            <div class="message-text">Can i borrow your car for a quick ride to San Fransisco? Iam running behind and
+                                there' no train in sight.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversation with David -->
+                <div id="david-conversation" class="chat-body-inner has-slimscroll is-hidden">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">Today</span>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>12:34pm</span>
+                            <div class="message-text">Damn you! Why would you even implement this in the game?.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>12:32pm</span>
+                            <div class="message-text">I just HATE aliens.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>13:09pm</span>
+                            <div class="message-text">C'mon, you just gotta learn the tricks. You can't expect aliens to behave like
+                                humans. I mean that's how the mechanics are.</div>
+                        </div>
+                    </div>
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>13:11pm</span>
+                            <div class="message-text">I checked the replay and for example, you always get supply blocked. That's not
+                                the right thing to do.</div>
+                        </div>
+                    </div>
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>13:12pm</span>
+                            <div class="message-text">I know but i struggle when i have to decide what to make from larvas.</div>
+                        </div>
+                    </div>
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>13:17pm</span>
+                            <div class="message-text">Join me in game, i'll show you.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversation with Edward -->
+                <div id="edward-conversation" class="chat-body-inner has-slimscroll">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">Monday</span>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>4:55pm</span>
+                            <div class="message-text">Hey Jenna, what's up?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>4:56pm</span>
+                            <div class="message-text">Iam coming to LA tomorrow. Interested in having lunch?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>5:21pm</span>
+                            <div class="message-text">Hey mate, it's been a while. Sure I would love to.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>5:27pm</span>
+                            <div class="message-text">Ok. Let's say i pick you up at 12:30 at work, works?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>5:43pm</span>
+                            <div class="message-text">Yup, that works great.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>5:44pm</span>
+                            <div class="message-text">And yeah, don't forget to bring some of my favourite cheese cake.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>5:27pm</span>
+                            <div class="message-text">No worries</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversation with Edward -->
+                <div id="elise-conversation" class="chat-body-inner has-slimscroll is-hidden">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">September 28</span>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>11:53am</span>
+                            <div class="message-text">Elise, i forgot my folder at your place yesterday.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>11:53am</span>
+                            <div class="message-text">I need it badly, it's work stuff.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>12:19pm</span>
+                            <div class="message-text">Yeah i noticed. I'll drop it in half an hour at your office.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversation with Nelly -->
+                <div id="nelly-conversation" class="chat-body-inner has-slimscroll is-hidden">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">September 17</span>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:22pm</span>
+                            <div class="message-text">So you watched the movie?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>8:22pm</span>
+                            <div class="message-text">Was it scary?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>9:03pm</span>
+                            <div class="message-text">It was so frightening, i felt my heart was about to blow inside my chest.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Conversation with Milly -->
+                <div id="milly-conversation" class="chat-body-inner has-slimscroll">
+                    <div class="date-divider">
+                        <hr class="date-divider-line">
+                        <span class="date-divider-text">Today</span>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:01pm</span>
+                            <div class="message-text">Hello Jenna, did you read my proposal?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:01pm</span>
+                            <div class="message-text">Didn't hear from you since i sent it.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:02pm</span>
+                            <div class="message-text">Hello Milly, Iam really sorry, Iam so busy recently, but i had the time to read
+                                it.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:04pm</span>
+                            <div class="message-text">And what did you think about it?</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:05pm</span>
+                            <div class="message-text">Actually it's quite good, there might be some small changes but overall it's
+                                great.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-sent">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:07pm</span>
+                            <div class="message-text">I think that i can give it to my boss at this stage.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message is-received">
+                        <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                        <div class="message-block">
+                            <span>2:09pm</span>
+                            <div class="message-text">Crossing fingers then</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Compose message area -->
+                <div class="chat-action">
+                    <div class="chat-action-inner">
+                        <div class="control">
+                            <!--<textarea class="textarea comment-textarea" rows="1"></textarea>
+                            <div class="send-button">
+                                <i data-feather="send"></i> 
+                            </div>-->
+                            <div class="card-content">
+                                      
+                                    <!-- Link content -->
+                                    <div class="link-content">
+                                        <div class="input-group mb-3">
+                                            <textarea class="form-control textarea msger-inputarea1"  aria-label="With textarea" aria-describedby="button-addon2"></textarea>
+                                            <i class="msger-send-btn1" data-feather="send" id="button-addon2"></i>
+                                            
+                                          </div>
+                                    </div>  
+                                    <div><span style="text-align: center;margin-left: 20px;">2023 Music Forum. All rights reserved.</span></div> 
+                                    <div></div>                    
+                                      <!-- /Header -->                 
+                            <!-- /Main wrap -->
+                    </div>
+
+                         
+                           
+                            <div class="dropdown compose-dropdown is-spaced is-accent is-up dropdown-trigger">
+                                <div>                              
+                                
+                                    <div class="add-button">
+                                        <div class="button-inner">
+                                            <i data-feather="plus"></i>
+                                        </div>
+                                        </div>                                   
+                                     
+                                </div>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                       
+                                        <a class="dropdown-item">
+                                            <div class="media">
+                                                <i data-feather="monitor"></i>
+                                                <div class="media-content modal-trigger" data-modal="upload-crop-profile-modal">                                      
+                                                   <h3>Local file</h3>
+                                                    <small>Add a file from your computer.</small>                                                   
+                                                </div>                                      
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+            </div>
+            
+            <div id="chat-panel" class="chat-panel is-opened">
+                <div class="panel-inner">
+                    <div class="panel-header">
+                        <h3>Details</h3>
+                        <div class="panel-close">
+                            <i data-feather="x"></i>
+                        </div>
+                    </div>
+
+                    <!-- Dan details -->
+                    <div id="dan-details" class="panel-body is-user-details">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Dan Walker</h3>
+                                <h4>IOS Developer</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-green">
+                                    <div>
+                                        <i class="mdi mdi-dog"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-blue">
+                                    <div>
+                                        <i class="mdi mdi-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">WebSmash Inc.</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-school"></i>
+                                    <div class="about-text">
+                                        <span>Studied at</span>
+                                        <span><a class="is-inverted" href="#">Riverdale University</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- Stella details -->
+                    <div id="stella-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Stella Bergmann</h3>
+                                <h4>Shop Owner</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-purple">
+                                    <div>
+                                        <i class="mdi mdi-bomb"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-check-decagram"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Trending Fashions</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">Oklahoma City</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Daniel details -->
+                    <div id="daniel-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Daniel Wellington</h3>
+                                <h4>Senior Executive</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-google-cardboard"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-blue">
+                                    <div>
+                                        <i class="mdi mdi-pizza"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-linux"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-puzzle"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Peelman & Sons</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">Los Angeles</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- David details -->
+                    <div id="david-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>David Kim</h3>
+                                <h4>Senior Developer</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-green">
+                                    <div>
+                                        <i class="mdi mdi-dog"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-blue">
+                                    <div>
+                                        <i class="mdi mdi-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Frost Entertainment</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">Chicago</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Edward details -->
+                    <div id="edward-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Edward Mayers</h3>
+                                <h4>Financial analyst</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-green">
+                                    <div>
+                                        <i class="mdi mdi-dog"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Brettmann Bank</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">Santa Fe</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Elise details -->
+                    <div id="elise-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Elise Walker</h3>
+                                <h4>Social influencer</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Social Media</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">London</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Nelly details -->
+                    <div id="nelly-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Nelly Schwartz</h3>
+                                <h4>HR Manager</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-green">
+                                    <div>
+                                        <i class="mdi mdi-dog"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-blue">
+                                    <div>
+                                        <i class="mdi mdi-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Carrefour</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">Melbourne</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Milly details -->
+                    <div id="milly-details" class="panel-body is-user-details is-hidden">
+                        <div class="panel-body-inner">
+
+                            <div class="subheader">
+                                <div class="action-icon">
+                                    <i class="mdi mdi-video"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-camera"></i>
+                                </div>
+                                <div class="action-icon">
+                                    <i class="mdi mdi-microphone"></i>
+                                </div>
+                                <div class="dropdown details-dropdown is-spaced is-neutral is-right dropdown-trigger ml-auto">
+                                    <div>
+                                        <div class="action-icon">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="#" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="user"></i>
+                                                    <div class="media-content">
+                                                        <h3>View profile</h3>
+                                                        <small>View this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="mail"></i>
+                                                    <div class="media-content">
+                                                        <h3>Send message</h3>
+                                                        <small>Send a message to the user's inbox.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="share-2"></i>
+                                                    <div class="media-content">
+                                                        <h3>Share profile</h3>
+                                                        <small>Share this user's profile.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Block user</h3>
+                                                        <small>Block this user permanently.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-avatar">
+                                <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/david.jpg" alt="">
+                                <div class="call-me">
+                                    <i class="mdi mdi-phone"></i>
+                                </div>
+                            </div>
+
+                            <div class="user-meta has-text-centered">
+                                <h3>Milly Augustine</h3>
+                                <h4>Sales Manager</h4>
+                            </div>
+
+                            <div class="user-badges">
+                                <div class="hexagon is-red">
+                                    <div>
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-green">
+                                    <div>
+                                        <i class="mdi mdi-dog"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-accent">
+                                    <div>
+                                        <i class="mdi mdi-flash"></i>
+                                    </div>
+                                </div>
+                                <div class="hexagon is-blue">
+                                    <div>
+                                        <i class="mdi mdi-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="user-about">
+                                <label>About Me</label>
+                                <div class="about-block">
+                                    <i class="mdi mdi-domain"></i>
+                                    <div class="about-text">
+                                        <span>Works at</span>
+                                        <span><a class="is-inverted" href="#">Salesforce</a></span>
+                                    </div>
+                                </div>
+                                <div class="about-block">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <div class="about-text">
+                                        <span>From</span>
+                                        <span><a class="is-inverted" href="#">Seattle</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endblock %}
+            
+        </div> 
+    </div>
+    <div class="footer">
+        <div class="container">
+            <span style="text-align: center !important;">2023 Music Forum. All rights reserved.</span>
+        </div>
+    </div>
+    <!--photo modal start -->
+    <div id="upload-crop-profile-modal" class="modal upload-crop-profile-modal is-xsmall has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+
+            <div class="card">
+                <div class="card-heading">
+                    <h3>Upload Picture</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                        <span class="close-modal">
+                                <i data-feather="x"></i>
+                            </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <label class="profile-uploader-box" for="upload-profile-picture">
+                        <span class="inner-content">
+                                <img src="assets/img/illustrations/profile/add-profile.svg" alt="">
+                                <span>Click here to <br>upload a profile picture</span>
+                        </span>
+                        <input type="file" id="upload-profile-picture" accept="image/*">
+                    </label>
+                    <div class="upload-demo-wrap is-hidden">
+                        <div id="upload-profile"></div>
+                        <div class="upload-help">
+                            <a id="profile-upload-reset" class="profile-reset is-hidden">Reset Picture</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer modal-button">
+                    <button id="submit-profile-picture" class="button is-solid accent-button raised is-disabled">Upload</button>
+                    <button id="submit-profile-picture" class="button is-solid accent-button raised is-disabled">Delete</button>
+                </div>
+            </div>
+
+        </div>
+    </div><!--choose photo file end-->
+                    
+      
+
+    <div id="add-conversation-modal" class="modal add-conversation-modal is-xsmall has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+
+            <div class="card">
+                <div class="card-heading">
+                    <h3>New Conversation</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                        <span class="close-modal">
+                            <i data-feather="x"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <img src="assets/img/icons/chat/bubbles.svg" alt="">
+
+                    <div class="field is-autocomplete">
+                        <div class="control has-icon">
+                            <input type="text" class="input simple-users-autocpl" placeholder="Search a user">
+                            <div class="form-icon">
+                                <i data-feather="search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="help-text">
+                        Select a user to start a new conversation. You'll be able to add other users later.
+                    </div>
+
+                    <div class="action has-text-centered">
+                        <button type="button" class="button is-solid accent-button raised">Start conversation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'assets/data/tipuedrop_content.js' %}"></script>
+
+    <!-- Core js -->
+    <script src="{% static 'assets/js/global.js' %}"></script>
+
+    <!-- Navigation options js -->
+    <script src="{% static 'assets/js/navbar-v1.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-v2.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-mobile.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-options.js' %}"></script>
+    <script src="{% static 'assets/js/sidebar-v1.js' %}"></script>
+
+    <!-- Core instance js -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/chat.js' %}"></script>
+    <script src="{% static 'assets/js/touch.js' %}"></script>
+    <script src="{% static 'assets/js/tour.js' %}"></script>
+
+    <!-- Components js -->
+    <script src="{% static 'assets/js/explorer.js' %}"></script>
+    <script src="{% static 'assets/js/widgets.js' %}"></script>
+    <script src="{% static 'assets/js/modal-uploader.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-users.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-pages.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+
+    <!-- Landing page js -->
+
+    <!-- Signup page js -->
+
+    <!-- Feed pages js -->
+
+    <!-- profile js -->
+
+    <!-- stories js -->
+
+    <!-- friends js -->
+
+    <!-- questions js -->
+
+    <!-- video js -->
+
+    <!-- events js -->
+
+    <!-- news js -->
+
+    <!-- shop js -->
+
+    <!-- inbox js -->
+
+    <!-- settings js -->
+
+    <!-- map page js -->
+
+    <!-- elements page js -->
+
+</body>
+
+<!-- Mirrored from localhost:3000/chat.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Mar 2023 03:23:44 GMT -->
+</html>

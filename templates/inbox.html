@@ -1,0 +1,598 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load check_post_like_tags %}
+{% load follow_status_tags %}
+{% load humanize %}
+{% block inbox %}nav-active{% endblock %}
+
+{% block stylecss %}
+.chat-wrapper {
+  background: #f0f0f0 !important;
+}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="view-wrapper mgt-20-a">
+  <div class="container">
+    
+    <div style="display: flex; align-items: center; " class="d-none profile-details">
+      <div style="margin: auto;">
+        <div class="chat_img1"> 
+          <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> 
+        </div>
+        <div class="chat_ib1">
+          Indumathi<br><span class="time_date">11 Nov 2024: 11:01 AM <br> Location: Madurai | <a Href="#">View Profile</a></span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="messaging">
+        <div class="inbox_msg">
+          <div class="inbox_people">
+            <div class="headind_srch">
+              <div class="recent_heading">
+                <h4>Recent</h4>
+              </div>
+              <div class="srch_bar">
+                <div class="stylish-input-group">
+                  <input type="text" class="search-bar"  placeholder="Search" >
+                  <span class="input-group-addon">
+                  <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                  </span> </div>
+              </div>
+            </div>
+            <div class="inbox_chat has-slimscroll">
+              {% for chat in chats %}
+                {% if chat.conversation.sender == user %}
+                  <div class="chat_list get_all_message"  data-url="{% url 'get_inbox_chat' chat.conversation.receiver.id %}?page=inbox">
+                    <div class="chat_people">
+                      <div class="chat_img"> 
+                        {% if chat.conversation.receiver.profile_picture %}
+                          <img src="{{chat.conversation.receiver.profile_picture.url}}" alt=""> 
+                        {% else %}
+                          <img src="{% static 'blank-profile-picture.webp' %}" alt="">
+                        {% endif %}                        
+                      </div>
+                      <div class="chat_ib">
+                        <h5>{{chat.conversation.receiver}} <span class="chat_date">{{chat.date|naturalday}}</span></h5>
+                        <p>{{chat.message}}</p>
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="chat_list get_all_message" data-url="{% url 'get_inbox_chat' chat.conversation.sender.id %}?page=inbox">
+                    <div class="chat_people">
+                      <div class="chat_img"> 
+                        {% if chat.conversation.sender.profile_picture %}
+                          <img src="{{chat.conversation.receiver.profile_picture.url}}" alt=""> 
+                        {% else %}
+                          <img src="{% static 'blank-profile-picture.webp' %}" alt="">
+                        {% endif %}                        
+                      </div>
+
+                      <div class="chat_ib">
+                        <h5>{{chat.conversation.sender}} <span class="chat_date">{{chat.date|naturalday}}</span></h5>
+                        <p>{{chat.message}}</p>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                {% endif %}
+              {% empty %}
+                <div class="chat_list active_chat">
+                  <div class="chat_people">                  
+                    <div class="chat_ib">
+                      <p>No data available..!</p>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+
+            
+            </div>
+          </div>
+          <div class="mesgs">
+            <div class="msg_history has-slimscroll">
+              <div class="text-center justify-content-center">
+                <img src="{% static 'chat-empty.png' %}">
+              </div>             
+
+            
+            </div>
+            <div class="type_msg">
+              <div class="input_msg_write">
+                <input type="text" class="write_msg" placeholder="Type a message" />
+                <button class="msg_send_btn" type="button"><i class="mdi mdi-send"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>    
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        // message
+        $('.chat_full_view').on('click', '.back_to_inbox', function () {
+            event.preventDefault();
+            $('.chat_full_view ').addClass('d-none');
+            $('.chat_list_div').removeClass('d-none');
+
+        });
+
+        $('.chat-panel').on('click', '.panel-close', function () {
+            event.preventDefault();
+            $('.chat-panel').css("display","none");;
+
+        });
+
+
+        
+
+
+        $('.back_to_inbox').click(function () {
+            event.preventDefault();
+            $('.chat_full_view ').addClass('d-none');
+            $('.chat_list_div').removeClass('d-none');
+        });
+
+
+
+        //message
+        $('.inbox_chat').on('click', '.get_all_message', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                success: function (output) {
+                    $('.chat-panel').removeAttr("style");
+                    $('#chat-panel').html(output.chat_panel);
+                    $('.msg_history').html(output.messages);
+                    $('.msg_history').scrollTop($('.msg_history')[0].scrollHeight);
+                },
+
+
+            });
+
+            //scroll to the bottom of the message
+            $('.chat-container').scrollTop($('.chat-container')[0].scrollHeight);
+
+        });
+
+
+
+        // message
+        $('#chat-body').on('click', '.chat_to', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+            formdata = new FormData($('.chat-body #message-form')[0]);
+            message = $('#message_txt').val();
+
+            if (message) {
+
+                $.ajax({
+                    url: url,
+                    data: formdata,
+                    method: 'post',
+                    processData: false,
+                    contentType: false,
+
+                    success: function (output) {
+                        if (output.valid) {
+                            $('#chat-body #user-conversation').html(output.messages);
+                            $('#chat-body #message_txt').val('');
+                            $("#chat-body  .message-file").val(null);
+                            $('#chat-body #user-conversation').scrollTop($('#user-conversation')[0].scrollHeight);
+                        }
+                        else {
+                            alert(output.response);
+                        }
+
+                    }
+
+                });
+
+
+
+            }
+
+            else {
+                alert("Message can't be empty");
+            }
+
+
+
+        });
+
+
+
+        $('.chat_full_view').on('change', '.message-file', function (e) {
+            var fileName = e.target.files[0].name;
+            $("#message_txt").val(fileName);
+        });
+
+        $('.chat_full_view').on('click', '.remove-message-file', function () {
+            event.preventDefault();
+            $(".message-file").val(null);
+            $("#message_txt").val('');
+        });
+
+
+        // message
+        $('#AjaxModal').on('click', '.message_to', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+            formdata = new FormData($('#AjaxModal #message-form')[0]);
+            message = $('#message_txt').val();
+
+
+            if (message) {
+
+                $.ajax({
+                    url: url,
+                    data: formdata,
+                    method: 'post',
+                    processData: false,
+                    contentType: false,
+
+                    success: function (output) {
+                        if (output.valid) {
+                            $('.message_div').html(output.messages);
+                            $('#message_txt').val('');
+                            $(".message-file").val(null);
+                        }
+                        else {
+                            alert(output.response);
+                        }
+
+                    }
+
+                });
+
+
+
+            }
+
+            else {
+                alert("Message can't be empty");
+            }
+
+
+
+        });
+
+
+
+        //Follow and unfollow
+        $('.people_div').on('click', '.follow_unfollow', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+            id = $(this).attr('user_id');
+
+
+            $.ajax({
+                url: url,
+                success: function (output) {
+                    if (output.followed) {
+                        $('#user_id_' + id).removeClass('fa-plus');
+                        $('#user_id_' + id).addClass('fa-minus');
+                        count = $('#following').attr('count');
+                        count = parseInt(count) + 1;
+                        $('#following').attr('count', count);
+                        $('#following').text('Following - ' + count);
+
+                    }
+                    else {
+                        $('#user_id_' + id).removeClass('fa-minus');
+                        $('#user_id_' + id).addClass('fa-plus');
+                        count = $('#following').attr('count');
+                        count = parseInt(count) - 1;
+                        $('#following').attr('count', count);
+                        $('#following').text('Following - ' + count);
+
+                    }
+                },
+            });
+        });
+
+        //Create Call
+        $('.people_search_btn').click(function () {
+            event.preventDefault();
+            name = $('#people_search_input').val();
+
+            if (name) {
+
+                var url = "{% url 'search_people' %}";
+
+                $.ajax({
+                    url: url,
+                    data: { 'name': name },
+                    dataType: 'json',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+
+                    success: function (output) {
+                        if (output.valid) {
+                            $('.people_div').html(output.users);
+
+                        }
+                        else {
+                            alert('Something went wrong...!')
+                        }
+                    },
+                });
+
+            }
+            else {
+                alert('Name is empty');
+            }
+
+        });
+
+
+        //Project Modal
+        $('#AjaxModal').on('click', '.add-project', function () {
+            event.preventDefault();
+            $('#projectModal').modal('show');
+            $('.container').addClass('blur');
+            $('#AjaxModal').addClass('fade');
+        });
+
+
+
+        //move selected project
+        $('#projectModal').on('click', '.add-selected-project', function () {
+            projectId = $('input[name="project-select"]:checked').val();
+            projectName = $('input[name="project-select"]:checked').attr('project_name');
+
+
+            if (projectId) {
+
+                $('#get_project_link').remove();
+                $('#ajax-model-project-section').append('<div class="m-1"><h5 class="mt-2" id="get_project_link" projectid="' + projectId + '" > Project: ' + projectName + '</h5></div>');
+                $("#id_project").find('option:first').remove();
+                $('#id_project').append('<option value="' + projectId + '" seleted>' + projectName + '</option>');
+
+                $('#projectModal').modal('toggle');
+                $('.add-selected-project').text("Edit Project");
+                $('.open-add-project-modal').text("Edit Project");
+                $('.add-project').text("Edit Project");
+
+
+            }
+            else {
+                alert('You must select one of the options.');
+            }
+
+        });
+
+
+        $('#projectModal').on('click', '.ajax-add-project-btn', function () {
+
+            event.preventDefault();
+            formdata = new FormData($('#projectModal #ajax_form')[0]);
+            url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                data: formdata,
+                method: 'post',
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    $('#projectModal #project_info_text').text('Please Wait ');
+
+                },
+
+                success: function (output) {
+                    if (output.valid) {
+                        $('#project-list-div').html(output.project);
+                        $("#project-search-tab").tab('show');
+                        $('.add-selected-project').removeClass('disabled');
+
+                    }
+                    else {
+                        $('.project-form').html(output.form);
+                    }
+                    $('#projectModal #project_info_text').text('');
+                },
+            });
+
+
+        });
+
+
+        //Testimonial
+        $('.people_div').on('click', '.write-testimonial', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                success: function (output) {
+
+                    $('#AjaxModal').html(output.form);
+                    $('#AjaxModal').modal('show');
+                },
+            });
+        });
+
+
+        //add Testimonial
+        $('#AjaxModal').on('click', '.ajax-add-testimonial-btn', function () {
+            event.preventDefault();
+
+            formdata = new FormData($('#AjaxModal #ajax_form')[0]);
+            url = $(this).attr('data-url');
+            var projectLink = $('#get_project_link').attr('projectid');
+            formdata.append('project', projectLink);
+            var title = $('#id_title').val();
+            var textcontent = $('#id_text_content').val();
+            var videocontent = $('#id_video_content').val();
+            var picturecontent = $('#id_picture_content').val();
+
+            $("#ajax_form").validate({
+                rules: {
+                    field: {
+                        required: true,
+                        url: true
+                    }
+                }
+            });
+
+
+            if (projectLink && title && (textcontent || videocontent || picturecontent)) {
+
+                $.ajax({
+                    url: url,
+                    data: formdata,
+                    method: 'post',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
+                        $('#AjaxModal #info_text').text('Please Wait');
+
+                    },
+
+                    success: function (output) {
+                        if (output.valid) {
+
+                            $('#AjaxModal').modal('hide');
+                            alert('Successfully Submitted..!')
+
+
+                        }
+                        else {
+                            $('#AjaxModal').html(output.form);
+                        }
+                        $('#AjaxModal #info_text').text('');
+                    },
+                });
+
+
+
+
+
+            }
+
+            else {
+
+                alert('Verify that the User, Project, and title, designation, content fields are filled out accurately...!')
+            }
+
+        });
+
+
+        //Report People
+        $('.people_div').on('click', '.report_people', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                success: function (output) {
+                    $('#AjaxModal').html(output.form);
+                    $('#AjaxModal').modal('show');
+
+
+                },
+            });
+        });
+
+
+        //Ajax update Award
+        $('#AjaxModal').on('click', '.report_people_btn', function () {
+
+            event.preventDefault();
+            formdata = new FormData($('#AjaxModal #ajax_form')[0]);
+            url = $(this).attr('data-url');
+            complaint = $('#id_complaint').val();
+            report_file = $('#id_report_file').val();
+
+            if (complaint || report_file) {
+
+                $.ajax({
+                    url: url,
+                    data: formdata,
+                    method: 'post',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
+                        $('#AjaxModal #info_text').text('Please Wait');
+
+                    },
+
+                    success: function (output) {
+                        if (output.valid) {
+                            alert('Successfully  Reported..');
+                            $('#AjaxModal').modal('toggle');
+
+                        }
+                        else {
+                            $('#AjaxModal').html(output.form);
+                        }
+                        $('#AjaxModal #info_text').text('');
+                    },
+                });
+
+            }
+            else {
+
+                alert('Complete all of the essential fields.');
+
+            }
+
+
+
+        });
+
+
+
+        // Block User
+        $('.chat_full_view').on('click', '.block-unblock-btn', function () {
+            event.preventDefault();
+            url = $(this).attr('data-url');
+
+
+            if (confirm('Are you sure you want to block this user?')) {
+
+                $.ajax({
+                    url: url,
+
+                    success: function (output) {
+                        if (output.blocked) {
+                            $('.chat_full_view #message-form').addClass('d-none');
+                            $('.chat_full_view .block-unblock-btn').text('Unblock');
+                        }
+                        else {
+                            $('.chat_full_view #message-form').removeClass('d-none');
+                            $('.chat_full_view .block-unblock-btn').text('Block');
+                            $('.chat_full_view #blocked_info').addClass('d-none');
+
+                        }
+
+                    }
+
+                });
+
+
+
+            }
+
+
+
+
+        });
+
+
+
+
+    });
+
+</script>
+
+
+{% endblock %}

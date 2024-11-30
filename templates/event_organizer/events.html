@@ -1,0 +1,60 @@
+{% load static %}
+
+  {% for event in events %}
+  <div class="col-lg-4 col-md-6 col-xs-12">
+    <div class="speaker-item">
+       <div class="speaker-image">
+          <div class="speaker-thumb">
+            {% if event.poster_image %}          
+            <img class="img-responsive" src="{{event.poster_image.url}}" alt="{{event}}">  
+        {% else %}
+           <img class="img-responsive" src="{% static 'images/empty_event.jpg' %}" alt="{{event}}">  
+        {% endif %}
+       
+          
+          </div>
+       </div>
+       <div class="speaker-content">
+          <h4><a href="{% url 'event_details' event.id %}">{{event}}</a></h4>
+          <p><b>Venue</b> :   {% if event.venue %} {{event.venue}} {% else %} Not updated {% endif %}</p>
+          <p><b>Date : </b><span  class="date-txt">{{event.from_date|date:"M d,y"}} </span><span class="small-evntxt">[{{event.from_date|date:"g:i a"}}]</span> <span  class="date-txt">- {{event.to_date|date:"M d,y"}},</span> <span class="small-evntxt">[{{event.to_date|date:"g:i a"}}]</span></p>
+          <ul class="speaker-info-list">
+             <li>
+                <div class="speaker-info-icon">
+                   <a href="{% url 'view_event' pk=event.id type='invitation' %}" class="inv-links">Invitation</a>
+                </div>
+                <div class="speaker-info-addres"> <a href="{% url 'view_event' pk=event.id type='interest' %}" class="inv-links">Interest</a></div>
+             </li>
+             <li>
+                <div class="speaker-info-icon">
+                   Sent:  <a href="{% url 'view_event' pk=event.id type='invitation' %}?status="> {{event.invitation_count}} </a>
+                </div>
+                <div class="speaker-info-addres">Received :	 <a href="{% url 'view_event' pk=event.id type='interest' %}?status=">{{event.interest_count}} </a></div>
+             </li>
+             <li>
+                <div class="speaker-info-icon">
+                   Accepted : <a href="{% url 'view_event' pk=event.id type='invitation' %}?status=A">{{event.accepted_invitation_count}} </a>
+                </div>
+                <div class="speaker-info-addres">Accepted :	<a href="{% url 'view_event' pk=event.id type='interest' %}?status=A">{{event.accepted_interest_count}} </a></div>
+             </li>
+             <li>
+                <div class="speaker-info-icon">
+                   Rejected  :<a href="{% url 'view_event' pk=event.id type='invitation' %}?status=R"> {{event.reject_invitation_count}} </a>
+                </div>
+                <div class="speaker-info-addres">Rejected  :	<a href="{% url 'view_event' pk=event.id type='interest' %}?status=R">{{event.reject_interest_count}}</a></div>
+             </li>
+             <li>
+                <div class="speaker-info-icon">
+                   Pending  : <a href="{% url 'view_event' pk=event.id type='invitation' %}?status=S">{{event.pending_request_count}}</a>
+                </div>
+                <div class="speaker-info-addres">Pending  :	<a  href="{% url 'view_event' pk=event.id type='interest' %}?status=S">{{event.pending_interest_count}}</a></div>
+             </li>
+          </ul>
+          <div style="text-align: right;"><a href="#" class="btn-links event_edit_popup"
+             data-url="{% url 'ajax_event_edit' model_name='event' pk=event.id %}?page={{page}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></div>
+       </div>
+    </div>
+ </div>                           
+  {% empty %}
+    <p>No data available..!</p>
+  {% endfor %}

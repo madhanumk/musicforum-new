@@ -1,0 +1,13 @@
+{% for skill in skills %}  
+      <tr id="{{skill.id}}" class="skill_list_tr">
+        <th class="text-center">  <input type="checkbox" class="skill" name="skill" value="{{skill.id}}"></th>
+        <td>{{skill|safe}}</td>   
+      </tr>
+{% empty %}
+    <tr id="0" class="skill_list_tr no-data-tr">
+      <th col="2">No data available..</th>  
+    </tr>
+{% endfor %}
+
+
+

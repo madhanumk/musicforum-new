@@ -1,0 +1,1126 @@
+  .mgt-10{
+        margin-top:10px;
+        margin-bottom:10px;
+        /*text-align:right;*/
+    }       
+   .mgt-20 {
+    background-color: whitesmoke;
+    padding: 5px 12px;
+}
+.btn-display-right{ text-align:right; margin-bottom:15px;}
+.addskill{
+    margin-top:10px;
+}
+
+.mgt-30 {
+justify-content:center;
+margin-left:-11px;
+}
+.form-panel{
+    margin-top:5px;
+}
+select{
+font-size: .9rem;
+    height: 36px;
+    border-radius: 0.65rem;
+    transition: all .3s; width:50%;
+}
+
+.msger-inputarea1 {
+    background: #eee;
+    width: 80%;
+  }
+
+  /*chatbox local-file upload button space*/
+  .upload-crop-profile-modal .card .card-footer, .upload-crop-profile-modal .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-footer, .shop-wrapper .cart-container .cart-content .cart-summary .upload-crop-profile-modal .summary-card .card-footer, .upload-crop-cover-modal .card .card-footer, .upload-crop-cover-modal .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-footer,.upload-award-profile-modal, .shop-wrapper .cart-container .cart-content .cart-summary .upload-crop-cover-modal .summary-card .card-footer{
+    justify-content:space-evenly;
+  }
+
+
+  /*comment-textarea color chat-box*/
+  .textarea{  
+  background-color:white;
+  }
+  .mb-3 {
+    margin-bottom: 1.25rem !important
+}
+ /*chatbox send button*/ 
+  .msger-send-btn1 {
+    color: #3d70b2;
+    margin-top:7px;
+   
+  }
+  /*chat-box plus button*/
+  .chat-wrapper .chat-inner .chat-action .chat-action-inner .control .add-button{
+    margin-top:30px;
+  }
+  /*my-network page */
+  .mynetwork-btn-align{
+    padding-top:20px;
+    text-align: center;
+  }
+  /*event-inbox page side header*/
+  .sideheader-text{
+font-size:larger;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+color:black;
+  }
+/*myevents*/
+  .headerbtn-align{
+margin-left:220px;
+
+  }
+/*profile page*/
+.mgt-10{
+  margin-top:10px;
+  margin-bottom:10px;
+  text-align:right;
+}       
+.mgt-20 {
+background-color: whitesmoke;
+padding: 5px 12px;
+}
+.btn-display-right{ text-align:right; margin-bottom:15px;}
+.addskill{
+margin-top:10px;
+}
+
+.mgt-30 {
+
+justify-content:center;
+
+}
+.form-panel{
+margin-top:5px;
+}
+select{
+font-size: .9rem;
+height: 36px;
+border-radius: 0.65rem;
+transition: all .3s; width:50%;
+}
+/*profile-page end */
+.profile-reset-chat{
+  display: block;
+    color: white;
+    padding: 4px 12px;
+    width: 70%;
+    border-radius: 4px;
+    font-size: .9rem;
+    /*background: #e8e8e8;*/
+    transition: all .3s;
+    margin-left: 12%;
+   
+}
+
+.mgt-10{
+  margin-top:10px;
+  margin-bottom:10px;
+  /*text-align:right;*/
+}       
+.mgt-20 {
+background-color: whitesmoke;
+padding: 5px 12px;
+}
+.btn-display-right{ text-align:right; margin-bottom:15px;}
+.addskill{
+margin-top:10px;
+}
+
+.mgt-30 {
+
+justify-content:center;
+margin-left:-3px;
+}
+.form-panel{
+margin-top:5px;
+}
+select{
+font-size: .9rem;
+height: 36px;
+border-radius: 0.65rem;
+transition: all .3s; width:50%;
+}
+.profile-about .slider-timeline .timeline-item{margin-bottom:15px;}
+.overlay {
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+background: rgba(0, 0, 0, 0.7);
+transition: opacity 500ms;
+visibility: hidden;
+opacity: 0;
+z-index: 1;
+}
+.overlay:target {
+visibility: visible;
+opacity: 1;
+}
+
+.popup {
+margin: 70px auto;
+padding: 20px;
+background: #fff;
+border-radius: 5px;
+width: 50%;
+position: relative;
+transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+margin-top: 0;
+color: #333;
+font-family: Tahoma, Arial, sans-serif;
+}
+.popup .closed {
+position: absolute;
+top: 20px;
+right: 30px;
+transition: all 20ms;
+font-size: 30px;
+font-weight: bold;
+text-decoration: none;
+color: #333;
+}
+.popup .closed:hover {
+color: black;
+}
+.popup .content {
+max-height: 30%;
+overflow: auto;
+}
+/*All events page*/
+.all-eve-events-wrapper {
+position: absolute;
+top: 58px;
+left: 0;
+width: 100%;
+height: calc(100vh - 58px);
+background: #fff
+}
+
+.all-eve-events-wrapper.is-pushed {
+top: 150px;
+height: calc(100vh - 150px)
+}
+
+.all-eve-events-wrapper.is-pushed .left-panel,
+.all-eve-events-wrapper.is-pushed .right-panel {
+top: 150px;
+height: calc(100vh - 150px)
+}
+
+.all-eve-events-wrapper .left-panel {
+position: fixed;
+top: 58px;
+left: 0;
+width: 260px;
+height: calc(100vh - 58px);
+background: #fff;
+border-right: 1px solid #e0e0e0
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner {
+position: relative;
+height: 100%;
+width: 100%;
+padding-bottom: 60px
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a {
+display: flex;
+align-items: center;
+padding: 20px;
+border-bottom: 1px solid #dedede;
+transition: all .3s
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a.is-active {
+background: #f2f2f2
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a.is-active span.tag {
+background: #5596e6 !important;
+color: #fff !important
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a.is-active span.date-block svg {
+stroke: #5596e6
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span {
+display: block
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.date-block {
+display: flex;
+align-items: center
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.date-block svg {
+position: relative;
+top: -1px;
+height: 18px;
+width: 18px;
+margin-right: 6px;
+stroke: #cecece;
+transition: stroke .3s
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.date-block .month {
+font-family: Montserrat, sans-serif;
+font-weight: 500;
+color: #393a4f;
+font-size: .85rem;
+line-height: 1;
+width: 75px
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.meta-block {
+margin-left: auto;
+display: flex;
+align-items: center;
+justify-content: space-between
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.meta-block .time {
+font-size: .8rem;
+color: #999;
+line-height: 1
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.meta-block .type {
+display: inline-block
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner a span.meta-block .type .tag {
+display: inline-block;
+border-radius: 100px;
+line-height: 2;
+transition: all .3s;
+background: #f2f2f2;
+color: #393a4f
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner .add-event {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 60px;
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: #fff;
+transition: opacity .3s
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner .add-event .button {
+height: 42px;
+width: 100%;
+border: 2px dashed #cecece;
+color: #999
+}
+
+.all-eve-events-wrapper .left-panel .left-panel-inner .add-event .button:hover {
+border: 2px solid #3d70b2;
+background: #3d70b2;
+color: #fafafa;
+box-shadow: 0 14px 26px -12px rgba(61, 112, 178, .42), 0 4px 23px 0px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(61, 112, 178, .2) !important
+}
+
+.all-eve-events-wrapper .right-panel {
+position: fixed;
+top: 58px;
+right: 0;
+width: 380px;
+height: calc(100vh - 58px);
+background: #fff;
+border-left: 1px solid #e0e0e0
+}
+
+.all-eve-events-wrapper .right-panel .panel-header {
+display: flex;
+align-items: center;
+height: 60px;
+width: 100%;
+padding: 0 30px
+}
+
+.all-eve-events-wrapper .right-panel .panel-header h3 {
+font-size: 1rem;
+font-family: Montserrat, sans-serif;
+font-weight: 600
+}
+
+.all-eve-events-wrapper .right-panel .panel-body {
+position: relative;
+height: calc(100% - 60px);
+overflow-y: auto;
+padding: 0 20px 20px 20px
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block {
+display: flex;
+align-items: flex-start;
+padding: 10px 0
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block img {
+display: block;
+height: 32px;
+width: 32px;
+min-width: 32px;
+border-radius: 50%
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block .activity-meta {
+margin-left: 10px
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block .activity-meta p {
+font-size: .85rem;
+color: #393a4f
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block .activity-meta p a {
+font-weight: 500;
+color: #393a4f;
+transition: color .3s
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block .activity-meta p a:hover {
+color: #5596e6
+}
+
+.all-eve-events-wrapper .right-panel .panel-body .activity-block .activity-meta span {
+display: block;
+font-size: .85rem;
+color: #999
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner {
+position: relative;
+height: 100%;
+margin-right: 380px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+transition: all .3s
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item {
+position: relative;
+width: 100%;
+padding: 40px 60px;
+background: #fff;
+border-bottom: 1px solid #e8e8e8;
+display: flex
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-inner-wrap {
+position: relative
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-inner-wrap .event-options {
+position: absolute;
+top: 5px;
+right: 0
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-inner-wrap .event-options:hover .button svg {
+animation: rotation 2s infinite linear
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-inner-wrap .event-options .button {
+background: transparent;
+border: none;
+padding: 0;
+height: 28px;
+width: 28px;
+display: flex;
+justify-content: center;
+align-items: center
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-inner-wrap .event-options .button svg {
+color: #757a91
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-title {
+font-size: 2rem;
+font-family: Montserrat, sans-serif;
+font-weight: 800;
+color: #393a4f;
+line-height: 1.1;
+max-width: 520px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-subtitle {
+display: flex;
+margin: 40px 0 10px 0
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-subtitle svg {
+height: 20px;
+width: 20px;
+margin-right: 6px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-subtitle h3 {
+color: #999
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content {
+display: flex;
+align-items: flex-start
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-owner {
+display: flex;
+align-items: center;
+min-width: 80px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-owner img {
+display: block;
+height: 44px;
+width: 44px;
+min-width: 44px;
+border-radius: 50%;
+margin: 0 auto
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-owner .owner-meta {
+margin-left: 12px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-owner .owner-meta span {
+display: block
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-owner .owner-meta span:first-child {
+font-family: Montserrat, sans-serif;
+font-weight: 600;
+font-size: .9rem;
+color: #393a4f
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-owner .owner-meta span:nth-child(2) {
+font-size: .9rem;
+color: #999
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-description p {
+color: #757a91;
+margin-bottom: 10px;
+margin-top: 30px;
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-content .event-description p:last-child {
+margin-bottom: 0
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants {
+margin-top: 10px;
+display: flex;
+align-items: center
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-group {
+display: flex;
+justify-content: flex-start;
+align-items: center
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-group img {
+height: 38px;
+width: 38px;
+border-radius: 50%;
+border: 3px solid #fff
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-group img:not(:first-child) {
+margin-left: -12px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-text {
+margin-left: 10px
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-text p {
+font-size: .8rem;
+color: #888da8
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-text p a {
+color: #393a4f
+}
+
+.all-eve-events-wrapper .all-eve-wrapper-inner .event-list .event-item .event-participants .participants-text p a:hover {
+color: #5596e6
+}
+.event-desc-list-btn-1{
+margin-left: 520px;
+}
+.event-desc-list-btn{
+margin-left: 30px;
+}
+.event-image img{
+width: 100%;
+}
+.create{
+    text-align:right;
+    margin-right: 32%;
+    margin-top: 25px;
+}
+/*New Invitation*/
+.inv{
+     
+        margin-left: auto;
+        display: inherit;
+        max-height: 22px;
+        font-size: .75rem;
+        margin-right: 10px;
+}
+/*Profile edit page*/
+ /*profilepage image upload button space*/
+ .upload-crop-profile-modal .card .card-footer, .upload-crop-profile-modal .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-footer, .shop-wrapper .cart-container .cart-content .cart-summary .upload-crop-profile-modal .summary-card .card-footer, .upload-crop-cover-modal .card .card-footer, .upload-crop-cover-modal .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-footer, .shop-wrapper .cart-container .cart-content .cart-summary .upload-crop-cover-modal .summary-card .card-footer{
+    justify-content:space-evenly;
+  }
+  .settings-wrapper-bar {
+    padding: 30px;
+    width: calc(100% - 280px);
+    margin-left: 280px
+}
+
+.settings-wrapper-bar.is-full {
+ 
+    margin-left: 150px;
+    padding-left: 0;
+    padding-right: 0
+
+}
+
+.settings-wrapper-bar .settings-section {
+    display: none;
+    animation: fadeInLeft .5s
+}
+
+.settings-wrapper-bar .settings-section.is-active {
+    display: block
+}
+
+.settings-wrapper-bar .settings-section .settings-panel {
+    background: #fff;
+    padding: 60px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .title-wrap {
+    display: flex;
+    align-items: center
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .title-wrap .mobile-sidebar-trigger {
+    z-index: 9;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .title-wrap .mobile-sidebar-trigger svg {
+    height: 20px;
+    width: 20px;
+    color: #999;
+    transition: stroke .3s
+}
+
+.settings-wrapper-bar .settings-section .settings-panel h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #999
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper {
+    display: flex
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .illustration {
+    padding: 40px;
+    flex-grow: 2
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .illustration img {
+    display: block;
+    max-width: 200px;
+    margin: 0 auto
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .illustration p {
+    max-width: 280px;
+    color: #7f80a2;
+    font-size: .8rem;
+    margin: 20px auto
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .illustration p a {
+    text-decoration: underline
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form {
+    padding-top: 20px;
+    width: 100%;
+    max-width: 680px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .field-group {
+    border-radius: 6px;
+    border: 1px solid #e0e0e0
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .field-group label {
+    text-transform: uppercase;
+    font-size: .65rem;
+    color: #999;
+    padding-left: 6px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .field-group .input,
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .field-group .textarea {
+    border: none !important;
+    font-family: "Roboto", sans-serif;
+    padding-top: 0;
+    color: #5b5d7e;
+    border-radius: 8px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .field-group .form-icon {
+    left: 10px;
+    height: 26px;
+    width: 26px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .field-group .form-icon svg {
+    height: 17px;
+    width: 17px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .sub-heading {
+    text-transform: uppercase;
+    font-size: .75rem;
+    color: #999;
+    padding: 16px 0
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .spaced-field {
+    padding-bottom: 10px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .switch-block {
+    display: flex;
+    align-items: center
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .switch-block .f-switch {
+    transform: scale(0.9)
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .switch-block .meta {
+    margin-left: 10px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .switch-block .meta h4 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: .8rem;
+    color: #393a4f
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .switch-block .meta p {
+    font-size: .8rem;
+    color: #999
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: -1px 3px 10px 0 rgba(0, 0, 0, .06)
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink:hover .link-content .link-icon {
+    background: #fff;
+    border-color: #e0e0e0;
+    box-shadow: -1px 3px 10px 0 rgba(0, 0, 0, .06)
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink:hover .link-content .link-icon svg {
+    stroke: #5596e6
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink:hover .link-content h4 {
+    color: #5596e6
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink .link-content .link-icon {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .75rem;
+    transition: all .3s
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink .link-content .link-icon svg {
+    height: 18px;
+    width: 18px;
+    stroke: #6f7592;
+    stroke-width: 1.2px;
+    transition: stroke .3s
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink .link-content h4 {
+    margin-top: 4px;
+    font-size: .8rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    color: #393a4f;
+    line-height: 1;
+    transition: color .3s
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .setting-sublink .link-content p {
+    color: #999;
+    font-size: .75rem
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .form-text p {
+    color: #64668a;
+    font-size: .9rem;
+    max-width: 450px
+}
+
+.settings-wrapper-bar .settings-section .settings-panel .settings-form .form-button {
+    height: 44px;
+    min-width: 160px
+}
+
+@media(min-width: 1301px) {
+    .settings-sidebar {
+        width: 280px
+    }
+
+    .settings-wrapper-bar .inner-wrapper {
+        width: calc(100% - 280px);
+        margin-left: 280px
+    }
+}
+
+@media(max-width: 1300px) {
+    .settings-sidebar {
+        width: 250px
+    }
+
+    .settings-wrapper-bar {
+        width: calc(100% - 250px);
+        margin-left: 250px
+    }
+}
+
+@media(max-width: 767px) {
+    .settings-sidebar .settings-sidebar-inner .user-block .close-settings-sidebar {
+        display: flex !important
+    }
+
+    .settings-wrapper-bar {
+        width: 100%;
+        margin-left: 0;
+        padding: 10px
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .title-wrap .mobile-sidebar-trigger {
+        display: flex
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper {
+        flex-direction: column
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .buttons .button {
+        min-width: 140px
+    }
+}
+
+@media only screen and (min-width: 768px)and (max-width: 1024px)and (orientation: portrait) {
+    .settings-sidebar .settings-sidebar-inner .user-block .close-settings-sidebar {
+        display: flex !important
+    }
+
+    .settings-wrapper-bar {
+        margin-left: 0;
+        padding: 10px
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .title-wrap .mobile-sidebar-trigger {
+        display: flex
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper {
+        flex-direction: column
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .columns.flex-portrait {
+        display: flex
+    }
+
+    .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .columns.flex-portrait .column.is-4 {
+        min-width: 33.33%
+    }
+}
+
+@media only screen and (min-width: 768px)and (max-width: 1024px)and (orientation: landscape) {
+    .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .illustration {
+        display: none
+    }
+}
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel {
+    border-color: #283143;
+    background: #202836
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .title-wrap h2 {
+    color: #fafafa
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .field-group {
+    background: #242d3c !important;
+    border-color: #334056
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .field-group>label {
+    color: #a2a5b9
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .field-group .control .input,
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .field-group .control .textarea {
+    background: #242d3c !important;
+    color: #fafafa
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .field-group .control .easy-autocomplete .input {
+    background: #242d3c !important
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .setting-sublink {
+    background: #293446;
+    border-color: #394760
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .setting-sublink .link-content .link-icon {
+    background: #334056;
+    border-color: #425370
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .setting-sublink .link-content h4 {
+    color: #fafafa
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .setting-sublink .link-content p {
+    color: #a2a5b9
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .switch-block .meta h4 {
+    color: #fafafa
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .switch-block .meta p {
+    color: #a2a5b9
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .form-text p {
+    color: #a2a5b9
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .settings-form .buttons .button:not(.accent-button) {
+    background: #1c2330;
+    border-color: #334056;
+    color: #fafafa
+}
+
+body.is-dark .settings-wrapper-bar .settings-section .settings-panel .settings-form-wrapper .illustration p {
+    color: #a2a5b9
+}
+/*New invitation page*/
+.newfooter{
+        background-color: #fafafa;
+        padding: 2rem 1.5rem 1.5rem;
+}
+/*Profile header*/
+.locat{
+        font-size: .9rem;
+        height: 36px;
+        border-radius: 0.65rem;
+        transition: all .3s;
+        width: 106%;
+}
+/**/
+/*New Invitation*/
+.inb{
+     
+    margin-left: 20px;
+    display: inherit;
+    max-height: 22px;
+    font-size: .75rem;
+    text-align: center;
+}
+/*Event inbox*/
+.inbox-wrapper .inbox-wrapper-inner .inbox-left-sidebar .inbox-left-sidebar-inner .left-menu a span {
+    display: block;
+    right: 0;
+    margin-left: auto;
+}
+.inbox-wrapper .inbox-wrapper-inner .inbox-left-sidebar .inbox-left-sidebar-inner .left-menu a svg {
+    height: 18px;
+    width: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 1rem;
+    stroke: #a2a5b9;
+}
+
+/*Home page*/
+.label-list{
+    margin-bottom: 6px;
+}
+
+.panel-title .box{
+   display: flex;
+}
+.flex-end {
+justify-content: flex-end;
+}
+.msger-inputarea {
+background: #eee;
+width: 80%;
+}
+.msger-inputarea * {
+padding: 10px;
+border: none;
+border-radius: 3px;
+font-size: 1em;
+width: 50%;
+}
+.msger-input {
+flex: 1;
+background: #ddd;
+}
+.msger-send-btn {
+background: #3d70b2;
+cursor: pointer;
+color: white;
+}
+.left-home{
+position: fixed;
+left: 33px;
+top: 30%;
+height: calc(100% - 58px);
+width: 23% !important;
+}
+.right-home{
+position: fixed;
+right: 33px;
+top: 30%;
+height: calc(100% - 58px);
+width: 23% !important;
+}
+.create-home{
+text-align:right;
+margin-bottom:35px;
+margin-top:35px;
+position: fixed;
+right: 40px;
+}
+.has-slimscroll::-webkit-scrollbar-thumb {
+border-radius: 10px !important;
+background: rgba(242, 237, 237, 0.875) !important
+}
+.home-span{
+    padding-left: 10px;
+}
+.mid-home{
+    margin-left: 22% !important;
+    margin-top:7%;
+    width: 55% !important;
+}
+.main-container.has-sidebar {
+    width: 100%;
+    margin-left: 0;
+}
+.last-block{
+    background: #ededed;
+}
+.select-oprtion-location{
+    height: 38px;
+    width: 250px;
+    padding-right: 85px;
+    padding-left: 38px;
+    padding-bottom: 8px;
+    margin-top: 5px;
+    background: #f7f7f7;
+    border-color: #f7f7f7;
+    transition: all .4s;
+    z-index: 1;
+    border-radius: 9999px
+}
+
+/* May 15 */
+
+.navbar-item a{color:#1c2330;    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    font-family: TondoBold, sans-serif;}
+    .navbar-item a:hover{ color: #e90000;}
+@font-face {
+    font-family: 'tondobold';
+    src: url('tondo_bold-webfont.woff2') format('woff2'),
+         url('tondo_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'tondoregular';
+    src: url('tondo-webfont.woff2') format('woff2'),
+         url('tondo-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body{   font-family: tondobold, sans-serif !important;}
+

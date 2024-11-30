@@ -1,0 +1,29 @@
+  .mgt-10{
+        margin-top:10px;
+        margin-bottom:10px;
+        /*text-align:right;*/
+    }       
+   .mgt-20 {
+    background-color: whitesmoke;
+    padding: 5px 12px;
+}
+.btn-display-right{ text-align:right; margin-bottom:15px;}
+.addskill{
+    margin-top:10px;
+}
+
+.mgt-30 {
+
+justify-content:center;
+margin-left:-350px;
+}
+.form-panel{
+    margin-top:5px;
+}
+select{
+font-size: .9rem;
+    height: 36px;
+    border-radius: 0.65rem;
+    transition: all .3s; width:50%;
+}
+.profile-about .slider-timeline .timeline-item{margin-bottom:15px;}

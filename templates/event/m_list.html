@@ -1,0 +1,30 @@
+{% load static %}
+{% for musician in musicians %} 
+
+<div class="row mt-1 musician_id_{{musician.id}} musician_append">
+    <div class="col-sm-3"> {% if musician.user.picture %} <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{{musician.user.picture.url}}" alt=""> {% else %} <img class="ft-plus-square job-bg-circle bg-cyan mr-0" height="70" width="70" src="{% static 'blank-profile-picture.webp' %}" alt="">{% endif %} </div>
+    <div class="col-sm-9">
+      <div class="media-body">
+        <a target="_blank" href="{% url 'profile' musician.user.id %}" class="h4">{{musician}}</a> &nbsp; &nbsp; <input class="float-right mt-2 musician_select" type="checkbox" name="musician" value="{{musician.id}}" style="float:right">
+        <p class="">
+          <a href="#">{{musician.profession}}</a>
+          <a href="#" class="cmpny-dt"> {% for skill in musician.musician_skill.all %} {% if forloop.first %} - {% endif %} {{skill}} - {% endfor %} </a>
+          <span class="job-loca">
+            <i class="fas fa-location-arrow"></i>{{musician.user.district}}
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
+{% empty %} 
+
+<div class="jobs-list  empty_musician  musician_append">
+    <div class="media">
+      <div class="job-left">
+        <h5>No Artist Found</h5>
+      </div>
+    </div>
+  </div> {% endfor %}

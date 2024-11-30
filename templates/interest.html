@@ -1,0 +1,126 @@
+{% load static %}
+
+ 
+<div id="message-preview-0" class="message-body-inner is-active">
+    <div class="box message-preview">
+        <div class="box-inner">
+            <div class="header">
+                <div class="avatar">
+                    
+                         {% if interest.event.event_organizer.user.profile_picture %}
+                             <img src="{{interest.event.event_organizer.user.profile_picture.url}}"  alt="" data-user-popover="1">
+                         {% elif  interest.event.gurukulam.user.profile_picture %}
+                            <img src="{{interest.event.gurukulam.user.profile_picture.url}}"  alt="" data-user-popover="1">
+                         {% else %}
+                            <img src="{% static 'blank-profile-picture.webp' %}"  alt="" data-user-popover="1">
+                         {% endif %}
+                </div>
+                <div class="meta">
+                    <div class="name"> {{interest.event_posted_by}} </div>
+                    <div class="date">{{interest.timestamp}}</div>
+                </div>
+                <div class="meta-right">
+                    {% comment %}
+                    <div>
+                        <span class="tag is-important">Important</span>
+                    </div>
+                    <div>
+                        <i data-feather="paperclip"></i>
+                        <small>2 attachments</small>
+                    </div>
+
+                    {% endcomment %}
+                </div>
+            </div>
+
+            <hr>
+            <div class="content">
+                <div id="dan-conversation" class="chat-body-inner has-slimscroll message_div">                  
+                    {% for message in interest.message_set.all %}
+                        {% if not message.user == user %} 
+                            <div class="chat-message is-received">
+                            
+                                <div class="message-block">
+                                    <span>{{message.sent_on|timesince}}</span>
+                                    <div class="message-text">{{message.text|safe}}</div>
+                                </div>
+                            </div> 
+                        {% else %}
+
+                            
+                        <div class="chat-message is-sent">
+
+                      
+
+                            <div class="message-block">
+                                <span>{{message.sent_on|timesince}}</span>
+                                <div class="message-text">{{message.text|safe}}</div>
+                            </div>
+                        </div>
+
+                        {% endif %}
+
+
+                    {% endfor %}
+
+              
+                  
+                </div>
+
+
+
+            </div>
+            <div class="has-text-right">
+                <div>
+                    <p id="messages" class="m-3" data="{{interest.id}}"></p>
+                                   
+                    <form id="messageform">
+                      
+                      
+                        <div class="send_input_group">
+                            <textarea id="message_txt" placeholder="Write Something.." class="form-control custom-controls" name="message_txt"></textarea>
+                         </div>
+
+                         <div class="row">
+
+                            <div class="col-sm-6">                                                                
+                                {% if interest.status == 'S' %}
+
+                                {% if interest.event.event_organizer.user == user or invitation.event.gurukulam == user.gurukulam  %}
+                                    <select class="form-control w-50 mt-1" name="status" id="status">
+                                        <option value="">Choose</option>
+                                        <option value="A">Accept</option>
+                                        <option value="R">Reject</option>
+                                        <option value="">Just Message</option>
+                                    </select>                  
+                                  {% else %}
+                                    <select class="d-none form-control w-50 mt-1" name="status" id="status">                    
+                                        <option value="">Just Message</option>
+                                    </select>                 
+                                  {% endif %}
+
+                            {% else %}                  
+                                <select name="status" class="form-control mt-2 w-50" id="status">                    
+                                  <option value="">Just Message</option>
+                                </select>                 
+                           {% endif %}                                                        
+        
+                              
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <input type="button" id="ipost_message" class="float-end mt-2 btn btn-primary" value="Post Message" style="background:#821ee9;border-color: #821ee9;">
+                            </div>
+
+                         </div>
+
+                    </form>                                                
+                   </div> 
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

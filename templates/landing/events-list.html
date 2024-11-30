@@ -1,0 +1,44 @@
+{% load static %}
+
+{% for event in events %}															
+    <!--Group-->
+    <div class="column is-4">
+        <article class="group-box">
+            <div class="box-info-hover">
+            
+                <div class="box-clock-info">
+                    
+                    {% if event.accepted_count > 0 %}
+                        <i data-feather="message-circle" class="box-clock"></i>
+                        <span class="box-time">{{event.accepted_count}} Participating</span>
+                        
+                    {% endif %}
+                </div>
+
+            </div>
+            {% if event.poster_image %}
+            <div class="box-img has-background-image" data-background="{{event.poster_image.url}}" data-demo-background="{{event.poster_image.url}}"></div>
+            <a href="{% url 'event_details' event.id %}" class="box-link">
+                <div class="box-img--hover has-background-image" data-background="{{event.poster_image.url}}" data-demo-background="{{event.poster_image.url}}"></div>
+            </a>
+            {% else %}
+                <div class="box-img has-background-image" data-background="{% static 'event-without-poster.jpg' %}" eg"></div>
+            <a href="{% url 'event_details' event.id %}" class="box-link">
+                <div class="box-img--hover has-background-image" data-background="{% static 'event-without-poster.jpg' %}"></div>
+            </a>
+            
+            
+            {% endif %}
+            <div class="box-info">
+                <span class="box-category">{{event.event_category}}</span>
+                <h3 class="box-title">{{event|upper|slice:":40"}}</h3>																		
+            </div>
+        </article>
+    </div>
+    <!--Group-->
+{% empty %}
+    <div class="container">
+        No events found..!
+    </div>
+{% endfor %}
+
